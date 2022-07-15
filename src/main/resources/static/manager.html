@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body >
+    <header>
+        <nav></nav>
+    </header>
+    <div id="app">    
+        <main class="container d-flex flex-wrap ">
+            <div class="w-50">
+                <h2 class="text-center">Clientes</h2>
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label" for="firstName">Nombre: </label>
+                        <input class="form-control" type="text" v-model="firstName" id="firstName">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="lastName">Apellido: </label>
+                        <input class="form-control" type="text" v-model="lastName" id="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="email">Email: </label>
+                        <input class="form-control" type="email" v-model="email"  required id="email">
+                    </div>
+                    
+                    <input class="btn btn-primary" @click="addClient" v-on:submit.prevent.default type="submit" value="Submit">
+                </form>
+            </div>
+            <table class="table responsive-table w-50">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th> Apellido</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <template v-for="client in clients">
+                        <tr :id="client._links.self.href">
+                            <td>{{client.firstName}}</td>
+                            <td>{{client.lastName}}</td>
+                            <td>{{client.email}}</td>
+                            <td><button @click="deleteClient(client._links.self.href)" class="btn btn-danger">Borrar</button></td>
+                        </tr>
+                    </template>
+
+                </tbody>
+            </table>
+            <div class="container mt-3">
+                <h2>Client REST Response</h2>
+                <pre>{{data}}</pre>
+            </div>
+        </main>        
+    </div>
+    <footer>
+
+    </footer>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="./manager.js"></script>
+</body>
+</html>
+
