@@ -5,6 +5,7 @@ createApp({
     return {
       data: {},
       clients: [],
+      selectedClient: {},
       lastName: "",
       firstName: "",
       email: "",
@@ -58,6 +59,14 @@ createApp({
         clientElement.remove()
       })
     },
+    getAccount(url){
+        windows.reload()
+        axios.get(url)
+        .then(response => {
+            this.selectedClient = response.data
+        })
+
+    }
 
   }
 }).mount("#app")

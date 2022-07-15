@@ -43,7 +43,7 @@
                 </thead>
                 <tbody >
                     <template v-for="client in clients">
-                        <tr :id="client._links.self.href">
+                        <tr @click="getAccount(client._links.self.href)" :id="client._links.self.href">
                             <td>{{client.firstName}}</td>
                             <td>{{client.lastName}}</td>
                             <td>{{client.email}}</td>
