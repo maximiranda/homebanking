@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
+    <title>Manager</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="./styles.css">
@@ -57,7 +57,7 @@
                                 <td>{{client.lastName}}</td>
                                 <td>{{client.email}}</td>
                                 <td class="d-flex justify-content-evenly">
-                                    <i @click="activateForm(client)" class="bi bi-pencil-fill"></i>
+                                    <i @click="activateForm(client)" class="bi bi-pencil-fill me-2"></i>
                                     <i @click="deleteClient($event, client)" class="bi bi-x-lg"></i>
                                 </td>
                             </tr>
@@ -74,7 +74,10 @@
                                     <input type="text" v-model="editEmail" class="form-control" id="floatingInputValue" >
                                     <label for="floatingInputValue">Email</label>
                                 </td>
-                                <td><i @click="updateClient(client)" class="bi bi-save2"></i></td>
+                                <td class="d-flex justify-content-evenly">
+                                    <i @click="updateClient(client)" class="bi bi-save2 me-2"></i>
+                                    <i @click="showAndHide($event)" class="bi bi-x-lg"></i>
+                                </td>
                             </tr>
                         </template>
                 </tbody>

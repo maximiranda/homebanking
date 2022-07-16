@@ -19,7 +19,12 @@ createApp({
 
   },
   methods: {
+    showAndHide(event){
+        event.target.parentNode.parentNode.classList.toggle("d-none")
+      
+    },
     loadData(){
+
       axios.get('/clients')
       .then(response => {
         // handle success
@@ -67,10 +72,29 @@ createApp({
       tr.classList.toggle("d-none")
     },
     updateClient(client){
+      let name = this.editName
+      let last = this.editLast
+      let email = this.editEmail
+
+      if (this.editName == "" || this.editLast == "" || this.editEmail == ""){
+        if (this.editName == ""){
+            name = client.firstName
+        }
+        if (this.editLast == ""){
+            last = client.lastName
+        }
+        if(this.editEmail == ""){
+            email = client.email
+        }
+      }else{
+        name = this.editName
+        last = this.editLast
+        email = this.editEmail
+      }
       axios.patch(client._links.self.href,{
-        firstName : this.editName,
-        lastName : this.editLast,
-        email : this.editEmail
+        firstName : name,
+        lastName : last,
+        email : email
       }).then(response => {
         this.clients.push(response.data)
         tr = document.getElementById(client._links.self.href)
@@ -79,14 +103,10 @@ createApp({
 
       })
     },
-    getAccount(url){
-        axios.get(url)
-        .then(response => {
-            this.selectedClient = response.data
-        })
-
-    }
-
+    activateForm(client){
+      tr = document.getElementById(client._links.self.href)
+      tr.classList.toggle("d-none")
+    },
   }
 }).mount("#app")
 
