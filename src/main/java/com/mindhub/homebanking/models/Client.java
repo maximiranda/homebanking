@@ -3,9 +3,6 @@ package com.mindhub.homebanking.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 public class Client {
     @Id
@@ -48,8 +45,7 @@ public class Client {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-}
+    }
 
 
 
