@@ -1,0 +1,25 @@
+header {
+    width: 100%;
+    height: 20vh;
+    background-color: red;
+}
+nav {
+    height: 20vh;
+    background-color: black;
+}
+
+table {
+    font-size: .8rem;
+}
+
+
+
+
+@media (min-width:768px){
+    .form-container {
+        width: 47% !important;
+    }
+    .table-container {
+        width: 47% !important;
+    }
+}

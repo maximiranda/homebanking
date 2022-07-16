@@ -4,64 +4,88 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
+    <title>Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles.css">
 </head>
-<body >
+<body>
     <header>
-        <nav></nav>
+        <div class="container">
+            <nav></nav>
+        </div>
     </header>
-    <div id="app">    
-        <main class="container d-flex flex-wrap ">
-            <div class="w-50">
-                <h2 class="text-center">Clientes</h2>
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label" for="firstName">Nombre: </label>
-                        <input class="form-control" type="text" v-model="firstName" id="firstName">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="lastName">Apellido: </label>
-                        <input class="form-control" type="text" v-model="lastName" id="lastName">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="email">Email: </label>
-                        <input class="form-control" type="email" v-model="email"  required id="email">
-                    </div>
+    <main>
+        <div id="app" class="container d-flex flex-column gap-md-2 flex-md-row flex-wrap justify-content-md-center">
+            <h1 class="text-center w-100 m-md-4">Clientes</h1>
+            <div class="form-container w-100 mb-3">
+                <form action="#" class="w-100">
+                    <fieldset>
+                        <h3>Agregar Clientes</h3>
+                        <div class="mb-3">
+                            <label class="form-label" for="firstName">Nombre: </label>
+                            <input class="form-control" type="text" v-model="firstName" id="firstName">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="lastName">Apellido: </label>
+                            <input class="form-control" type="text" v-model="lastName" id="lastName">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="email">Email: </label>
+                            <input class="form-control" type="email" v-model="email" required id="email">
+                        </div>
+                    </fieldset>
                     
-                    <input class="btn btn-primary" @click="addClient" v-on:submit.prevent.default type="submit" value="Submit">
+                    <input class="btn btn-primary" @click="addClient" @submit.prevent.default type="submit" value="Enviar">
                 </form>
             </div>
-            <table class="table responsive-table w-50">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th> Apellido</th>
-                        <th>Email</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody >
-                    <template v-for="client in clients">
-                        <tr @click="getAccount(client._links.self.href)" :id="client._links.self.href">
-                            <td>{{client.firstName}}</td>
-                            <td>{{client.lastName}}</td>
-                            <td>{{client.email}}</td>
-                            <td><button @click="deleteClient(client._links.self.href)" class="btn btn-danger">Borrar</button></td>
+            <div class="table-container w-100">
+                <h3>Lista de clientes</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col"> Apellido</th>
+                            <th scope="col">Email</th>
+                            <th scope="col"></th>
                         </tr>
-                    </template>
-
+                    </thead>
+                    <tbody>
+                        <template v-for="client in clients">
+                            <tr>
+                                <td class="">{{client.firstName}}</td>
+                                <td>{{client.lastName}}</td>
+                                <td>{{client.email}}</td>
+                                <td class="d-flex justify-content-evenly">
+                                    <i @click="activateForm(client)" class="bi bi-pencil-fill"></i>
+                                    <i @click="deleteClient($event, client)" class="bi bi-x-lg"></i>
+                                </td>
+                            </tr>
+                            <tr class="d-none" :id="client._links.self.href">
+                                <td class="form-floating">
+                                    <input type="text" v-model="editName" class="form-control" id="floatingInputValue" >
+                                    <label for="floatingInputValue">Name</label>
+                                </td>
+                                <td class="form-floating">
+                                    <input type="text" v-model="editLast" class="form-control" id="floatingInputValue" >
+                                    <label for="floatingInputValue">Last Name</label>
+                                </td>
+                                <td class="form-floating">
+                                    <input type="text" v-model="editEmail" class="form-control" id="floatingInputValue" >
+                                    <label for="floatingInputValue">Email</label>
+                                </td>
+                                <td><i @click="updateClient(client)" class="bi bi-save2"></i></td>
+                            </tr>
+                        </template>
                 </tbody>
-            </table>
-            <div class="container mt-3">
-                <h2>Client REST Response</h2>
-                <pre>{{data}}</pre>
+                </table>
             </div>
-        </main>        
-    </div>
-    <footer>
-
-    </footer>
+        </div>
+        <div>
+            <pre></pre>
+        </div>
+    </main>
+    <footer></footer>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -69,4 +93,3 @@
     <script src="./manager.js"></script>
 </body>
 </html>
-

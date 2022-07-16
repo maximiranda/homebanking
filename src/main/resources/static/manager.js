@@ -9,6 +9,9 @@ createApp({
       lastName: "",
       firstName: "",
       email: "",
+      editName: "",
+      editLast: "",
+      editEmail: "",
     }
   },
   created(){
@@ -47,20 +50,36 @@ createApp({
         lastName: this.lastName,
         email: this.email,
         }).then((response) => {
-              this.clients.push(response.data);
+              this.clients.push(response.data)
+              this.firstName = ""
+              this.lastName= ""
+              this.email = ""
           }).catch(function (error) {
               console.log(error);
           });
     },
-    deleteClient(client){
-      const clientElement = document.getElementById(client)
-      axios.delete(client, {})
-      .then(()=> {
-        clientElement.remove()
+    deleteClient(event, client){
+      event.target.parentNode.parentNode.remove()
+      axios.delete(client._links.self.href)
+    },
+    activateForm(client){
+      tr = document.getElementById(client._links.self.href)
+      tr.classList.toggle("d-none")
+    },
+    updateClient(client){
+      axios.patch(client._links.self.href,{
+        firstName : this.editName,
+        lastName : this.editLast,
+        email : this.editEmail
+      }).then(response => {
+        this.clients.push(response.data)
+        tr = document.getElementById(client._links.self.href)
+        tr.classList.toggle("d-none")
+        this.clients = this.clients.filter(cl => cl != client)
+
       })
     },
     getAccount(url){
-        windows.reload()
         axios.get(url)
         .then(response => {
             this.selectedClient = response.data
