@@ -6,17 +6,18 @@ createApp({
       data: {},
       clients: [],
       selectedClient: {},
+      selectedAccounts: {},
       lastName: "",
       firstName: "",
       email: "",
       editName: "",
       editLast: "",
       editEmail: "",
+      totalBalance : 0,
     }
   },
   created(){
     this.loadData()
-
   },
   methods: {
     loadData(){
@@ -25,15 +26,37 @@ createApp({
         // handle success
         this.data = response.data
         this.clients = this.data._embedded.clients
-        
+        if (document.title == "Account"){
+
+                const params = new URLSearchParams(location.search)
+                const id = params.get("id")
+
+                this.selectedClient = this.clients.find(client => client._links.self.href == id)
+                axios.get(this.selectedClient._links.accounts.href)
+                .then(response => {
+                    this.selectedAccounts = response.data._embedded.accounts
+                    this.totalBalance = this.selectedAccounts.reduce((a, b) => a.balance + b.balance)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            }
       })
       .catch(function (error) {
         // handle error
         console.log(error);
       })
+      axios.get('/accounts')
+      .then(response => {
+        this.accounts = response.data._embedded.accounts
+      })
+      .catch(error =>{
+         // handle error
+         console.log(error);
+      })
     },
     addClient(){
-      if(this.lastName != "" && this.firstName != "" && this.email.lenght != ""){
+      if(this.lastName != "" && this.firstName != "" && this.email != ""){
         this.postClient()
       }else {
         Swal.fire({
@@ -79,13 +102,6 @@ createApp({
 
       })
     },
-    getAccount(url){
-        axios.get(url)
-        .then(response => {
-            this.selectedClient = response.data
-        })
-
-    }
 
   }
 }).mount("#app")

@@ -53,7 +53,7 @@
                     <tbody>
                         <template v-for="client in clients">
                             <tr>
-                                <td class="">{{client.firstName}}</td>
+                                <td class=""><a :href="'/account.html?id=' + client._links.self.href">{{client.firstName}}</a></td>
                                 <td>{{client.lastName}}</td>
                                 <td>{{client.email}}</td>
                                 <td class="d-flex justify-content-evenly">

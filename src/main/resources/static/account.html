@@ -15,17 +15,27 @@
             <thead>
                 <tr>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Cuenta</th>
+                    <!-- <td>Maxi Miranda</td> -->
+                    <td>{{selectedClient.firstName}} {{selectedClient.lastName}}</td>
+                </tr>
+                <tr>
+                    <th scope="col" >Cuenta N°</th>
                     <th scope="col">Saldo</th>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{selectedClient.firstName}}</td>
-                    <td>{{selectedClient.account.number}}</td>
-                    <td>{{selectedClient.account.balance}}</td>
+                <tr v-for="account in selectedAccounts">
+                    <td>{{account.number}}</td>
+                    <td>{{account.balance}}</td>
                 </tr>
-            </tbody>
+                <!-- <tr> -->
+                    <!-- <td>VIN002</td> -->
+                    <!-- <td>7,500.00</td> -->
+                </tr>
+                <tr>
+                    <th scope="col">Saldo Total</th>
+                    <!-- <td>12,500.00</td> -->
+                    <td>{{totalBalance}}</td>
+                </tr>
+            </thead>
         </table>
     </main>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

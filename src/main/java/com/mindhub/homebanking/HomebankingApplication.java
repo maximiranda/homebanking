@@ -25,8 +25,11 @@ public class HomebankingApplication {
 			clientRepository.save(new Client("Maxi", "Miranda", "maximiranda.95@gmail.com"));
 			clientRepository.save(new Client("Juan", "Topo", "juantopo@gmail.com"));
 			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.0);
+			Account account2 = new Account("VIN002", LocalDateTime.now(), 7500.0);
 			client1.addAccount(account1);
+			client1.addAccount((account2));
 			accountRepository.save(account1);
+			accountRepository.save(account2);
 
 		};
 	}
