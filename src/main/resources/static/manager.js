@@ -38,7 +38,7 @@ createApp({
       })
     },
     addClient(){
-      if(this.lastName != "" && this.firstName != "" && this.email.lenght != ""){
+      if(this.lastName != "" && this.firstName != "" && this.email != ""){
         this.postClient()
       }else {
         Swal.fire({
@@ -55,6 +55,11 @@ createApp({
         lastName: this.lastName,
         email: this.email,
         }).then((response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Hecho',
+                text: 'Has añadido un nuevo cliente',
+              })
               this.clients.push(response.data)
               this.firstName = ""
               this.lastName= ""

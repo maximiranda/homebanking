@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <header>
+    <header class="d-none">
         <div class="container">
             <nav></nav>
         </div>
@@ -32,11 +32,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email: </label>
-                            <input class="form-control" type="email" v-model="email" required id="email">
+                            <input class="form-control" type="email" v-model="email" id="email">
                         </div>
                     </fieldset>
                     
-                    <input class="btn btn-primary" @click="addClient" @submit.prevent.default type="submit" value="Enviar">
+                    <input class="btn btn-primary" @click="addClient" type="submit" value="Enviar">
                 </form>
             </div>
             <div class="table-container w-100">
@@ -63,18 +63,18 @@
                             </tr>
                             <tr class="d-none" :id="client._links.self.href">
                                 <td class="form-floating">
-                                    <input type="text" v-model="editName" class="form-control" id="floatingInputValue" >
+                                    <input type="text" v-model="editName" class="form-control">
                                     <label for="floatingInputValue">Name</label>
                                 </td>
                                 <td class="form-floating">
-                                    <input type="text" v-model="editLast" class="form-control" id="floatingInputValue" >
+                                    <input type="text" v-model="editLast" class="form-control" >
                                     <label for="floatingInputValue">Last Name</label>
                                 </td>
                                 <td class="form-floating">
-                                    <input type="text" v-model="editEmail" class="form-control" id="floatingInputValue" >
+                                    <input type="email" v-model="editEmail" class="form-control" >
                                     <label for="floatingInputValue">Email</label>
                                 </td>
-                                <td class="d-flex justify-content-evenly">
+                                <td class="d-flex justify-content-center align-items-center">
                                     <i @click="updateClient(client)" class="bi bi-save2 me-2"></i>
                                     <i @click="showAndHide($event)" class="bi bi-x-lg"></i>
                                 </td>
