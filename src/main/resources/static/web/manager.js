@@ -6,7 +6,6 @@ createApp({
       data: {},
       clients: [],
       selectedClient: {},
-      selectedAccounts: {},
       lastName: "",
       firstName: "",
       email: "",
@@ -17,42 +16,29 @@ createApp({
     }
   },
   created(){
+    axios.default.baseUrl = "http://localhost:8080/api/"
     this.loadData()
   },
   methods: {
     loadData(){
-      axios.get('/clients')
+      axios.get('/api/clients')
       .then(response => {
         // handle success
-        this.data = response.data
-        this.clients = this.data._embedded.clients
+        this.clients = response.data
         if (document.title == "Account"){
 
                 const params = new URLSearchParams(location.search)
                 const id = params.get("id")
 
-                this.selectedClient = this.clients.find(client => client._links.self.href == id)
-                axios.get(this.selectedClient._links.accounts.href)
-                .then(response => {
-                    this.selectedAccounts = response.data._embedded.accounts
-                    this.totalBalance = this.selectedAccounts.reduce((a, b) => a.balance + b.balance)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+                this.selectedClient = this.clients.find(client => client.id == id)
+                console.log(this.selectedClient.accounts.length)
+                this.totalBalance = this.selectedClient.accounts.reduce((a,b) =>  a = a.balance + b.balance)
+
             }
       })
       .catch(function (error) {
         // handle error
         console.log(error);
-      })
-      axios.get('/accounts')
-      .then(response => {
-        this.accounts = response.data._embedded.accounts
-      })
-      .catch(error =>{
-         // handle error
-         console.log(error);
       })
     },
     addClient(){
@@ -68,10 +54,11 @@ createApp({
 
     },
     postClient(){
-      axios.post('/clients', {
+      axios.post('/api/clients', {
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
+
         }).then((response) => {
               this.clients.push(response.data)
               this.firstName = ""

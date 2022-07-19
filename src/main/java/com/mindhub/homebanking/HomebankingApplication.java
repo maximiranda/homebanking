@@ -20,18 +20,33 @@ public class HomebankingApplication {
 	@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository){
 		return (args) -> {
-			Client client1 = new Client("Pedro", "Martinez", "pedromartinez@gmail.com");
-			clientRepository.save(client1);
-			clientRepository.save(new Client("Maxi", "Miranda", "maximiranda.95@gmail.com"));
-			clientRepository.save(new Client("Juan", "Topo", "juantopo@gmail.com"));
+
 			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.0);
-			Account account2 = new Account("VIN002", LocalDateTime.now(), 7500.0);
-			client1.addAccount(account1);
-			client1.addAccount((account2));
+			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.0);
+			Account account3 = new Account("VIN003", LocalDateTime.now(),156000.0);
+			Client client1 = new Client("Melba", "Morel", "melbamorel@gmail.com", account1);
+			client1.addAccount(account2);
+			Client client2 = new Client("Maxi", "Miranda", "maximiranda@gmail.com", account3);
+			clientRepository.save(client1);
+			clientRepository.save(client2);
 			accountRepository.save(account1);
 			accountRepository.save(account2);
+			accountRepository.save(account3);
 
+
+
+/*			Client client1 = new Client("Melba", "Morel", "melbamorel@gmail.com");
+			Client client2 = new Client("Maxi", "Miranda", "maximiranda@gmail.com");
+			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.0, client1);
+			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.0, client1);
+			Account account3 = new Account("VIN003", LocalDateTime.now(),156000.0, client2);
+			clientRepository.save(client1);
+			clientRepository.save(client2);
+			accountRepository.save(account1);
+			accountRepository.save(account2);
+			accountRepository.save(account3);*/
+			System.out.println(client1.getAccounts());
+			System.out.print(client2.getAccounts());
 		};
 	}
 }
-/*.addAccount(new Account("VIN001", LocalDateTime.now(), 5000.0))*/

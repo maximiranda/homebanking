@@ -22,18 +22,22 @@
                     <th scope="col" >Cuenta N°</th>
                     <th scope="col">Saldo</th>
                 </tr>
-                <tr v-for="account in selectedAccounts">
+                
+                <tr v-for="account in selectedClient.accounts">
                     <td>{{account.number}}</td>
                     <td>{{account.balance}}</td>
                 </tr>
-                <!-- <tr> -->
-                    <!-- <td>VIN002</td> -->
-                    <!-- <td>7,500.00</td> -->
+                <tr>
+                <tr v-if="selectedClient.accounts.length == 0">
+                    <td>
+                        <h4>No Hay cuentas asociadas a este cliente</h4>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="col">Saldo Total</th>
-                    <!-- <td>12,500.00</td> -->
                     <td>{{totalBalance}}</td>
+                    <!-- <td>12,500.00</td> -->
+                </tr>
                 </tr>
             </thead>
         </table>

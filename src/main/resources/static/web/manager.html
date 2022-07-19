@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
+    <title>Manager</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <header>
+    <header class="d-none">
         <div class="container">
             <nav></nav>
         </div>
@@ -32,11 +32,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email: </label>
-                            <input class="form-control" type="email" v-model="email" required id="email">
+                            <input class="form-control" type="email" v-model="email" id="email">
                         </div>
                     </fieldset>
                     
-                    <input class="btn btn-primary" @click="addClient" @submit.prevent.default type="submit" value="Enviar">
+                    <input class="btn btn-primary" @click="addClient" type="submit" value="Enviar">
                 </form>
             </div>
             <div class="table-container w-100">
@@ -53,36 +53,40 @@
                     <tbody>
                         <template v-for="client in clients">
                             <tr>
-                                <td class=""><a :href="'/account.html?id=' + client._links.self.href">{{client.firstName}}</a></td>
+                                <td class=""><a :href="'/web/account.html?id=' + client.id">{{client.firstName}}</td>
                                 <td>{{client.lastName}}</td>
                                 <td>{{client.email}}</td>
                                 <td class="d-flex justify-content-evenly">
-                                    <i @click="activateForm(client)" class="bi bi-pencil-fill"></i>
+                                    <i @click="activateForm(client)" class="bi bi-pencil-fill me-2"></i>
                                     <i @click="deleteClient($event, client)" class="bi bi-x-lg"></i>
                                 </td>
                             </tr>
-                            <tr class="d-none" :id="client._links.self.href">
+                            <tr class="d-none" :id="client.id">
                                 <td class="form-floating">
-                                    <input type="text" v-model="editName" class="form-control" id="floatingInputValue" >
+                                    <input type="text" v-model="editName" class="form-control">
                                     <label for="floatingInputValue">Name</label>
                                 </td>
                                 <td class="form-floating">
-                                    <input type="text" v-model="editLast" class="form-control" id="floatingInputValue" >
+                                    <input type="text" v-model="editLast" class="form-control" >
                                     <label for="floatingInputValue">Last Name</label>
                                 </td>
                                 <td class="form-floating">
-                                    <input type="text" v-model="editEmail" class="form-control" id="floatingInputValue" >
+                                    <input type="email" v-model="editEmail" class="form-control" >
                                     <label for="floatingInputValue">Email</label>
                                 </td>
-                                <td><i @click="updateClient(client)" class="bi bi-save2"></i></td>
+                                <td class="d-flex justify-content-center align-items-center">
+                                    <i @click="updateClient(client)" class="bi bi-save2 me-2"></i>
+                                    <i @click="showAndHide($event)" class="bi bi-x-lg"></i>
+                                </td>
                             </tr>
                         </template>
                 </tbody>
                 </table>
             </div>
-        </div>
-        <div>
-            <pre></pre>
+            <div class="w-100">
+                <h3 class="m-3">REST Response</h3>
+                <pre class="w-100">{{data}}</pre>
+            </div>
         </div>
     </main>
     <footer></footer>
