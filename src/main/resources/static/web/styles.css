@@ -1,21 +1,127 @@
-header {
+/* header {
     width: 100%;
     height: 20vh;
     background-color: red;
-}
+} */
 nav {
-    height: 20vh;
-    background-color: black;
+    background-color: white;
+    border-top: 1px solid rgb(145, 145, 145);
+    box-shadow: 1px -.5px 1px 1px rgba(109, 109, 109, 0.466);
+}
+.nav-active {
+    color: #4367E5;
 }
 
-table {
+.balance-container {
+    width: 95%;
+    /* min-height: 15vh; */
+    border-radius: .5rem;
+    background-color: #5473e4;
+}
+.balance-header {
+    width: 100%;
+    height: 5vh;
+    background-color: #4367E5;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+.balance-body{
+    min-height: 20vh;
+}
+.total-balance{
+    padding-top: 1rem;
+    padding-inline: 1rem;
+}
+.account-balance {
+    padding-inline: 1rem;
+    font-size: .8rem;
+}
+.account-balance h6 {
+    font-size: .8rem !important;
+}
+.balance-footer{
     font-size: .8rem;
 }
 
+.greeting {
+    font-size: .8rem;
+}
+.profile {
+    width: 90% !important;
+}
 
 
+.transactions {
+    width: 90%;
+}
+.transactions span{
+    font-size: .7rem;
+}
+
+
+.color-verde {
+    color: #00D474;
+}
+.color-azul {
+    color: #4367E5;
+}
+.bg-verde {
+    background-color: #00D474;
+}
+.bg-azul{
+    background-color: #4367E5;
+}
 
 @media (min-width:768px){
+    header {
+        width: 25%;
+        height: 100vh;
+    }
+    main {
+        width: 75% !important;
+    }
+    nav {
+        height: 100vh;
+        width: 25%;
+        bottom: auto !important;
+    }
+    nav a{
+        width: 100%;
+        text-decoration: none;
+        margin-block: .6rem;
+        
+    }
+    nav a i{
+        font-size: 3.5rem !important;
+    }
+    nav a span{
+        font-size: 1.3rem;
+        color: black;
+        font-weight:300;
+    }
+    .nav-header {
+        height: 20vh;
+    }
+    .nav-header i {
+        font-size: 4rem;
+    }
+    .nav-header .name {
+        font-size: 1.5rem;
+    }
+    .principal-container {
+        width: 50% !important;
+    }
+    .balance-container h5 {
+        font-size: 1.5rem !important;
+    }
+    .balance-container  h6, p{
+        font-size: 1.2rem !important;
+    }
+    
+    .balance-body {
+        min-height: auto !important;
+    }
+    
     .form-container {
         width: 47% !important;
     }

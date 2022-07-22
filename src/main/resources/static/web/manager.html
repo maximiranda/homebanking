@@ -19,7 +19,7 @@
         <div id="app" class="container d-flex flex-column gap-md-2 flex-md-row flex-wrap justify-content-md-center">
             <h1 class="text-center w-100 m-md-4">Clientes</h1>
             <div class="form-container w-100 mb-3">
-                <form action="#" class="w-100">
+                <form method="get" action="#" class="w-100">
                     <fieldset>
                         <h3>Agregar Clientes</h3>
                         <div class="mb-3">
@@ -32,11 +32,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email: </label>
-                            <input class="form-control" type="email" v-model="email" id="email">
+                            <input class="form-control"  type="email" v-model="email" id="email">
                         </div>
                     </fieldset>
-                    
-                    <input class="btn btn-primary" @click="addClient" type="submit" value="Enviar">
+                        
+                    <input class="btn btn-primary" @click="addClient" type="submit" value="Agregar">
                 </form>
             </div>
             <div class="table-container w-100">
@@ -53,7 +53,7 @@
                     <tbody>
                         <template v-for="client in clients">
                             <tr>
-                                <td class=""><a :href="'/web/account.html?id=' + client.id">{{client.firstName}}</td>
+                                <td class=""><a :href="'/web/accounts.html?id=' + client.id">{{client.firstName}}</a></td>
                                 <td>{{client.lastName}}</td>
                                 <td>{{client.email}}</td>
                                 <td class="d-flex justify-content-evenly">
@@ -63,15 +63,15 @@
                             </tr>
                             <tr class="d-none" :id="client.id">
                                 <td class="form-floating">
-                                    <input type="text" v-model="editName" class="form-control">
+                                    <input type="text" @keyup.enter="updateClient(client)" v-model="editName" class="form-control">
                                     <label for="floatingInputValue">Name</label>
                                 </td>
                                 <td class="form-floating">
-                                    <input type="text" v-model="editLast" class="form-control" >
+                                    <input type="text" @keyup.enter="updateClient(client)" v-model="editLast" class="form-control" >
                                     <label for="floatingInputValue">Last Name</label>
                                 </td>
                                 <td class="form-floating">
-                                    <input type="email" v-model="editEmail" class="form-control" >
+                                    <input type="email" @keyup.enter="updateClient(client)" v-model="editEmail" class="form-control" >
                                     <label for="floatingInputValue">Email</label>
                                 </td>
                                 <td class="d-flex justify-content-center align-items-center">
@@ -85,7 +85,7 @@
             </div>
             <div class="w-100">
                 <h3 class="m-3">REST Response</h3>
-                <pre class="w-100">{{data}}</pre>
+                <pre class="w-100">{{clients}}</pre>
             </div>
         </div>
     </main>

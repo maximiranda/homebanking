@@ -1,12 +1,9 @@
 package com.mindhub.homebanking.models;
 
-
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -21,11 +18,10 @@ public class Client {
 
     public Client(){}
 /**/
-    public  Client(String firstName, String lastName, String email, Account account){
+    public  Client(String firstName, String lastName, String email){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.addAccount(account);
     }
 
     public String getLastName() {
@@ -62,15 +58,6 @@ public class Client {
     public void addAccount(Account account){
         account.setOwner(this);
         accounts.add(account);
-    }
-    public Map<String, Object> toDTO() {
-        Map<String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("id", getId());
-        dto.put("firstName", getFirstName());
-        dto.put("lastName", getLastName());
-        dto.put("email", getEmail());
-        dto.put("accounts", getAccounts().stream().map(account -> account.toDTO() ));
-        return dto;
     }
 }
 

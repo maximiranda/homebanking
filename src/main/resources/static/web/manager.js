@@ -25,16 +25,7 @@ createApp({
       .then(response => {
         // handle success
         this.clients = response.data
-        if (document.title == "Account"){
-
-                const params = new URLSearchParams(location.search)
-                const id = params.get("id")
-
-                this.selectedClient = this.clients.find(client => client.id == id)
-                console.log(this.selectedClient.accounts.length)
-                this.totalBalance = this.selectedClient.accounts.reduce((a,b) =>  a = a.balance + b.balance)
-
-            }
+        
       })
       .catch(function (error) {
         // handle error
@@ -51,14 +42,12 @@ createApp({
           text: 'Necesitas llenar todos los campos para poder continuar!',
         })
       }
-
     },
     postClient(){
       axios.post('/api/clients', {
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
-
         }).then((response) => {
               this.clients.push(response.data)
               this.firstName = ""
@@ -70,23 +59,43 @@ createApp({
     },
     deleteClient(event, client){
       event.target.parentNode.parentNode.remove()
-      axios.delete(client._links.self.href)
+      axios.delete("/api/clients/" + client.id)
     },
     activateForm(client){
-      tr = document.getElementById(client._links.self.href)
+      let tr = document.getElementById(client.id)
       tr.classList.toggle("d-none")
     },
     updateClient(client){
-      axios.patch(client._links.self.href,{
-        firstName : this.editName,
-        lastName : this.editLast,
-        email : this.editEmail
+      let name = client.firstName
+      let last = client.lastName
+      let email = client.email
+
+      if (this.editEmail == "" || this.editName == "" || this.editLast == ""){
+        if (this.editEmail != ""){
+          email = this.editEmail
+        }
+        if (this.editName != ""){
+          name = this.editName
+        }
+        if (this.editLast != ""){
+          last = this.editLast
+        }
+      }
+      else {
+        name = this.editName
+        last = this.editLast
+        email = this.editEmail
+      }
+      axios.patch("/api/clients/" + client.id,{
+        id: client.id,
+        firstName : name,
+        lastName : last,
+        email : email
       }).then(response => {
         this.clients.push(response.data)
-        tr = document.getElementById(client._links.self.href)
+        tr = document.getElementById(client.id)
         tr.classList.toggle("d-none")
         this.clients = this.clients.filter(cl => cl != client)
-
       })
     },
 
