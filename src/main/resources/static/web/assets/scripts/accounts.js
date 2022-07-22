@@ -4,6 +4,7 @@ createApp({
   data(){
     return {
         client : {},
+        accounts : [],
         totalBalance : 0,
         moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
     }
@@ -19,7 +20,16 @@ createApp({
       .then(response => {
         // handle success
         this.client = response.data
-
+        this.accounts = this.client.accounts
+        this.accounts
+        .sort((a, b) => {
+          if (a.id < b.id){
+            return -1;
+          };
+          if (a.id > b.id){
+            return 1;
+          };
+        })
         this.client.accounts.forEach(account => {
           this.totalBalance = this.totalBalance + account.balance
         })

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/styles/styles.css">
+
+</head>
+<body>
+<div class="d-md-flex" id="app">
+    <header>
+        <nav class="navbar fixed-bottom d-md-flex flex-md-column justify-content-md-start pt-md-0">
+            <div class="nav-header text-white container-fluid d-none d-md-flex bg-azul w-100">
+                <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
+                    <i class="bi bi-person-circle"></i>
+                    <div class="greeting ms-1">
+                        <p class="m-0">Buenas Tardes</p>
+                        <p class="m-0 name">{{client.firstName}} {{client.lastName}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid d-flex justify-content-evenly">
+                <a class="d-md-flex align-items-md-center active gap-3" href="#"><i class="bi bi-house-door fs-1"></i><span class="d-none d-md-inline">Home</span></a>
+                <a class="d-md-flex align-items-md-center active gap-3" href="#"><i class="bi bi-bell fs-1 text-black"></i><span class="d-none d-md-inline">Notificaciones</span></a>
+                <a class="d-md-flex align-items-md-center active gap-3" href="#"><i class="bi bi-arrow-left-right fs-1 text-black"></i><span class="d-none d-md-inline">Transferencias</span></a>
+                <a class="d-md-flex align-items-md-center active gap-3" href="#"><i class="bi bi-credit-card-2-back-fill fs-1 text-black"></i><span class="d-none d-md-inline">Tarjetas</span></a>
+            </div>
+        </nav>
+    </header>
+    <main class="d-flex flex-column">
+        <h1 class="text-center mt-2"><span class="color-verde">Max</span><span class="">bank</span></h1>
+        <div class="w-100 d-flex justify-content-center my-3">
+            <div class="d-flex align-items-center justify-content-start d-md-none profile">
+                <i class="bi bi-person-circle fs-1"></i>
+                <div class="greeting ms-1">
+                    <p class="m-0">¡Hola</p>
+                    <p class="m-0">{{client.firstName}}!</p>
+                </div>
+            </div>
+        </div>
+        <div class="w-100 d-flex justify-content-center align-items-center flex-wrap w-md-50 principal-container">
+            <div class="balance-container">
+                <div class="d-flex align-items-center justify-content-center pt-1 balance-header">
+                    <span class="text-white">Saldo Disonible</span>
+                    <i class="bi bi-eye-fill text-white ms-3"></i>
+                </div>
+                <div class="d-flex flex-column balance-body">
+                    <div class="d-flex justify-content-between align-items-center total-balance">
+                        <div>
+                            <p class="text-white fw-bold m-0">Cuenta N°</p>
+                            <p class="text-white text-center">{{account.number}}</p>
+                        </div>
+                        <h5 class="text-white">{{moneyFormat.format(account.balance)}}</h5>
+                    </div>
+                </div>
+                <div class="balance-footer">
+                    <p class="text-center m-0 text-white">Movimientos</p>
+                </div>
+            </div>
+            <div  class="transactions mt-3 d-flex flex-column justify-content-center align-items-center">
+                <div v-for="transaction in transactions" class="d-flex justify-content-between w-100 my-2">
+                    <div>
+                        <p class="mb-0">{{transaction.description}}</p>
+                        <span class="m-0">{{formatDate(transaction.date)}}</span>
+                    </div>
+                    <div>
+                        <p :class="transaction.type == 'CREDIT' ? 'color-verde' : 'text-danger'">{{moneyFormat.format(transaction.amount)}}</p>
+                    </div>
+                </div>
+                <!-- <div class="d-flex justify-content-between w-100 my-2">
+                    <div>
+                        <p class="mb-0">Prestamo Personal</p>
+                        <span class="m-0">16/07/22</span>
+                    </div>
+                    <div>
+                        <p class="color-verde">$ 5,000.00</p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between w-100 my-2">
+                    <div>
+                        <p class="mb-0">Prestamo Personal</p>
+                        <span class="m-0">16/07/22</span>
+                    </div>
+                    <div>
+                        <p class="color-verde">$ 5,000.00</p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between w-100 my-2">
+                    <div>
+                        <p class="mb-0">Prestamo Personal</p>
+                        <span class="m-0">16/07/22</span>
+                    </div>
+                    <div>
+                        <p class="color-verde">$ 5,000.00</p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between w-100 my-2">
+                    <div>
+                        <p class="mb-0">Prestamo Personal</p>
+                        <span class="m-0">16/07/22</span>
+                    </div>
+                    <div>
+                        <p class="color-verde">$ 5,000.00</p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between w-100 my-2">
+                    <div>
+                        <p class="mb-0">Prestamo Personal</p>
+                        <span class="m-0">16/07/22</span>
+                    </div>
+                    <div>
+                        <p class="color-verde">$ 5,000.00</p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between w-100 my-2">
+                    <div>
+                        <p class="mb-0">Prestamo Personal</p>
+                        <span class="m-0">16/07/22</span>
+                    </div>
+                    <div>
+                        <p class="color-verde">$ 5,000.00</p>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+    </main>
+</div>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue@3"></script>
+<script src="./assets/scripts/account.js"></script>
+</body>
+</html>
