@@ -62,7 +62,7 @@ createApp({
       axios.delete("/api/clients/" + client.id)
     },
     activateForm(client){
-      let tr = document.getElementById(client.id)
+      let tr = document.getElementById("form" + client.id)
       tr.classList.toggle("d-none")
     },
     updateClient(client){
@@ -93,7 +93,7 @@ createApp({
         email : email
       }).then(response => {
         this.clients.push(response.data)
-        tr = document.getElementById(client.id)
+        tr = document.getElementById("form" + client.id)
         tr.classList.toggle("d-none")
         this.clients = this.clients.filter(cl => cl != client)
       })

@@ -1,6 +1,5 @@
 package com.mindhub.homebanking.controllers;
 
-
 import com.mindhub.homebanking.Dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
@@ -30,7 +29,14 @@ public class ClientController {
     }
     @PostMapping("/clients")
     Client newClient(@RequestBody Client newClient) {
-        Account account = new Account("VIN001", LocalDateTime.now(), 0.0, newClient);
+        String formatString = String.format("%%0%dd", 3);
+        Account account = new Account();
+        accountRepository.save(account);
+        String number = String.format(formatString, account.getId());
+        account.setNumber("VIN" + number);
+        account.setBalance(0.0);
+        account.setCreationDate(LocalDateTime.now());
+        account.setOwner(newClient);
         Client client = clientRepository.save(newClient);
         accountRepository.save(account);
         return  client;
@@ -41,14 +47,10 @@ public class ClientController {
     }
 
     @DeleteMapping("clients/{id}")
-    public Map<String, Boolean> deleteClient(@PathVariable long id){
+    public void deleteClient(@PathVariable long id){
         Client client = clientRepository.findById(id).orElse(null);
         accountRepository.deleteAllById(client.getAccounts().stream().map( account -> account.getId()).collect(Collectors.toList()));
         clientRepository.delete(client);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
-
     }
-}
 
+}

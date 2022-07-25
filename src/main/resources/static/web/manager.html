@@ -19,24 +19,24 @@
         <div id="app" class="container d-flex flex-column gap-md-2 flex-md-row flex-wrap justify-content-md-center">
             <h1 class="text-center w-100 m-md-4">Clientes</h1>
             <div class="form-container w-100 mb-3">
-                <form method="get" action="#" class="w-100">
+                <form @submit.prevent="addClient" action="" class="w-100">
                     <fieldset>
                         <h3>Agregar Clientes</h3>
                         <div class="mb-3">
                             <label class="form-label" for="firstName">Nombre: </label>
-                            <input class="form-control" type="text" v-model="firstName" id="firstName">
+                            <input class="form-control"  required type="text" v-model="firstName" id="firstName">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="lastName">Apellido: </label>
-                            <input class="form-control" type="text" v-model="lastName" id="lastName">
+                            <input class="form-control" required type="text" v-model="lastName" id="lastName">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email: </label>
-                            <input class="form-control"  type="email" v-model="email" id="email">
+                            <input class="form-control" required  type="email" v-model="email" id="email">
                         </div>
+                        <input class="btn btn-primary" type="submit" value="Agregar">
                     </fieldset>
-                        
-                    <input class="btn btn-primary" @click="addClient" type="submit" value="Agregar">
+
                 </form>
             </div>
             <div class="table-container w-100">
@@ -52,7 +52,7 @@
                     </thead>
                     <tbody>
                         <template v-for="client in clients">
-                            <tr>
+                            <tr class="">
                                 <td class=""><a :href="'/web/accounts.html?id=' + client.id">{{client.firstName}}</a></td>
                                 <td>{{client.lastName}}</td>
                                 <td>{{client.email}}</td>
@@ -61,22 +61,18 @@
                                     <i @click="deleteClient($event, client)" class="bi bi-x-lg"></i>
                                 </td>
                             </tr>
-                            <tr class="d-none" :id="client.id">
-                                <td class="form-floating">
-                                    <input type="text" @keyup.enter="updateClient(client)" v-model="editName" class="form-control">
-                                    <label for="floatingInputValue">Name</label>
-                                </td>
-                                <td class="form-floating">
-                                    <input type="text" @keyup.enter="updateClient(client)" v-model="editLast" class="form-control" >
-                                    <label for="floatingInputValue">Last Name</label>
-                                </td>
-                                <td class="form-floating">
-                                    <input type="email" @keyup.enter="updateClient(client)" v-model="editEmail" class="form-control" >
-                                    <label for="floatingInputValue">Email</label>
-                                </td>
-                                <td class="d-flex justify-content-center align-items-center">
-                                    <i @click="updateClient(client)" class="bi bi-save2 me-2"></i>
-                                    <i @click="showAndHide($event)" class="bi bi-x-lg"></i>
+                            <tr class="d-none w-100" :id="'form' + client.id">
+                                <td colspan="4">
+                                    <form @submit.prevent="updateClient(client)">
+                                        <input :id="'name' + client.id" type="text" v-model="editName" class="form-control">
+                                        <label :for="'name' + client.id">Name</label>
+                                        <input type="text" :id="'last' + client.id" v-model="editLast" class="form-control" >
+                                        <label :for="'last' + client.id">Last Name</label>
+                                        <input type="email" :id="'email' + client.id"  v-model="editEmail" class="form-control" >
+                                        <label :for="'email' + client.id">Email</label>
+                                        <button class="btn text-center bg-verde mx-1" type="submit"><i class="bi bi-save2 text-white"></i></button>
+                                        <div class="btn btn-danger" @click="activateForm(client)"><i class="bi bi-x-lg"></i></div>
+                                    </form>
                                 </td>
                             </tr>
                         </template>

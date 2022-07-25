@@ -11,7 +11,12 @@ createApp({
   created(){
     const params = new URLSearchParams(location.search)
     const id = params.get("id")
-    this.getClient(id)
+    if (id == null){
+      this.getClient(1)
+    }else {
+
+      this.getClient(id)
+    }
   },
   methods: {
     getClient(id){
