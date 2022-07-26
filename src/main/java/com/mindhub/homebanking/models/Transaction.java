@@ -72,4 +72,5 @@ public class Transaction {
     public void setAccount(Account account) {
         this.account = account;
     }
+
 }

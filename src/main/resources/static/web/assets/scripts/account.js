@@ -7,7 +7,6 @@ createApp({
         moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
         account : [],
         transactions : [],
-
     }
   },
   created(){
