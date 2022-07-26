@@ -36,13 +36,15 @@ nav {
     padding-inline: 1rem;
     font-size: .8rem;
 }
+.account-balance:hover {
+    background-color: #4367E5 !important;
+}
 .account-balance h6 {
     font-size: .8rem !important;
 }
 .balance-footer{
     font-size: .8rem;
 }
-
 .greeting {
     font-size: .8rem;
 }
@@ -50,15 +52,12 @@ nav {
     width: 90% !important;
 }
 
-
 .transactions {
     width: 90%;
 }
 .transactions span{
     font-size: .7rem;
 }
-
-
 .color-verde {
     color: #00D474;
 }
@@ -79,7 +78,6 @@ nav {
     left: 0;
     z-index: 4;
 }
-
 .hideBalance::after {
     content: "********";
 }

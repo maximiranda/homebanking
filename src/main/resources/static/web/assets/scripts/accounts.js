@@ -5,18 +5,23 @@ createApp({
     return {
         client : {},
         accounts : [],
+        transactions : [],
         totalBalance : 0,
         moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
-        transactions : [],
         isLoaded : false,
     }
   },
   created(){
+
     const params = new URLSearchParams(location.search)
     const id = params.get("id")
-    this.getClient(id)
+    if (id == null){
+        this.getClient(1)
+    } else {
+        this.getClient(id)
+    }
   },
-  mounthed(){
+  mounted(){
     document.onreadystatechange = () => {
       if (document.readyState = "complete"){
         this.isLoaded = true

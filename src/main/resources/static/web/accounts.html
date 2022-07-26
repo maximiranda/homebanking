@@ -12,8 +12,10 @@
 </head>
 <body>
     <div class="d-md-flex" id="app">
-        <template v-if="isLoaded">
-            <h1>Load</h1>
+        <template v-if="isLoaded == false">
+            <main class="bg-azul w-100 h-100">
+                <h1>Load {{isLoaded}}</h1>
+            </main>
         </template>
         <template v-else>
             <header>
@@ -64,7 +66,7 @@
                                 <h5 class="text-white"><span class="number">{{moneyFormat.format(totalBalance)}}</span></h5>
                             </div>
                             <hr class="text-white mt-0">
-                            <div v-for="account in accounts" class="text-white d-flex position-relative justify-content-between account-balance">
+                            <div v-for="account in accounts" class="text-white d-flex position-relative justify-content-between align-items-center account-balance">
                                 <div class="position-relative">
                                     <p class="m-0 text-center fw-bold">Cuenta N°</p>
                                     <p class="text-center">{{account.number}}</p>
