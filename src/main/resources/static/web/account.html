@@ -46,7 +46,7 @@
                     </div>
                 </nav>
             </header>
-            <main class="d-flex flex-column mt-lg-2">
+            <main class="d-flex flex-column mt-lg-2 gap-lg-2 align-items-lg-center">
                 <div class="sticky-top bg-white mb-2 shadow">
                     <h1 class="text-center d-lg-none mt-2"><span class="color-verde">Max</span><span class="">bank</span></h1>
                     <div class="w-100 d-flex justify-content-center d-lg-none my-3">
@@ -82,11 +82,24 @@
                                     <h6><span class="number">{{moneyFormat.format(account.balance)}}</span></h6>
                                 </div>
                             </div>
-                            <div class="balance-footer d-none d-lg-block">
+                        </div>
+                    </div>
+                    <div class="w-100 d-flex justify-content-center align-items-center align-items-lg-start flex-wrap principal-container">
+                        <div class="balance-container">
+                            <div class="d-flex align-items-center justify-content-center pt-1  balance-header">
+                                <span class="text-white">Prestamos Disponibles</span>
+                            </div>
+                            <div class="d-flex flex-column justify-content-center balance-body">
+                                <div class="d-flex justify-content-between align-items-center total-balance">
+                                    <p class="text-white fw-bold ">Hipotecario</p>
+                                    <p class="text-white">Hasta {{moneyFormat.format("500000")}}</p>
+                                </div>
+                            </div>
+                            <div class="balance-footer d-lg-none">
                                 <p class="text-center m-0 text-white">Ultimos Movimientos</p>
                             </div>
                         </div>
-                        <div class="transactions mt-3 d-flex flex-column justify-content-between align-items-center">
+                        <div class="d-lg-none transactions mt-3 d-flex flex-column justify-content-between align-items-center">
                             <div v-for="transaction in transactions" class="justify-content-between w-100 my-2 d-flex">
                                 <div>
                                     <p class="mb-0">{{transaction.description}}</p>
@@ -97,9 +110,24 @@
                                 </div>
                             </div>
                         </div>
-                        </div>
                     </div>
                 </div>
+                <table class="d-none d-lg-table table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Descripcion</th>
+                            <th>Fecha</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                        <tr v-for="transaction in transactions">
+                            <td>{{transaction.description}}</td>
+                            <td>{{formatDate(transaction.date)}}</td>
+                            <td :class="(transaction.type == 'CREDIT' ? 'color-verde' : 'text-danger') + ' number'">{{transaction.type == 'CREDIT' ? "" : "-"}}{{moneyFormat.format(transaction.amount)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </main>
         </template>
     </div>

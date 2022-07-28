@@ -108,6 +108,9 @@ nav {
         color: black;
         font-weight:300;
     }
+    table {
+        width: 85% !important;
+    }
     .nav-header {
         height: 20vh;
     }
