@@ -30,18 +30,24 @@ public class HomebankingApplication {
 			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.0, client1);
 			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.0, client1);
 			Account account3 = new Account("VIN003", LocalDateTime.now(),156000.0, client2);
-			Transaction transaction1 = new Transaction(TransactionType.CREDIT, 100.0, "prestamo", LocalDateTime.now(), account1);
-			Transaction transaction2 = new Transaction(TransactionType.DEBIT, 2000.0, "compra", LocalDateTime.now(), account1);
-			Transaction transaction3 = new Transaction(TransactionType.DEBIT, 1500.0, "compra", LocalDateTime.now(), account2);
+			Transaction transaction1 = new Transaction(TransactionType.CREDIT, 100.0, "Prestamo", LocalDateTime.now(), account3);
+			Transaction transaction2 = new Transaction(TransactionType.DEBIT, 2000.0, "Compra", LocalDateTime.now(), account1);
+			Transaction transaction3 = new Transaction(TransactionType.CREDIT, 15000.0, "Venta", LocalDateTime.now(), account2);
+			Transaction transaction4 = new Transaction(TransactionType.DEBIT, 200.0, "Compra", LocalDateTime.now().plusDays(1), account2);
+			Transaction transaction5 = new Transaction(TransactionType.DEBIT, 20.0, "Compra", LocalDateTime.now().plusDays(-1), account3);
+			Transaction transaction6 = new Transaction(TransactionType.DEBIT, 500.0, "Compra", LocalDateTime.now(), account2);
 
 			clientRepository.save(client1);
 			clientRepository.save(client2);
 			accountRepository.save(account1);
 			accountRepository.save(account2);
 			accountRepository.save(account3);
+			transactionRepository.save(transaction5);
 			transactionRepository.save(transaction1);
 			transactionRepository.save(transaction2);
 			transactionRepository.save(transaction3);
+			transactionRepository.save(transaction6);
+			transactionRepository.save(transaction4);
 		};
 	}
 }

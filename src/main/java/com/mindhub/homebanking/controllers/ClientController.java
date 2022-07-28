@@ -5,6 +5,7 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,9 @@ public class ClientController {
     ClientRepository clientRepository;
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    TransactionRepository transactionRepository;
     @RequestMapping("/clients")
     public List<ClientDTO> getClients(){
         return clientRepository.findAll().stream().map(ClientDTO::new).collect(Collectors.toList());
@@ -46,11 +50,18 @@ public class ClientController {
         return clientRepository.save(upClient);
     }
 
-    @DeleteMapping("clients/{id}")
+    @DeleteMapping("/clients/{id}")
     public void deleteClient(@PathVariable long id){
         Client client = clientRepository.findById(id).orElse(null);
-        accountRepository.deleteAllById(client.getAccounts().stream().map( account -> account.getId()).collect(Collectors.toList()));
+        Stack<Long> transactionsIds = new Stack<>();
+        Set<Account> accounts = client.getAccounts();
+        accounts.forEach(account -> {
+            account.getTransactions().forEach(transaction -> {
+                transactionsIds.push(transaction.getId());
+            });
+        });
+        transactionRepository.deleteAllById(transactionsIds);
+        accountRepository.deleteAllById(accounts.stream().map(Account::getId).collect(Collectors.toList()));
         clientRepository.delete(client);
     }
-
 }

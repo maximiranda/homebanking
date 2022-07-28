@@ -7,19 +7,29 @@ createApp({
         account : [],
         transactions : [],
         moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
+        isLoaded: false,
     }
   },
   created(){
     const params = new URLSearchParams(location.search)
-    const id = params.get("id")
-    this.getAccount(id)
+    const idClient = params.get("idClient")
+    const idAccount = params.get("idAccount")
+    this.loadData(idClient, idAccount)
+  },
+  mounted(){
+    document.onreadystatechange = () => {
+      if (document.readyState = "complete"){
+        this.isLoaded = true
+      }
+    }
   },
   methods: {
-    getAccount(id){
-      axios.get('/api/accounts/' + id)
+    loadData(idClient, idAccount){
+      axios.get('/api/clients/' + idClient)
       .then(response => {
         // handle success
-        this.account = response.data
+        this.client = response.data
+        this.account = this.client.accounts.find(account => account.id == idAccount)
         this.transactions = this.account.transactions
         this.transactions
         .sort((a, b) => {
@@ -56,4 +66,3 @@ createApp({
     },
   }
 }).mount("#app")
-

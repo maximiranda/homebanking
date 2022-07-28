@@ -49,6 +49,14 @@ createApp({
           
           account.transactions.forEach(transaction => this.transactions.push(transaction))
         })
+        this.trasactions.sort((a,b) => {
+           if (a.id < b.id){
+               return 1;
+              };
+          if (a.id > b.id){
+               return -1;
+          };
+    })
       })
       .catch(function (error) {
         // handle error

@@ -19,7 +19,7 @@
         <div id="app" class="container d-flex flex-column gap-md-2 flex-md-row flex-wrap justify-content-md-center">
             <h1 class="text-center w-100 m-md-4">Clientes</h1>
             <div class="form-container w-100 mb-3">
-                <form @submit.prevent="addClient" action="" class="w-100">
+                <form @submit="addClient" action="" class="w-100">
                     <fieldset>
                         <h3>Agregar Clientes</h3>
                         <div class="mb-3">
@@ -58,7 +58,7 @@
                                 <td>{{client.email}}</td>
                                 <td class="d-flex justify-content-evenly">
                                     <i @click="activateForm(client)" class="bi bi-pencil-fill me-2"></i>
-                                    <i @click="deleteClient($event, client)" class="bi bi-x-lg"></i>
+                                    <i @click="deleteClient(client)" class="bi bi-x-lg"></i>
                                 </td>
                             </tr>
                             <tr class="d-none w-100" :id="'form' + client.id">

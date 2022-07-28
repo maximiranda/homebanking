@@ -57,9 +57,10 @@ createApp({
               console.log(error);
           });
     },
-    deleteClient(event, client){
+    deleteClient(client){
       event.target.parentNode.parentNode.remove()
       axios.delete("/api/clients/" + client.id)
+      window.location.reload()
     },
     activateForm(client){
       let tr = document.getElementById("form" + client.id)

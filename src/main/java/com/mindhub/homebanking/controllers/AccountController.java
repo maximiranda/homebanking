@@ -17,8 +17,6 @@ public class AccountController {
 
     @Autowired
     AccountRepository accountRepository;
-    @Autowired
-    TransactionRepository transactionRepository;
 
     @RequestMapping("/accounts")
     public List<AccountDTO> getAccounts(){

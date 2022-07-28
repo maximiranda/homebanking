@@ -21,7 +21,7 @@ public class Account {
     @JoinColumn(name="owner_id")
     private Client owner;
     @OneToMany(mappedBy="account", fetch=FetchType.EAGER)
-    Set<Transaction> transactions = new HashSet<>();
+    private Set<Transaction> transactions = new HashSet<>();
     public Account(){}
     public Account(String number, LocalDateTime creationDate, Double balance, Client client){
         this.number = number;
