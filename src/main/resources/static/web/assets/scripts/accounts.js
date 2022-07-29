@@ -49,7 +49,7 @@ createApp({
           
           account.transactions.forEach(transaction => this.transactions.push(transaction))
         })
-        this.trasactions.sort((a,b) => {
+        this.transactions.sort((a,b) => {
            if (a.id < b.id){
                return 1;
               };
