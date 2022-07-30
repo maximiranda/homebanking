@@ -13,8 +13,12 @@ public class Client {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
     @OneToMany(mappedBy="owner", fetch=FetchType.EAGER)
-    Set<Account> accounts = new HashSet<>();
+    private Set<Account> accounts = new HashSet<>();
+
+    @OneToMany(mappedBy="client", fetch=FetchType.EAGER)
+    private Set<Card> cards;
     private String lastName, firstName, email;
+
 
     public Client(){}
 /**/
