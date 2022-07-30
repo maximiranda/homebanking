@@ -109,19 +109,46 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-100 d-flex justify-content-center align-items-center align-items-lg-start flex-wrap principal-container">
+                    <div class="w-100 d-flex justify-content-center align-items-center align-items-lg-start align-content-lg-start flex-wrap principal-container">
                         <div class="balance-container">
                             <div class="d-flex align-items-center justify-content-center pt-1  balance-header">
-                                <span class="text-white">Prestamos Disponibles</span>
+                                <span class="text-white">Prestamos</span>
                             </div>
                             <div class="d-flex flex-column justify-content-center balance-body">
                                 <div class="d-flex justify-content-between align-items-center total-balance">
-                                    <p class="text-white fw-bold ">Hipotecario</p>
-                                    <p class="text-white">Hasta {{moneyFormat.format("500000")}}</p>
+                                    <p class="text-white fw-bold ">Deuda Total</p>
+                                    <p class="text-white">{{moneyFormat.format(totalLoan)}}</p>
                                 </div>
+
                             </div>
                             <div class="balance-footer d-lg-none">
                                 <p class="text-center m-0 text-white">Ultimos Movimientos</p>
+                            </div>
+                        </div>
+                        <div class="d-none transactions mt-3 d-lg-flex flex-column justify-content-between align-items-center">
+                            <div class="justify-content-between w-100 my-2 d-flex">
+                                <div>
+                                    <p class="mb-0">Tipo</p>
+                                    <!-- <span class="m-0">{{formatDate(transaction.date)}}</span> -->
+                                </div>
+                                <div>
+                                    <p>Cuotas</p>
+                                </div>
+                                <div>
+                                    <p class="">Monto</p>
+                                </div>
+                            </div>
+                            <div v-for="loan in client.loans" class="justify-content-between w-100 my-2 d-flex">
+                                <div>
+                                    <p class="mb-0">{{loan.name}}</p>
+                                    <!-- <span class="m-0">{{formatDate(transaction.date)}}</span> -->
+                                </div>
+                                <div>
+                                    <p>{{loan.payments}}</p>
+                                </div>
+                                <div>
+                                    <p class="number">{{moneyFormat.format(loan.amount)}}</p>
+                                </div>
                             </div>
                         </div>
                         <div class="d-lg-none transactions mt-3 d-flex flex-column justify-content-between align-items-center">

@@ -9,6 +9,7 @@ createApp({
         totalBalance : 0,
         moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
         isLoaded : false,
+        totalLoan: 0,
     }
   },
   created(){
@@ -33,6 +34,7 @@ createApp({
       axios.get('/api/clients/' + id)
       .then(response => {
         // handle success
+        
         this.client = response.data
         this.accounts = this.client.accounts
         this.accounts
@@ -44,6 +46,10 @@ createApp({
             return 1;
           };
         })
+        this.client.loans.forEach(loan => {
+          this.totalLoan = this.totalLoan + loan.amount
+        })
+
         this.client.accounts.forEach(account => {
           this.totalBalance = this.totalBalance + account.balance
           
@@ -56,6 +62,7 @@ createApp({
           if (a.id > b.id){
                return -1;
           };
+
     })
       })
       .catch(function (error) {
@@ -80,8 +87,7 @@ createApp({
       let options = { year: 'numeric', month: 'numeric', day: 'numeric' };
       let transactionDateFormatted = transactionDate.toLocaleDateString('en-US', options)
       return transactionDateFormatted
-
     },
+
   }
 }).mount("#app")
-
