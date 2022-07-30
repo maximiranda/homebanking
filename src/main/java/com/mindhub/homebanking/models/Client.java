@@ -13,11 +13,14 @@ public class Client {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
     @OneToMany(mappedBy="owner", fetch=FetchType.EAGER)
-    Set<Account> accounts = new HashSet<>();
+    private Set<Account> accounts = new HashSet<>();
+
+    @OneToMany(mappedBy="client", fetch=FetchType.EAGER)
+    private Set<ClientLoan> clientLoans = new HashSet<>();
     private String lastName, firstName, email;
 
     public Client(){}
-/**/
+
     public  Client(String firstName, String lastName, String email){
         this.firstName = firstName;
         this.lastName = lastName;
@@ -58,6 +61,9 @@ public class Client {
     public void addAccount(Account account){
         account.setOwner(this);
         accounts.add(account);
+    }
+    public Set<ClientLoan> getClientLoans() {
+        return clientLoans;
     }
 }
 
