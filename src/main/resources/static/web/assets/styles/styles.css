@@ -114,6 +114,10 @@ nav {
     table {
         width: 85% !important;
     }
+    table td, th {
+        width: 33.3% !important;
+    }
+    
     .nav-header {
         height: 20vh;
     }
