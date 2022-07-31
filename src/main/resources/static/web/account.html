@@ -14,15 +14,21 @@
     <div class="d-lg-flex" id="app">
 
         <template v-if="isLoaded == false">
-            <main class="bg-azul w-100 h-100">
-                <h1>Load {{isLoaded}}</h1>
+            <main class="min-vh-100 min-vw-100 m-0 bg-azul load d-flex justify-content-center align-items-center">
+                <div class="fixed-top mt-4 text-center">
+                    <span class="h1 text-white"><span class="color-verde">Max</span>bank</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <h2 class="text-white">Loading</h2>
+                    <img src="./assets/img/Pulse-1s-200px.svg" alt="">
+                </div>
             </main>
         </template>
         <template v-else>
             <header>
                 <nav class=".navbar-nav .navbar-nav-scroll navbar fixed-bottom d-lg-flex flex-lg-column justify-content-lg-start pt-lg-0">
                     <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
-                        <h1 class="text-center mt-2 d-lg-block d-none"><span class="color-verde">Max</span><span class="">bank</span></h1>
+                        <h1 class="text-center mt-2 d-lg-block d-none"> <a class="w-auto" :href="'./accounts.html?id=' + client.id" ><span class="color-verde h1">Max</span><span class="h1 text-white">bank</span></a></h1>
                         <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
                             <i class="bi bi-person-circle"></i>
                             <div class="greeting-name ms-1">
@@ -48,7 +54,7 @@
             </header>
             <main class="d-flex flex-column mt-lg-2 gap-lg-2 align-items-lg-center">
                 <div class="sticky-top bg-white mb-2 shadow">
-                    <h1 class="text-center d-lg-none mt-2"><span class="color-verde">Max</span><span class="">bank</span></h1>
+                    <h1 class="text-center d-lg-none mt-2"><a :href="'./accounts.html?id=' + client.id" class="color-verde  text-decoration-none">Max</a><span class="color-azul">bank</span></h1>
                     <div class="w-100 d-flex justify-content-center d-lg-none my-3">
                         <div class="d-lg-none d-flex align-items-center justify-content-between profile">
                             <div class="d-flex align-items-center justify-content-start ">
@@ -87,16 +93,18 @@
                     <div class="w-100 d-flex justify-content-center align-items-center align-items-lg-start flex-wrap principal-container">
                         <div class="balance-container">
                             <div class="d-flex align-items-center justify-content-center pt-1  balance-header">
-                                <span class="text-white">Prestamos Disponibles</span>
+                                <span class="text-white">Prestamos</span>
                             </div>
-                            <div class="d-flex flex-column justify-content-center balance-body">
+                            <div  v-if="client.loans.length" class="d-flex flex-column justify-content-center balance-body">
                                 <div class="d-flex justify-content-between align-items-center total-balance">
-                                    <p class="text-white fw-bold ">Hipotecario</p>
-                                    <p class="text-white">Hasta {{moneyFormat.format("500000")}}</p>
+                                    <p class="text-white fw-bold ">Deuda Total</p>
+                                    <p class="text-white">{{moneyFormat.format(totalLoan)}}</p>
                                 </div>
                             </div>
-                            <div class="balance-footer d-lg-none">
-                                <p class="text-center m-0 text-white">Ultimos Movimientos</p>
+                            <div v-else class="d-flex flex-column justify-content-center balance-body">
+                                <div class="d-flex justify-content-between align-items-center total-balance">
+                                    <p class="text-white">No posees ningun prestamo.</p>
+                                </div>
                             </div>
                         </div>
                         <div class="d-lg-none transactions mt-3 d-flex flex-column justify-content-between align-items-center">

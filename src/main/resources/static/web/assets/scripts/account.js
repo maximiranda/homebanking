@@ -8,6 +8,7 @@ createApp({
         transactions : [],
         moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
         isLoaded: false,
+        totalLoan: 0,
     }
   },
   created(){
@@ -40,6 +41,10 @@ createApp({
             return -1;
           };
         })
+        this.client.loans.forEach(loan => {
+          this.totalLoan = this.totalLoan + loan.amount
+        })
+
       })
       .catch(function (error) {
         // handle error
