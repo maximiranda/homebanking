@@ -2,35 +2,36 @@ package com.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 public class Card {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
-    private String CardHolder;
+    private String cardHolder, number;
     private CardType type;
     private CardColor color;
-    private String number;
     private Integer cvv;
     private LocalDateTime fromDate;
     private LocalDateTime thruDate;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="client_id")
+    private Client client;
 
-    public Card(String cardHolder, CardType type, CardColor color, String number, Integer cvv, LocalDateTime fromDate, LocalDateTime thruDate) {
-        CardHolder = cardHolder;
+    public Card() {}
+
+    public Card(String number, CardType type, CardColor color, Integer cvv, LocalDateTime fromDate, LocalDateTime thruDate, Client client) {
+        this.cardHolder = client.getFirstName() + " " + client.getLastName();
+        this.number = number;
         this.type = type;
         this.color = color;
-        this.number = number;
         this.cvv = cvv;
         this.fromDate = fromDate;
         this.thruDate = thruDate;
+        this.client = client;
     }
 
     public long getId() {
@@ -38,11 +39,19 @@ public class Card {
     }
 
     public String getCardHolder() {
-        return CardHolder;
+        return cardHolder;
     }
 
     public void setCardHolder(String cardHolder) {
-        CardHolder = cardHolder;
+        this.cardHolder = cardHolder;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public CardType getType() {
@@ -59,14 +68,6 @@ public class Card {
 
     public void setColor(CardColor color) {
         this.color = color;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public Integer getCvv() {
@@ -91,5 +92,13 @@ public class Card {
 
     public void setThruDate(LocalDateTime thruDate) {
         this.thruDate = thruDate;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }
