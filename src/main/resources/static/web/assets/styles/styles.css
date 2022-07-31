@@ -81,6 +81,9 @@ nav {
 .hideBalance::after {
     content: "********";
 }
+.loans-container>div {
+    width: 33.3% !important;
+}
 
 @media (min-width:992px){
     header {
@@ -124,7 +127,8 @@ nav {
         width: 50% !important;
     }
     .account-balance:hover {
-        background-color: #4367E5 !important;
+        background-color: #4367E5;
+        border-radius: .5rem;
     }
     .balance-container h5 {
         font-size: 1.5rem !important;

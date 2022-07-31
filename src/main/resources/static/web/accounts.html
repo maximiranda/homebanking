@@ -14,8 +14,14 @@
     <div class="d-lg-flex" id="app">
 
         <template v-if="isLoaded == false">
-            <main class="bg-azul w-100 h-100">
-                <h1>Load {{isLoaded}}</h1>
+            <main class="min-vh-100 min-vw-100 m-0 bg-azul load d-flex justify-content-center align-items-center">
+                <div class="fixed-top mt-4 text-center">
+                    <span class="h1 text-white"><span class="color-verde">Max</span>bank</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <h2 class="text-white">Loading</h2>
+                    <img src="./assets/img/Pulse-1s-200px.svg" alt="">
+                </div>
             </main>
         </template>
         <template v-else>
@@ -48,7 +54,7 @@
             </header>
             <main class="d-flex flex-column mt-lg-2">
                 <div class="sticky-top bg-white mb-2 shadow">
-                    <h1 class="text-center d-lg-none mt-2"><span class="color-verde">Max</span><span class="">bank</span></h1>
+                    <h1 class="text-center d-lg-none mt-2"><a class="text-decoration-none w-auto" href="#"><span class="color-verde">Max</span><span class="color-azul">bank</span></a></h1>
                     <div class="w-100 d-flex justify-content-center d-lg-none my-3">
                         <div class="d-lg-none d-flex align-items-center justify-content-between profile">
                             <div class="d-flex align-items-center justify-content-start ">
@@ -110,48 +116,52 @@
                         </div>
                     </div>
                     <div class="w-100 d-flex justify-content-center align-items-center align-items-lg-start align-content-lg-start flex-wrap principal-container">
-                        <div class="balance-container">
+                        <div class="balance-container text-white">
                             <div class="d-flex align-items-center justify-content-center pt-1  balance-header">
                                 <span class="text-white">Prestamos</span>
                             </div>
-                            <div class="d-flex flex-column justify-content-center balance-body">
+                            <div  v-if="client.loans.length" class="d-flex flex-column justify-content-center balance-body">
                                 <div class="d-flex justify-content-between align-items-center total-balance">
-                                    <p class="text-white fw-bold ">Deuda Total</p>
-                                    <p class="text-white">{{moneyFormat.format(totalLoan)}}</p>
+                                    <p class="text-white fw-bold">Deuda Total</p>
+                                    <p class="text-white number">{{moneyFormat.format(totalLoan)}}</p>
                                 </div>
 
                             </div>
-                            <div class="balance-footer d-lg-none">
+                            <div v-else class="d-flex flex-column justify-content-center balance-body">
+                                <div class="d-flex justify-content-between align-items-center total-balance">
+                                    <p class="text-white">No posees ningun prestamo.</p>
+                                </div>
+                            </div>
+                            <div v-if="!client.loans.length" class="balance-footer d-lg-none">
                                 <p class="text-center m-0 text-white">Ultimos Movimientos</p>
                             </div>
                         </div>
-                        <div class="d-none transactions mt-3 d-lg-flex flex-column justify-content-between align-items-center">
-                            <div class="justify-content-between w-100 my-2 d-flex">
+                        <div v-if="client.loans.length" class="transactions mt-3 d-lg-flex flex-column justify-content-between align-items-center">
+                            <div v-if="client.loans.length" class="justify-content-between w-100 my-2 d-flex loans-container">
                                 <div>
-                                    <p class="mb-0">Tipo</p>
+                                    <p class="mb-0 fw-bold">Tipo</p>
                                     <!-- <span class="m-0">{{formatDate(transaction.date)}}</span> -->
                                 </div>
                                 <div>
-                                    <p>Cuotas</p>
+                                    <p class="fw-bold">Cuotas</p>
                                 </div>
                                 <div>
-                                    <p class="">Monto</p>
+                                    <p class="fw-bold">Monto</p>
                                 </div>
                             </div>
-                            <div v-for="loan in client.loans" class="justify-content-between w-100 my-2 d-flex">
+                            <div v-for="loan in client.loans" class="justify-content-between w-100 my-2 d-flex loans-container">
                                 <div>
-                                    <p class="mb-0">{{loan.name}}</p>
-                                    <!-- <span class="m-0">{{formatDate(transaction.date)}}</span> -->
+                                    <p class="mb-0 ps-2">{{loan.name}}</p>
                                 </div>
                                 <div>
-                                    <p>{{loan.payments}}</p>
+                                    <p class="mb-0 ps-2">{{loan.payments}}</p>
                                 </div>
                                 <div>
-                                    <p class="number">{{moneyFormat.format(loan.amount)}}</p>
+                                    <p class="mb-0 ps-2 number">{{moneyFormat.format(loan.amount)}}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="d-lg-none transactions mt-3 d-flex flex-column justify-content-between align-items-center">
+                        <div v-if="!client.loans.length" class="d-lg-none transactions mt-3 d-flex flex-column justify-content-between align-items-center">
                             <div v-for="transaction in transactions" class="justify-content-between w-100 my-2 d-flex">
                                 <div>
                                     <p class="mb-0">{{transaction.description}}</p>
