@@ -27,6 +27,22 @@
         <template v-else>
             <header>
                 <nav class="navbar fixed-bottom d-lg-flex flex-lg-column justify-content-lg-start pt-lg-0">
+                    <div class="btn-notifications">
+                        <div class="btn-group dropstart d-lg-flex align-items-lg-center w-100> gap-3" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bell fs-2 text-black"></i>
+                            <ul class="dropdown-menu">
+                                <li v-for="transaction in transactions" class="justify-content-between w-100 my-2 d-flex notifactions">
+                                    <div class="ms-1">
+                                        <p class="mb-0">{{transaction.description}}</p>
+                                        <span class="m-0">{{formatDate(transaction.date)}}</span>
+                                    </div>
+                                    <div class="me-2">
+                                        <p :class="(transaction.type == 'CREDIT' ? 'color-verde' : 'text-danger') + ' number'">{{transaction.type == 'CREDIT' ? "" : "-"}}{{moneyFormat.format(transaction.amount)}}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
                         <h1 class="text-center mt-2 d-lg-block d-none"><span class="color-verde">Max</span><span class="">bank</span></h1>
                         <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
@@ -39,10 +55,9 @@
                     </div>
                     <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
                         <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100">
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-house-door fs-1"></i><span class="d-none d-lg-inline">Home</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-bell fs-1 text-black"></i><span class="d-none d-lg-inline">Notificaciones</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-arrow-left-right fs-1 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-credit-card-2-back-fill fs-1 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
+                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-house-door fs-2"></i><span class="d-none d-lg-inline">Home</span></a>
+                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
+                            <a class="d-lg-flex align-items-lg-center active gap-3" :href="'./cards.html?id'+client.id"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                         <div class="w-100 d-none d-lg-flex justify-content-center align-items-center">
                             <div role="button" class="bg-verde btn btn-success ps-3 pe-3  rounded-pill">
@@ -65,7 +80,7 @@
                                 </div>
                             </div>
                             <div class="bg-azul p-2 rounded-pill">
-                                <a class="text-white text-decoration-none" :href="'./cards.html?id=' + client.id">Mis tarjetas</a>
+                                <a class="text-white text-decoration-none" :href="'./cards.html?id='+client.id">Mis tarjetas</a>
                             </div>
                         </div>
                     </div>
@@ -88,10 +103,11 @@
                                     <h5 class="text-white"><span class="number">{{moneyFormat.format(totalBalance)}}</span></h5>
                                 </div>
                                 <hr class="text-white mt-0">
-                                <div v-for="account in accounts" class="text-white d-flex position-relative justify-content-between align-items-center account-balance grow">
+                                <div v-for="account in accounts" class="mi-tooltip text-white d-flex position-relative justify-content-between align-items-center account-balance grow">
                                     <div class="position-relative">
                                         <p class="m-0 text-center fw-bold">Cuenta N°</p>
                                         <p class="text-center">{{account.number}}</p>
+                                        <span class="tooltiptext d-none d-lg-block">Ver transacciones</span>
                                     </div>
                                     <a :href="'./account.html?idAccount=' + account.id + '&idClient=' + client.id">
                                         <span class="link" ></span>

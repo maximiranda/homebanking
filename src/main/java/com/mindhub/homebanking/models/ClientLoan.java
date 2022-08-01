@@ -25,7 +25,7 @@ public class ClientLoan {
 
     public ClientLoan() {}
 
-    public ClientLoan(Double amount, Integer payments, Client client, Loan loan) {
+    public ClientLoan(Double amount, Integer payments, Client client, Loan loan ) {
         this.amount = amount;
         this.payments = payments;
         this.client = client;
