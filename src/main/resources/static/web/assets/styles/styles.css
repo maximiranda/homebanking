@@ -29,9 +29,6 @@ nav {
     border-top-left-radius: .5rem;
     border-top-right-radius: .5rem;
 }
-/*.balance-body{
-    min-height: 20vh;
-}*/
 .total-balance{
     padding-block: 1rem;
     padding-inline: 1rem;
@@ -84,6 +81,9 @@ nav {
 .loans-container>div {
     width: 33.3% !important;
 }
+.custom-tooltip {
+    --bs-tooltip-bg: var(--bs-primary);
+  }
 
 
 /* CARD */
@@ -275,6 +275,7 @@ nav {
     header {
         width: 25%;
         height: 100vh;
+        margin-right: .8rem;
     }
     main {
         width: 75% !important;
@@ -342,5 +343,12 @@ nav {
     }
     .add-account {
         font-size: 1.4rem !important;
+    }
+    .grow { 
+        transition: all .2s ease-in-out; 
+        }
+        
+    .grow:hover { 
+    transform: scale(1.07); 
     }
 }
