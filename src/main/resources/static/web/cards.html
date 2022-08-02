@@ -27,6 +27,22 @@
         <template v-else>
             <header>
                 <nav class="navbar fixed-bottom d-lg-flex flex-lg-column justify-content-lg-start pt-lg-0">
+                    <div class="btn-notifications">
+                        <div class="btn-group dropstart d-lg-flex align-items-lg-center w-100> gap-3" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bell fs-2 text-black"></i>
+                            <ul class="dropdown-menu">
+                                <li v-for="transaction in transactions" class="justify-content-between w-100 my-2 d-flex notifactions">
+                                    <div class="ms-1">
+                                        <p class="mb-0">{{transaction.description}}</p>
+                                        <span class="m-0">{{formatDate(transaction.date)}}</span>
+                                    </div>
+                                    <div class="me-2">
+                                        <p :class="(transaction.type == 'CREDIT' ? 'color-verde' : 'text-danger') + ' number'">{{transaction.type == 'CREDIT' ? "" : "-"}}{{moneyFormat.format(transaction.amount)}}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
                         <h1 class="text-center mt-2 d-lg-block d-none"><span class="color-verde">Max</span><span class="">bank</span></h1>
                         <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
@@ -39,10 +55,9 @@
                     </div>
                     <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
                         <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100">
-                            <a class="d-lg-flex align-items-lg-center active gap-3" :href="'./accounts.html?id='+client.id"><i class="bi bi-house-door fs-1"></i><span class="d-none d-lg-inline">Home</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-bell fs-1 text-black"></i><span class="d-none d-lg-inline">Notificaciones</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-arrow-left-right fs-1 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-credit-card-2-back-fill fs-1 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
+                            <a class="d-lg-flex align-items-lg-center active gap-3" :href="'./accounts.html?id='+client.id"><i class="bi bi-house-door fs-2"></i><span class="d-none d-lg-inline">Home</span></a>
+                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
+                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                         <div class="w-100 d-none d-lg-flex justify-content-center align-items-center">
                             <div class="bg-verde btn btn-success ps-3 pe-3  rounded-pill">
@@ -108,21 +123,24 @@
                                 <p class="text-white fw-bold"><span class="color-verde">Max</span>bank</p>
                                 <img class="card__front-logo card__logo" src="./assets/img/visa.png">
                                 <span :class="'color-'+card.color.toLowerCase()" class="card-front-color fw-bold">{{capitalize(card.color)}}</span>
-                              <p class="card_numer">{{card.number}}</p>
+                                <p v-if="!hide" class="card_numer">{{card.number}}</p>
+                                <p v-if="hide" class="card_numer">**** **** **** ****</p>
                               <div class="card__space-75">
                                 <span class="card__label">Card holder</span>
                                 <p class="card__info">{{card.cardHolder}}</p>
                               </div>
                               <div class="card__space-25">
                                 <span class="card__label">Expires</span>
-                                      <p class="card__info">{{formatDate(card.thruDate)}}</p>
+                                <p v-if="!hide" class="card__info">{{formatDate(card.thruDate)}}</p>
+                                <p v-if="hide" class="card__info">***</p>
                               </div>
                             </div>
                             <div class="card__back card__part">
                               <div class="card__black-line"></div>
                               <div class="card__back-content">
                                 <div class="card__secret">
-                                  <p class="card__secret--last">{{card.cvv}}</p>
+                                    <p v-if="!hide" class="card__secret--last">{{card.cvv}}</p>
+                                    <p v-if="hide" class="card__secret--last">***</p>
                                 </div>
                                 <div class="card__back-square card__square" >
                                     <p class="text-white fw-bold m-0"><span class="color-verde">Max</span>bank</p>
