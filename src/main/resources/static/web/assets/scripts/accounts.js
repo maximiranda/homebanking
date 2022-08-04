@@ -88,6 +88,6 @@ createApp({
       let transactionDateFormatted = transactionDate.toLocaleDateString('en-US', options)
       return transactionDateFormatted
     },
-
+    
   }
 }).mount("#app")

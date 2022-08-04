@@ -4,6 +4,10 @@
     background-color: red;
 } */
 
+.border-pill {
+    border-radius: .5rem;
+}
+
 .btn-notifications {
     position: fixed;
     top: 0;
@@ -93,14 +97,15 @@ nav {
     width: 33.3% !important;
 }
 
-
 /* CARD */
+
 .card{
     width: 320px;
     height: 190px;
       -webkit-perspective: 600px;
       -moz-perspective: 600px;
       perspective:600px;
+      transition-duration: 300ms;
       
     }
     
@@ -270,6 +275,19 @@ nav {
     -webkit-transform: rotateY(0deg);
     -moz-transform: rotateY(0deg);
 }
+
+.rotate-card {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    transform-style: preserve-3d;
+}
+/* .rotate-back-card {
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    transform-style: preserve-3d;
+    transition-duration: 300ms;
+} */
+
 #cardEye::before{
     padding: .5rem !important;
 }
@@ -400,5 +418,12 @@ nav {
 
     .dropdown-menu {
         width: 30vw;
+    }
+    .card-main{
+        background-image: url("../img/plain-credit-card.png");
+        background-size: 40%;
+        background-position: bottom right;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }
 }

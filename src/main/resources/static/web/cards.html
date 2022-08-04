@@ -59,25 +59,21 @@
                             <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
                             <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
-                        <div class="w-100 d-none d-lg-flex justify-content-center align-items-center">
-                            <div class="bg-verde btn btn-success ps-3 pe-3  rounded-pill">
-                                <p class=" text-center add-account m-0 text-white">Añadir Cuenta</p>
-                            </div>
-                        </div>
                     </div>
                 </nav>
-            </header>
-            <main class="d-flex flex-column mt-lg-2 gap-lg-2 align-items-lg-center justify-content-center">
+            </header>   
+            <main class="w-100 d-flex flex-column mt-lg-2 gap-lg-2 align-items-lg-center justify-content-lg-start  justify-content-center">
                 <div class="sticky-top bg-white mb-2 shadow">
                     <h1 class="text-center d-lg-none mt-2"><a :href="'./accounts.html?id=' + client.id" class="color-verde  text-decoration-none">Max</a><span class="color-azul">bank</span></h1>
                     <div class="w-100 d-flex justify-content-center d-lg-none my-3">
                     </div>
                 </div>
+                <h1 class="text-center text-white border-pill bg-azul px-4 py-2">Mis Tarjetas</h1>
                 <div class="d-flex flex-column flex-lg-row gap-3">
-                    <div class="w-100 d-flex flex-column align-items-center cards-container gap-2">
-                        <h3>Tarjetas de debito</h3>
+                    <div class=" d-flex flex-column align-items-center gap-2">
+                        <h3 class="border-pill bg-azul px-4 py-2 text-white">Debito</h3>
                         <div v-if="!debitCards.length">
-                            <h3>No posees tarjetas de debito</h3>
+                            <p class="alert alert-danger px-4 py-2 mt-4"><i class="bi bi-exclamation-diamond-fill"></i> No posees tarjetas de debito</p>
                         </div>
                         <div v-for="card in debitCards" class="card">
                             <div class="card__front card__part">
@@ -113,10 +109,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-100 d-flex flex-column align-items-center cards-container gap-2">
-                        <h3>Tarjetas de credito</h3>
-                        <div v-if="!creditCards.length">
-                            <h3>No posees tarjetas de credito</h3>
+                    <div class="d-flex flex-column align-items-center cards-container gap-2">
+                        <h3 class="bg-azul px-4 py-2 text-white border-pill">Credito</h3>
+                        <div v-if="!creditCards.length" class="">
+                            
+                            <p class="alert alert-danger px-4 py-2 mt-4"><i class="bi bi-exclamation-diamond-fill"></i> No posees tarjetas de credito</p>
                         </div>
                         <div v-for="card in creditCards" class="card">
                             <div class="card__front card__part">
@@ -152,8 +149,8 @@
                             
                         </div>
                     </div>
-                    <div class="mt-2 w-100 d-flex align-items-center justify-content-center">
-                        <div class="d-flex justify-content-between w-75 d-lg-none">
+                    <div class="my-2 w-100 d-lg-none d-flex align-items-center justify-content-center">
+                        <div class="d-flex justify-content-around w-75">
                             <div class="rounded-circle bg-verde">
                                 <i v-if="hide" class="bi bi-eye-fill text-white" @click="hideInfo" id="cardEye"></i>
                                 <i v-if="!hide" class="bi bi-eye-slash text-white" @click="hideInfo" id="cardEye"></i>

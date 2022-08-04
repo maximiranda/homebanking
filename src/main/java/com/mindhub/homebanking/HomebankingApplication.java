@@ -46,6 +46,7 @@ public class HomebankingApplication {
 			Card card1 = new Card("1111 2222 3333 4444", CardType.DEBIT, CardColor.GOLD, 345, LocalDateTime.now(), LocalDateTime.now().plusYears(5), client1);
 			Card card2 = new Card("3333 6666 8888 1234", CardType.CREDIT, CardColor.TITANIUM, 987, LocalDateTime.now(), LocalDateTime.now().plusYears(5), client1);
 			Card card3 = new Card("3333 6666 8888 1234", CardType.CREDIT, CardColor.SILVER, 456, LocalDateTime.now(), LocalDateTime.now().plusYears(5), client2);
+			Card card4 = new Card("3333 6666 8888 1234", CardType.CREDIT, CardColor.SILVER, 456, LocalDateTime.now(), LocalDateTime.now().plusYears(5), client1);
 
 			clientRepository.save(client1);
 			clientRepository.save(client2);
@@ -68,6 +69,7 @@ public class HomebankingApplication {
 			cardRepository.save(card1);
 			cardRepository.save(card2);
 			cardRepository.save(card3);
+			cardRepository.save(card4);
 		};
 	}
 }

@@ -58,7 +58,7 @@ createApp({
     },
     formatDate(date){
       transactionDate = new Date(date)
-      let options = { year: 'numeric', month: 'numeric'};
+      let options = { year: '2-digit', month: 'numeric'};
       let transactionDateFormatted = transactionDate.toLocaleDateString('en-US', options)
       return transactionDateFormatted
     },
@@ -76,10 +76,8 @@ createApp({
     rotate(){
       let cards = document.querySelectorAll(".card")
       cards.forEach(card => {
-        // card.classList.toggle("card__front")
-        card.classList.toggle("card__back")
+        card.classList.toggle("rotate-card")
       })
     }
-
   }
 }).mount("#app")
