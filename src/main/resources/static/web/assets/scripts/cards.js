@@ -4,12 +4,11 @@ createApp({
   data(){
     return {
         client : {},
-        accounts : [],
-        transactions : [],
-        totalBalance : 0,
         moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
         isLoaded : false,
-        totalLoan: 0,
+        creditCards: [],
+        debitCards: [],
+        hide: true,
     }
   },
   created(){
@@ -36,34 +35,9 @@ createApp({
         // handle success
         
         this.client = response.data
-        this.accounts = this.client.accounts
-        this.accounts
-        .sort((a, b) => {
-          if (a.id < b.id){
-            return -1;
-          };
-          if (a.id > b.id){
-            return 1;
-          };
-        })
-        this.client.loans.forEach(loan => {
-          this.totalLoan = this.totalLoan + loan.amount
-        })
+        this.debitCards = this.client.cards.filter(card => card.type == "DEBIT")
+        this.creditCards = this.client.cards.filter(card => card.type == "CREDIT")
 
-        this.client.accounts.forEach(account => {
-          this.totalBalance = this.totalBalance + account.balance
-          
-          account.transactions.forEach(transaction => this.transactions.push(transaction))
-        })
-        this.transactions.sort((a,b) => {
-           if (a.id < b.id){
-               return 1;
-              };
-          if (a.id > b.id){
-               return -1;
-          };
-
-    })
       })
       .catch(function (error) {
         // handle error
@@ -84,10 +58,26 @@ createApp({
     },
     formatDate(date){
       transactionDate = new Date(date)
-      let options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+      let options = { year: '2-digit', month: 'numeric'};
       let transactionDateFormatted = transactionDate.toLocaleDateString('en-US', options)
       return transactionDateFormatted
     },
-    
+    capitalize(str){
+        const lower = str.toLowerCase()
+        return str.charAt(0).toUpperCase() + lower.slice(1)
+    },
+    hideInfo(){
+      if (this.hide){
+        this.hide = false
+      }else {
+        this.hide = true
+      }
+    },
+    rotate(){
+      let cards = document.querySelectorAll(".card")
+      cards.forEach(card => {
+        card.classList.toggle("rotate-card")
+      })
+    }
   }
 }).mount("#app")
