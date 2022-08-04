@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Tarjetas</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/styles/styles.css">
 
 </head>
-<body>
+<body class="bg-cards">
     <div class="d-lg-flex" id="app">
 
         <template v-if="isLoaded == false">
@@ -44,7 +45,7 @@
                         </div>
                     </div>
                     <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
-                        <h1 class="text-center mt-2 d-lg-block d-none"><span class="color-verde">Max</span><span class="">bank</span></h1>
+                        <h1 class="text-center mt-2 d-lg-block d-none"> <a class="w-auto" :href="'./accounts.html?id=' + client.id" ><span class="color-verde h1">Max</span><span class="h1 text-white">bank</span></a></h1>
                         <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
                             <i class="bi bi-person-circle"></i>
                             <div class="greeting-name ms-1">
@@ -55,9 +56,9 @@
                     </div>
                     <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
                         <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100">
-                            <a class="d-lg-flex align-items-lg-center active gap-3" :href="'./accounts.html?id='+client.id"><i class="bi bi-house-door fs-2"></i><span class="d-none d-lg-inline">Home</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
+                            <a class="d-lg-flex align-items-lg-center  gap-3" :href="'./accounts.html?id='+client.id"><i class="bi bi-house-door fs-2 text-black"></i><span class="d-none d-lg-inline">Home</span></a>
+                            <a class="d-lg-flex align-items-lg-center  gap-3" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3" href="#"><i class="bi bi-credit-card-2-back-fill fs-2 color-azul"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                     </div>
                 </nav>
@@ -68,14 +69,14 @@
                     <div class="w-100 d-flex justify-content-center d-lg-none my-3">
                     </div>
                 </div>
-                <h1 class="text-center text-white border-pill bg-azul px-4 py-2">Mis Tarjetas</h1>
+                <h1 class="text-center text-white border-pill bg-azul px-4 mb-2 py-2">Mis Tarjetas</h1>
                 <div class="d-flex flex-column flex-lg-row gap-3">
-                    <div class=" d-flex flex-column align-items-center gap-2">
-                        <h3 class="border-pill bg-azul px-4 py-2 text-white">Debito</h3>
+                    <div class=" d-flex flex-column align-items-center cards-container border-pill gap-2">
+                        <h3 class="border-pill px-4 py-2 co">Debito</h3>
                         <div v-if="!debitCards.length">
                             <p class="alert alert-danger px-4 py-2 mt-4"><i class="bi bi-exclamation-diamond-fill"></i> No posees tarjetas de debito</p>
                         </div>
-                        <div v-for="card in debitCards" class="card">
+                        <div v-for="card in debitCards" class="card animate__backInLeft">
                             <div class="card__front card__part">
                                 <p class="text-white fw-bold"><span class="color-verde">Max</span>bank</p>
                                 <img class="card__front-logo card__logo" src="./assets/img/visa.png">
@@ -101,7 +102,7 @@
                                   <p v-if="hide" class="card__secret--last">***</p>
                                 </div>
                                 <div class="card__back-square card__square" >
-                                    <p class="text-white fw-bold m-0"><span class="color-verde">Max</span>bank</p>
+                                    <p class="text-white fw-b old m-0"><span class="color-verde">Max</span>bank</p>
                                 </div>
                                     <img class="card__back-logo card__logo" src="./assets/img/visa.png">
                                     <span class="card-back-type fw-bold text-white">{{capitalize(card.type)}}</span>
@@ -109,13 +110,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex flex-column align-items-center cards-container gap-2">
-                        <h3 class="bg-azul px-4 py-2 text-white border-pill">Credito</h3>
+                    <div class="d-flex flex-column align-items-center cards-container border-pill gap-2">
+                        <h3 class="px-4 py-2">Credito</h3>
                         <div v-if="!creditCards.length" class="">
                             
                             <p class="alert alert-danger px-4 py-2 mt-4"><i class="bi bi-exclamation-diamond-fill"></i> No posees tarjetas de credito</p>
                         </div>
-                        <div v-for="card in creditCards" class="card">
+                        <div v-for="card in creditCards" class="card animate__backInRight">
                             <div class="card__front card__part">
                                 <p class="text-white fw-bold"><span class="color-verde">Max</span>bank</p>
                                 <img class="card__front-logo card__logo" src="./assets/img/visa.png">
@@ -150,7 +151,7 @@
                         </div>
                     </div>
                     <div class="my-2 w-100 d-lg-none d-flex align-items-center justify-content-center">
-                        <div class="d-flex justify-content-around w-75">
+                        <div class="d-flex justify-content-around mobile-buttons w-75">
                             <div class="rounded-circle bg-verde">
                                 <i v-if="hide" class="bi bi-eye-fill text-white" @click="hideInfo" id="cardEye"></i>
                                 <i v-if="!hide" class="bi bi-eye-slash text-white" @click="hideInfo" id="cardEye"></i>

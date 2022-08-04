@@ -6,6 +6,7 @@ createApp({
         client : {},
         accounts : [],
         transactions : [],
+        loans : [],
         totalBalance : 0,
         moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
         isLoaded : false,
@@ -13,7 +14,7 @@ createApp({
     }
   },
   created(){
-
+    
     const params = new URLSearchParams(location.search)
     const id = params.get("id")
     if (id == null){
@@ -37,6 +38,7 @@ createApp({
         
         this.client = response.data
         this.accounts = this.client.accounts
+        this.loans = this.client.loans
         this.accounts
         .sort((a, b) => {
           if (a.id < b.id){

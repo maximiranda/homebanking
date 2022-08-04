@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./assets/styles/styles.css">
 
 </head>
-<body>
+<body class="bg-savings">
     <div class="d-lg-flex" id="app">
 
         <template v-if="isLoaded == false">
@@ -55,9 +55,9 @@
                     </div>
                     <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
                         <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100">
-                            <a class="d-lg-flex align-items-lg-center active gap-3" :href="'./accounts.html?id=' + client.id"><i class="bi bi-house-door fs-2"></i><span class="d-none d-lg-inline">Home</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
-                            <a class="d-lg-flex align-items-lg-center active gap-3" :href="'./cards.html?id='+client.id"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3" :href="'./accounts.html?id=' + client.id"><i class="bi bi-house-door fs-2 text-black"></i><span class="d-none d-lg-inline">Home</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3" :href="'./cards.html?id='+client.id"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                     </div>
                 </nav>

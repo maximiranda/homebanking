@@ -45,8 +45,8 @@ createApp({
     },
     postClient(){
       axios.post('/api/clients', {
-        firstName: this.firstName,
-        lastName: this.lastName,
+        firstName: this.capitalize(this.firstName),
+        lastName: this.capitalize(this.lastName),
         email: this.email,
         }).then((response) => {
               this.clients.push(response.data)
@@ -99,7 +99,10 @@ createApp({
         this.clients = this.clients.filter(cl => cl != client)
       })
     },
-
+    capitalize(str){
+      const lower = str.toLowerCase()
+      return str.charAt(0).toUpperCase() + lower.slice(1)
+  },
   }
 }).mount("#app")
 
