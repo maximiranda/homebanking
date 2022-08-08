@@ -105,9 +105,9 @@
                                 <span class="text-white">Prestamos</span>
                             </div>
                             <div  v-if="client.loans.length" class="d-flex flex-column justify-content-center balance-body">
-                                <div class="d-flex justify-content-between align-items-center total-balance">
-                                    <p class="text-white fw-bold ">Deuda Total</p>
-                                    <p class="text-white">{{moneyFormat.format(totalLoan)}}</p>
+                                <div class="text-white d-flex justify-content-between align-items-center total-balance">
+                                    <p class=" fw-bold ">Deuda Total</p>
+                                    <p class=" number">{{moneyFormat.format(totalLoan)}}</p>
                                 </div>
                             </div>
                             <div v-else class="d-flex flex-column justify-content-center balance-body">
