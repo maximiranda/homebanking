@@ -3,25 +3,21 @@ const {createApp} = Vue
 createApp({
   data(){
     return {
-        client : {},
-        accounts : [],
-        transactions : [],
-        loans : [],
-        totalBalance : 0,
-        moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
-        isLoaded : false,
+        client: {},
+        accounts: [],
+        transactions: [],
+        loans: [],
+        totalBalance: 0,
+        moneyFormat: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
+        isLoaded: false,
         totalLoan: 0,
+        email: "",
+        accountsLength : 0,
     }
   },
   created(){
-    
-    const params = new URLSearchParams(location.search)
-    const id = params.get("id")
-    if (id == null){
-        this.getClient(1)
-    } else {
-        this.getClient(id)
-    }
+    this.getClient()
+  
   },
   mounted(){
     document.onreadystatechange = () => {
@@ -31,14 +27,15 @@ createApp({
     }
   },
   methods: {
-    getClient(id){
-      axios.get('/api/clients/' + id)
+    getClient(){
+      axios.get('/api/clients/current')
       .then(response => {
         // handle success
         
         this.client = response.data
         this.accounts = this.client.accounts
         this.loans = this.client.loans
+        this.accountsLength = this.accounts.lenth
         this.accounts
         .sort((a, b) => {
           if (a.id < b.id){
@@ -68,9 +65,19 @@ createApp({
     })
       })
       .catch(function (error) {
-        // handle error
         console.log(error);
+        if (error.response.status == 401){
+          window.location.href = "/public/index.html"
+        }
       })
+    },
+    addAccount(){
+        axios.post('/api/clients/current/accounts')
+        .then(response => {
+          console.log(response)
+          window.location.reload()
+        })
+        .catch(error => console.log(error))
     },
     hideBalance(){
       let eye = document.getElementById("eye")
@@ -89,6 +96,9 @@ createApp({
       let options = { year: 'numeric', month: 'numeric', day: 'numeric' };
       let transactionDateFormatted = transactionDate.toLocaleDateString('en-US', options)
       return transactionDateFormatted
+    },
+    logout(){
+      axios.post('/api/logout').then(response => window.location.href="/public/index.html")
     },
     
   }

@@ -44,9 +44,17 @@
                         </div>
                     </div>
                     <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
-                        <h1 class="text-center mt-2 d-lg-block d-none"> <a class="w-auto" :href="'./accounts.html?id=' + client.id" ><span class="color-verde h1">Max</span><span class="h1 text-white">bank</span></a></h1>
+                        <h1 class="text-center mt-2 d-lg-block d-none"> <a class="w-auto" href="./accounts.html" ><span class="color-verde h1">Max</span><span class="h1 text-white">bank</span></a></h1>
                         <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
-                            <i class="bi bi-person-circle"></i>
+                            <div class="dropdown">
+
+                                <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i v-else class="bi bi-person-circle" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>
+                                    <li><button class="dropdown-item" @click="logout" type="button"><i class="bi bi-power text-danger"></i> Salir</button></li>
+                                </ul>
+                            </div>
                             <div class="greeting-name ms-1">
                                 <p class="m-0 greeting">Buenas Tardes</p>
                                 <p class="m-0 name">{{client.firstName}} {{client.lastName}}</p>
@@ -55,27 +63,34 @@
                     </div>
                     <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
                         <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100">
-                            <a class="d-lg-flex align-items-lg-center gap-3" :href="'./accounts.html?id=' + client.id"><i class="bi bi-house-door fs-2 text-black"></i><span class="d-none d-lg-inline">Home</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3" href="./accounts.html"><i class="bi bi-house-door fs-2 text-black"></i><span class="d-none d-lg-inline">Home</span></a>
                             <a class="d-lg-flex align-items-lg-center gap-3" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
-                            <a class="d-lg-flex align-items-lg-center gap-3" :href="'./cards.html?id='+client.id"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3" href="./cards.html"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                     </div>
                 </nav>
             </header>
             <main class="d-flex flex-column mt-lg-2 gap-lg-2 align-items-lg-center">
                 <div class="sticky-top bg-white mb-2 shadow">
-                    <h1 class="text-center d-lg-none mt-2"><a :href="'./accounts.html?id=' + client.id" class="color-verde  text-decoration-none">Max</a><span class="color-azul">bank</span></h1>
+                    <h1 class="text-center d-lg-none mt-2"><a href="./accounts.html" class="color-verde  text-decoration-none">Max</a><span class="color-azul">bank</span></h1>
                     <div class="w-100 d-flex justify-content-center d-lg-none my-3">
                         <div class="d-lg-none d-flex align-items-center justify-content-between profile">
                             <div class="d-flex align-items-center justify-content-start ">
-                                <i class="bi bi-person-circle fs-1"></i>
+                                <div class="dropdown">
+                                    <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i v-else class="bi bi-person-circle fs-1" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                        <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>
+                                        <li><button class="dropdown-item" @click="logout" type="button"><i class="bi bi-power text-danger"></i> Salir</button></li>
+                                        </ul>
+                                    </div>
                                 <div class="greeting ms-1">
                                     <p class="m-0">¡Hola</p>
                                     <p class="m-0">{{client.firstName}} {{client.lastName}}!</p>
                                 </div>
                             </div>
                             <div class="bg-azul p-2 rounded-pill">
-                                <a class="text-white text-decoration-none" href="">Mis tarjetas</a>
+                                <a class="text-white text-decoration-none" href="./cards.html">Mis tarjetas</a>
                             </div>
                         </div>
                     </div>

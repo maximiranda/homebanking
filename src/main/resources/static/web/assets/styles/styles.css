@@ -29,7 +29,12 @@ nav {
 .notifactions-container {
     background-color: #bcc9f8 !important;
 }
-
+.img-avatar{
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    border-radius:50%;  
+}
 .balance-container {
     width: 95%;
     border-radius: .5rem;
@@ -147,6 +152,20 @@ nav {
     margin-top: 5px;
     height: 38px;
     background-color: #303030;
+}
+.card-contacless {
+    width: 27px;
+    /* rotate: 300grad; */
+    position: absolute;
+    top: 40%;
+    right: 3%;
+    z-index: 2;
+}
+.hide-eye-card {
+    font-size: .7rem;
+    position: absolute;
+    top: 1%;
+    right: 2%;
 }
 
 .card__logo {
@@ -409,8 +428,14 @@ nav {
         background-color: rgba(105, 105, 105, 0.219);
       }
 
-    .dropdown-menu {
-        width: 45vw;
+    .dropdown-menu-notify {
+        width: 45vw !important;
+    }
+    .dropdown-menu{
+        width: 10%;
+    }
+    .dropdown-menu i {
+        font-size: 1.5rem;
     }
     .card:hover .card__front {
         -webkit-transform: rotateY(180deg);
@@ -441,5 +466,11 @@ nav {
         background-position: 30% 100%;
         background-repeat: no-repeat;
         background-attachment: fixed;
+    }
+    .img-avatar{
+        vertical-align: middle;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
     }
 }

@@ -29,9 +29,9 @@
             <header>
                 <nav class="navbar fixed-bottom d-lg-flex flex-lg-column justify-content-lg-start pt-lg-0">
                     <div class="btn-notifications">
-                        <div class="btn-group dropstart d-lg-flex align-items-lg-center w-100> gap-3" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="btn-group dropstart d-lg-flex align-items-lg-center w-100 gap-3" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-bell fs-2 text-black"></i>
-                            <ul class="dropdown-menu px-2">
+                            <ul class="dropdown-menu dropdown-menu-notify px-2">
                                 <li class="justify-content-between w-100 my-3 border-pill p-1 notifactions-container d-flex notifactions">
                                     <div class="ms-1">
                                         <p class="mb-0">Transferencia a VIN0002</p>
@@ -56,7 +56,16 @@
                     <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
                         <h1 class="text-center mt-2 d-lg-block d-none"><span class="color-verde">Max</span><span class="">bank</span></h1>
                         <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
-                            <i class="bi bi-person-circle"></i>
+                            <div class="dropdown">
+
+                                <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i v-else class="bi bi-person-circle" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>
+                                    <li><button class="dropdown-item" @click="logout" type="button"><i class="bi bi-power text-danger"></i> Salir</button></li>
+                                  </ul>
+                            </div>
+                            
                             <div class="greeting-name ms-1">
                                 <p class="m-0 greeting">Buenas Tardes</p>
                                 <p class="m-0 name">{{client.firstName}} {{client.lastName}}</p>
@@ -67,10 +76,10 @@
                         <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100 ">
                             <a class="d-lg-flex align-items-lg-center active gap-3 border-pill" href="#"><i class="bi bi-house-door fs-2"></i><span class="d-none d-lg-inline">Home</span></a>
                             <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
-                            <a class="d-lg-flex align-items-lg-center gap-3 border-pill" :href="'./cards.html?id='+client.id"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="./cards.html"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
-                        <div class="w-100 d-none d-lg-flex justify-content-center align-items-center">
-                            <div role="button" class="bg-verde btn btn-success ps-3 pe-3  rounded-pill">
+                        <div v-if="accountsLength < 3" class="w-100 d-none d-lg-flex justify-content-center align-items-center">
+                            <div role="button" @click="addAccount"  class="bg-verde btn btn-success ps-3 pe-3  rounded-pill">
                                 <p class=" text-center add-account m-0 text-white">Añadir Cuenta</p>
                             </div>
                         </div>
@@ -83,52 +92,61 @@
                     <div class="w-100 d-flex justify-content-center d-lg-none my-3">
                         <div class="d-lg-none d-flex align-items-center justify-content-between profile">
                             <div class="d-flex align-items-center justify-content-start ">
-                                <i class="bi bi-person-circle fs-1"></i>
+                                <div class="dropdown">
+                                <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i v-else class="bi bi-person-circle fs-1" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                        <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>
+                                        <li><button class="dropdown-item" @click="logout" type="button"><i class="bi bi-power text-danger"></i> Salir</button></li>
+                                      </ul>
+                                </div>
                                 <div class="greeting ms-1">
                                     <p class="m-0">¡Hola</p>
                                     <p class="m-0">{{client.firstName}} {{client.lastName}}!</p>
                                 </div>
                             </div>
                             <div class="bg-azul p-2 rounded-pill">
-                                <a class="text-white text-decoration-none" :href="'./cards.html?id='+client.id">Mis tarjetas</a>
+                                <a class="text-white text-decoration-none" href="./cards.html">Mis tarjetas</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="w-100 d-flex justify-content-between flex-wrap gap-2 gap-lg-0">
                     <div class="w-100 d-flex justify-content-center align-items-center flex-wrap principal-container">
-                        <div class="balance-container animate__backInLeft">
-                            <div class="d-flex align-items-center justify-content-center pt-1 balance-header position-relative">
-                                    <span class="text-white"  >Saldo Disponible</span>
-                                    <i class="bi bi-eye-fill text-white ms-3" role="button" id="eye" @click="hideBalance($event)"></i>
-                                    <i class="bi bi-eye-slash-fill text-white ms-3 d-none" id="slash-eye" role="button" @click="hideBalance($event)"></i>
-                                    <i role="button" class="d-lg-none ms-5 bi bi-plus-circle text-white position-absolute top-1 end-0 pe-3"></i>
-                            </div>
-                            <div class="d-flex flex-column balance-body">
-                                <div class="d-flex justify-content-between align-items-center total-balance">
-                                    <div>
-                                        <p class="text-white fw-bold m-0">Dollar</p>
-                                        <p class="text-white text-center">US</p>
-                                    </div>
-                                    <h5 class="text-white"><span class="number">{{moneyFormat.format(totalBalance)}}</span></h5>
+                        <transition appear name="bounce">
+                            <div class="balance-container animate__backInLeft">
+                                <div class="d-flex align-items-center justify-content-center pt-1 balance-header position-relative">
+                                        <span class="text-white"  >Saldo Disponible</span>
+                                        <i class="bi bi-eye-fill text-white ms-3" role="button" id="eye" @click="hideBalance($event)"></i>
+                                        <i class="bi bi-eye-slash-fill text-white ms-3 d-none" id="slash-eye" role="button" @click="hideBalance($event)"></i>
+                                        <i role="button" class="d-lg-none ms-5 bi bi-plus-circle text-white position-absolute top-1 end-0 pe-3"></i>
                                 </div>
-                                <hr class="text-white mt-0">
-                                <div v-for="account in accounts" class="mi-tooltip text-white d-flex position-relative justify-content-between align-items-center account-balance grow">
-                                    <div class="position-relative">
-                                        <p class="m-0 text-center fw-bold">Cuenta N°</p>
-                                        <p class="text-center">{{account.number}}</p>
-                                        <span class="tooltiptext d-none d-lg-block">Ver transacciones</span>
+                                <div class="d-flex flex-column balance-body">
+                                    <div class="d-flex justify-content-between align-items-center total-balance">
+                                        <div>
+                                            <p class="text-white fw-bold m-0">Dollar</p>
+                                            <p class="text-white text-center">US</p>
+                                        </div>
+                                        <h5 class="text-white"><span class="number">{{moneyFormat.format(totalBalance)}}</span></h5>
                                     </div>
-                                    <a :href="'./account.html?idAccount=' + account.id + '&idClient=' + client.id">
-                                        <span class="link" ></span>
-                                    </a>
-                                    <h6><span class="number">{{moneyFormat.format(account.balance)}}</span></h6>
+                                    <hr class="text-white mt-0">
+                                    <div v-for="account in accounts" class="mi-tooltip text-white d-flex position-relative justify-content-between align-items-center account-balance grow">
+                                        <div class="position-relative">
+                                            <p class="m-0 text-center fw-bold">Cuenta N°</p>
+                                            <p class="text-center">{{account.number}}</p>
+                                            <span class="tooltiptext d-none d-lg-block">Ver transacciones</span>
+                                        </div>
+                                        <a :href="'./account.html?id=' + account.id">
+                                            <span class="link" ></span>
+                                        </a>
+                                        <h6><span class="number">{{moneyFormat.format(account.balance)}}</span></h6>
+                                    </div>
+                                </div>
+                                <div class="balance-footer d-none d-lg-block">
+                                    <p class="text-center m-0 text-white">Ultimos Movimientos</p>
                                 </div>
                             </div>
-                            <div class="balance-footer d-none d-lg-block">
-                                <p class="text-center m-0 text-white">Ultimos Movimientos</p>
-                            </div>
-                        </div>
+                        </transition>                           
                         <div class="d-none transactions mt-3 d-lg-flex flex-column justify-content-between align-items-center">
                             <div v-for="transaction in transactions" class="justify-content-between w-100 my-2 d-flex">
                                 <div>

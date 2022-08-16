@@ -2,27 +2,33 @@ package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
 public class HomebankingApplication {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
+
 	@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository){
 		return (args) -> {
 
 
-			Client client1 = new Client("Melba", "Morel", "melbamorel@gmail.com");
-			Client client2 = new Client("Maxi", "Miranda", "maximiranda@gmail.com");
+			Client client1 = new Client("Melba", "Morel", "melbamorel@gmail.com", passwordEncoder.encode("melba"));
+			Client client2 = new Client("Maxi", "Miranda", "maximiranda@gmail.com", passwordEncoder.encode("maxi"),"./assets/img/avatar-img.jpeg");
+			Client admin = new Client("admin", "admin", "admin@gmail.com", passwordEncoder.encode("admin"));
 			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.0, client1);
 			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.0, client1);
 			Account account3 = new Account("VIN003", LocalDateTime.now(),156000.0, client2);
@@ -50,6 +56,7 @@ public class HomebankingApplication {
 
 			clientRepository.save(client1);
 			clientRepository.save(client2);
+			clientRepository.save(admin);
 			accountRepository.save(account1);
 			accountRepository.save(account2);
 			accountRepository.save(account3);

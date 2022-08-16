@@ -12,10 +12,9 @@ createApp({
     }
   },
   created(){
-    const params = new URLSearchParams(location.search)
-    const idClient = params.get("idClient")
-    const idAccount = params.get("idAccount")
-    this.loadData(idClient, idAccount)
+    const params = new URLSearchParams(window.location.search)
+    const id = params.get("id")
+    this.loadData(id)
   },
   mounted(){
     document.onreadystatechange = () => {
@@ -25,12 +24,12 @@ createApp({
     }
   },
   methods: {
-    loadData(idClient, idAccount){
-      axios.get('/api/clients/' + idClient)
+    loadData(id){
+      axios.get('/api/clients/current')
       .then(response => {
         // handle success
         this.client = response.data
-        this.account = this.client.accounts.find(account => account.id == idAccount)
+        this.account = this.client.accounts.find(account => account.id == id)
         this.transactions = this.account.transactions
         this.transactions
         .sort((a, b) => {
@@ -47,8 +46,10 @@ createApp({
 
       })
       .catch(function (error) {
-        // handle error
         console.log(error);
+        if (error.response.status == 401){
+          window.location.href = "/public/index.html"
+        }
       })
     },
     hideBalance(){

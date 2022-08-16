@@ -12,14 +12,7 @@ createApp({
     }
   },
   created(){
-
-    const params = new URLSearchParams(location.search)
-    const id = params.get("id")
-    if (id == null){
-        this.getClient(1)
-    } else {
-        this.getClient(id)
-    }
+  this.getClient()
   },
   mounted(){
     document.onreadystatechange = () => {
@@ -29,19 +22,20 @@ createApp({
     }
   },
   methods: {
-    getClient(id){
-      axios.get('/api/clients/' + id)
+    getClient(){
+      axios.get('/api/clients/current')
       .then(response => {
         // handle success
         
         this.client = response.data
         this.debitCards = this.client.cards.filter(card => card.type == "DEBIT")
         this.creditCards = this.client.cards.filter(card => card.type == "CREDIT")
-
       })
       .catch(function (error) {
-        // handle error
         console.log(error);
+        if (error.response.status == 401){
+          window.location.href = "/public/index.html"
+        }
       })
     },
     hideBalance(){
