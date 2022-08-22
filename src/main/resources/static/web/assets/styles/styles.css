@@ -110,7 +110,39 @@ nav {
     perspective:600px;
     transition-duration: 300ms;
     background: transparent;  
-    }
+}
+.create-cards{
+    width: 320px;
+    height: 190px;
+    -webkit-perspective: 600px;
+    -moz-perspective: 600px;
+    perspective:600px;
+    background: linear-gradient(#1340e4,#1c47e2,#244fe9,#2b52e2);
+}
+.create-cards form{
+    width: 70%;
+}
+
+.add-card{
+    width: 320px;
+    height: 70px;
+    -webkit-perspective: 600px;
+    -moz-perspective: 600px;
+    perspective:600px;
+    transition-duration: 300ms;
+    background-color: #00D474;
+}
+.add-card:hover {
+    background-color: #03a150;
+}
+.add-card div{
+    width: 14%;
+    height: 65%;
+}
+/* .add-card span {
+    
+    font-size: 4rem !important;
+} */
     
 .card__part{
     box-shadow: 1px 1px #aaa3a3;
@@ -121,7 +153,8 @@ nav {
     display: inline-block;
     width: 320px;
     height: 190px;
-    background: linear-gradient(#1340e4,#1c47e2,#244fe9,#2b52e2);
+    background: linear-gradient(107deg, rgba(19,64,228,1) 15%, rgba(83,116,237,1) 50%, rgba(19,64,228,1) 81%);
+    /* background: linear-gradient(#1340e4,#1c47e2,#244fe9,#2b52e2); */
     
     border-radius: 8px;
     
@@ -245,6 +278,7 @@ nav {
     margin: 0;
     font-size: 14px;
 }
+
 
 .card__secret {
     padding: 5px 12px;

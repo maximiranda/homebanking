@@ -56,9 +56,8 @@
                     <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
                         <h1 class="text-center mt-2 d-lg-block d-none"><span class="color-verde">Max</span><span class="">bank</span></h1>
                         <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
-                            <div class="dropdown">
-
-                                <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="dropdown dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" >
                                 <i v-else class="bi bi-person-circle" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                 <ul class="dropdown-menu">
                                     <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>
@@ -119,7 +118,7 @@
                                         <span class="text-white"  >Saldo Disponible</span>
                                         <i class="bi bi-eye-fill text-white ms-3" role="button" id="eye" @click="hideBalance($event)"></i>
                                         <i class="bi bi-eye-slash-fill text-white ms-3 d-none" id="slash-eye" role="button" @click="hideBalance($event)"></i>
-                                        <i role="button" class="d-lg-none ms-5 bi bi-plus-circle text-white position-absolute top-1 end-0 pe-3"></i>
+                                        <i v-if="accountsLength < 3" @click="addAccount" role="button" class="d-lg-none ms-5 bi bi-plus-circle text-white position-absolute top-1 end-0 pe-3"></i>
                                 </div>
                                 <div class="d-flex flex-column balance-body">
                                     <div class="d-flex justify-content-between align-items-center total-balance">

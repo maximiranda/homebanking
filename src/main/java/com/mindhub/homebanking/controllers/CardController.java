@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mindhub.homebanking.utils.Utils.getRandomNumber;
+
 @RestController
 @RequestMapping("/api")
 public class CardController {
@@ -29,9 +31,9 @@ public class CardController {
         Client client = clientRepository.findByEmail(authentication.getName());
         if (client != null){
             List<Card> cards =  client.getCards().stream().filter(card -> card.getType() == cardType).collect(Collectors.toList());
-            if (cards.toArray().length < 3){
-                String number = (getRandomNumber(0,9999)) + " " + (getRandomNumber(0,9999)) +" " + (getRandomNumber(0,9999)) + " " + (getRandomNumber(0,9999));
-                int cvv = getRandomNumber(0, 999);
+            if (cards.size() < 3){
+                String number = (getRandomNumber(1000, 9999)) + " " + (getRandomNumber(1000, 9999)) + " " + (getRandomNumber(1000, 9999)) + " " + (getRandomNumber(1000, 9999));
+                int cvv = getRandomNumber(100, 999);
                 cardRepository.save(new Card(number, cardType, cardColor, cvv, LocalDateTime.now(), LocalDateTime.now().plusYears(5), client));
                 return new ResponseEntity<>("Card created",HttpStatus.CREATED);
             } else {
@@ -41,8 +43,5 @@ public class CardController {
         } else {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
-    }
-    public int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
     }
 }

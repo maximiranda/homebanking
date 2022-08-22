@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.mindhub.homebanking.utils.Utils.getRandomNumber;
+
 @RestController
 @RequestMapping("/api")
 public class ClientController {
@@ -99,8 +101,5 @@ public class ClientController {
     public ClientDTO get(Authentication authentication){
         Client client = clientRepository.findByEmail(authentication.getName());
         return new ClientDTO(client);
-    }
-    public int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
     }
 }

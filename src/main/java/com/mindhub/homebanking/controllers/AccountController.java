@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mindhub.homebanking.utils.Utils.getRandomNumber;
+
 @RequestMapping("/api")
 @RestController
 public class AccountController {
@@ -48,8 +50,5 @@ public class AccountController {
         } else {
             return new ResponseEntity<>( "Missing Data",HttpStatus.FORBIDDEN);
         }
-    }
-    public int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
     }
 }

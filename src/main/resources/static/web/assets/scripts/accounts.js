@@ -35,7 +35,7 @@ createApp({
         this.client = response.data
         this.accounts = this.client.accounts
         this.loans = this.client.loans
-        this.accountsLength = this.accounts.lenth
+        this.accountsLength = this.accounts.length
         this.accounts
         .sort((a, b) => {
           if (a.id < b.id){

@@ -9,6 +9,8 @@ createApp({
         creditCards: [],
         debitCards: [],
         hide: true,
+        cardColor: "Silver",
+        cardType: "Debit"
     }
   },
   created(){
@@ -38,40 +40,23 @@ createApp({
         }
       })
     },
-    hideBalance(){
-      let eye = document.getElementById("eye")
-      let slashEye = document.getElementById("slash-eye")
-      let numberArray = document.querySelectorAll(".number")
-      
-      eye.classList.toggle("d-none")
-      slashEye.classList.toggle("d-none")
-      numberArray.forEach(number => {
-        number.parentNode.classList.toggle("hideBalance")
-        number.classList.toggle("d-none")
+    createCard(){
+      console.log(this.cardColor,this.cardType)
+      axios.post("/api/clients/current/cards", "cardType=" + this.cardType + "&cardColor=" + this.cardColor, {headers:{'content-type':'application/x-www-form-urlencoded'}})
+      .then(response => {
+        window.location.href="/web/cards.html"
       })
+      .catch(error => console.log(error))
     },
+    capitalize(str){
+      const lower = str.toLowerCase()
+      return str.charAt(0).toUpperCase() + lower.slice(1)
+  },
     formatDate(date){
       transactionDate = new Date(date)
       let options = { year: '2-digit', month: 'numeric'};
       let transactionDateFormatted = transactionDate.toLocaleDateString('en-US', options)
       return transactionDateFormatted
-    },
-    capitalize(str){
-        const lower = str.toLowerCase()
-        return str.charAt(0).toUpperCase() + lower.slice(1)
-    },
-    hideInfo(){
-      if (this.hide){
-        this.hide = false
-      }else {
-        this.hide = true
-      }
-    },
-    rotate(){
-      let cards = document.querySelectorAll(".card")
-      cards.forEach(card => {
-        card.classList.toggle("rotate-card")
-      })
     },
     logout(){
       axios.post('/api/logout').then(response => window.location.href="/public/index.html")

@@ -70,5 +70,8 @@ createApp({
       let transactionDateFormatted = transactionDate.toLocaleDateString('en-US', options)
       return transactionDateFormatted
     },
+    logout(){
+      axios.post('/api/logout').then(response => window.location.href="/public/index.html")
+    },
   }
 }).mount("#app")

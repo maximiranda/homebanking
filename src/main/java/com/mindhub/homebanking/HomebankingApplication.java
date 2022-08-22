@@ -29,9 +29,9 @@ public class HomebankingApplication {
 			Client client1 = new Client("Melba", "Morel", "melbamorel@gmail.com", passwordEncoder.encode("melba"));
 			Client client2 = new Client("Maxi", "Miranda", "maximiranda@gmail.com", passwordEncoder.encode("maxi"),"./assets/img/avatar-img.jpeg");
 			Client admin = new Client("admin", "admin", "admin@gmail.com", passwordEncoder.encode("admin"));
-			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.0, client1);
-			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.0, client1);
-			Account account3 = new Account("VIN003", LocalDateTime.now(),156000.0, client2);
+			Account account1 = new Account("VIN-0000001", LocalDateTime.now(), 5000.0, client1);
+			Account account2 = new Account("VIN-0000002", LocalDateTime.now().plusDays(1), 7500.0, client1);
+			Account account3 = new Account("VIN-0000003", LocalDateTime.now(),156000.0, client2);
 			Transaction transaction1 = new Transaction(TransactionType.CREDIT, 100.0, "Prestamo", LocalDateTime.now(), account3);
 			Transaction transaction2 = new Transaction(TransactionType.DEBIT, 2000.0, "Compra", LocalDateTime.now(), account1);
 			Transaction transaction3 = new Transaction(TransactionType.CREDIT, 15000.0, "Venta", LocalDateTime.now(), account2);
