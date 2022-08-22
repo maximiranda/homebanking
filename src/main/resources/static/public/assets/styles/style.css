@@ -29,6 +29,12 @@ header {
     color: #4367E5 !important;
     background-color: white !important;
 }
+.form-eye {
+    position: absolute;
+    top: 55%;
+    right: 5%;
+}
+
 
 @media (min-width:992px){
     h1 {

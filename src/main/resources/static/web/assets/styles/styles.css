@@ -139,11 +139,7 @@ nav {
     width: 14%;
     height: 65%;
 }
-/* .add-card span {
-    
-    font-size: 4rem !important;
-} */
-    
+
 .card__part{
     box-shadow: 1px 1px #aaa3a3;
     top: 0;
@@ -334,7 +330,7 @@ nav {
 }
 .mobile-buttons {
     position: fixed;
-    top: 85vh;
+    top: 80vh;
 }
 
 /* ---END CARD--- */

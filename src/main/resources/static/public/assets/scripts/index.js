@@ -15,6 +15,7 @@ createApp({
         lowerCaseError: false,
         numberError: false,
         lengthError: false,
+        hide: true,
 
     }
   },
@@ -93,5 +94,12 @@ createApp({
       const lower = str.toLowerCase()
       return str.charAt(0).toUpperCase() + lower.slice(1)
     },
+    showPass(){
+      if (this.hide){
+        this.hide = false
+      }else {
+        this.hide = true
+      }
+    }
   }
 }).mount("#app")
