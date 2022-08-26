@@ -36,6 +36,10 @@ public class Client {
         this.password = password;
         this.profileImg = profileImg;
     }
+    public Client(String lastName, String firstName){
+        this.lastName = lastName;
+        this.firstName = firstName;
+    }
 
     public String getLastName() {
         return lastName;

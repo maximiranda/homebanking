@@ -9,6 +9,8 @@ createApp({
         moneyFormat : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
         isLoaded: false,
         totalLoan: 0,
+        copyNumber: false,
+        loans: [],
     }
   },
   created(){
@@ -32,6 +34,7 @@ createApp({
         this.account = this.client.accounts.find(account => account.id == id)
         this.transactions = this.account.transactions
         this.transactions
+        this.loans = this.client.loans
         .sort((a, b) => {
           if (a.id < b.id){
             return 1;
@@ -40,7 +43,7 @@ createApp({
             return -1;
           };
         })
-        this.client.loans.forEach(loan => {
+        this.loans.forEach(loan => {
           this.totalLoan = this.totalLoan + loan.amount
         })
 
@@ -73,5 +76,18 @@ createApp({
     logout(){
       axios.post('/api/logout').then(response => window.location.href="/public/index.html")
     },
+    copy(text){
+      this.copyNumber = true
+      navigator.clipboard.writeText(text)
+      .then(() => alert("copy text" + text))
+    },
+    test(text){
+      navigator.clipboard.writeText(text)
+      .then(() => {
+
+        alert(" hola " + text)
+      })
+      .catch(error => alert(error))
+    }
   }
 }).mount("#app")

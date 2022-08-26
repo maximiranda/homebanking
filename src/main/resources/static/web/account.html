@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,16 +28,19 @@
             <header>
                 <nav class=".navbar-nav .navbar-nav-scroll navbar fixed-bottom d-lg-flex flex-lg-column justify-content-lg-start pt-lg-0">
                     <div class="btn-notifications">
-                        <div class="btn-group dropstart d-lg-flex align-items-lg-center w-100> gap-3" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="btn-group dropstart d-lg-flex align-items-lg-center w-100 gap-3 position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div V-if="transactions.length != 0" class="position-absolute customBadge badge bg-danger text-white rounded-pill">
+                                {{transactions.length}}
+                            </div>
                             <i class="bi bi-bell fs-2 text-black"></i>
-                            <ul class="dropdown-menu">
-                                <li v-for="transaction in transactions" class="justify-content-between w-100 my-2 d-flex notifactions">
+                            <ul class="dropdown-menu dropdown-menu-notify px-2">
+                                <li v-for="transaction in transactions" class="justify-content-between w-100 my-3 border-pill p-1 notifactions-container d-flex notifactions position-relative">
                                     <div class="ms-1">
                                         <p class="mb-0">{{transaction.description}}</p>
                                         <span class="m-0">{{formatDate(transaction.date)}}</span>
                                     </div>
                                     <div class="me-2">
-                                        <p :class="(transaction.type == 'CREDIT' ? 'color-verde' : 'text-danger') + ' number'">{{transaction.type == 'CREDIT' ? "" : "-"}}{{moneyFormat.format(transaction.amount)}}</p>
+                                        <p class="">{{moneyFormat.format(transaction.amount)}}</p>
                                     </div>
                                 </li>
                             </ul>
@@ -64,7 +67,7 @@
                     <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
                         <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100">
                             <a class="d-lg-flex align-items-lg-center gap-3" href="./accounts.html"><i class="bi bi-house-door fs-2 text-black"></i><span class="d-none d-lg-inline">Home</span></a>
-                            <a class="d-lg-flex align-items-lg-center gap-3" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3" href="./transfers.html"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
                             <a class="d-lg-flex align-items-lg-center gap-3" href="./cards.html"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                     </div>
@@ -107,7 +110,9 @@
                                 <div class="text-white d-flex position-relative justify-content-between align-items-center account-balance">
                                     <div class="position-relative">
                                         <p class="m-0 text-center fw-bold">Cuenta N°</p>
-                                        <p class="text-center">{{account.number}}</p>
+                                        <p class="text-center">{{account.number}} 
+                                            <span @click="copy(account.number)"><i class="bi fs-6 ms-3" :class="copyNumber ? 'bi-clipboard-check':'bi-clipboard'" ></i></span>
+                                        </p>
                                     </div>
                                     <h6><span class="number">{{moneyFormat.format(account.balance)}}</span></h6>
                                 </div>
@@ -119,7 +124,7 @@
                             <div class="d-flex align-items-center justify-content-center pt-1  balance-header">
                                 <span class="text-white">Prestamos</span>
                             </div>
-                            <div  v-if="client.loans.length" class="d-flex flex-column justify-content-center balance-body">
+                            <div  v-if="loans.length" class="d-flex flex-column justify-content-center balance-body">
                                 <div class="text-white d-flex justify-content-between align-items-center total-balance">
                                     <p class=" fw-bold ">Deuda Total</p>
                                     <p class=" number">{{moneyFormat.format(totalLoan)}}</p>

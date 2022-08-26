@@ -9,6 +9,7 @@ createApp({
         creditCards: [],
         debitCards: [],
         hide: true,
+        transactions: [],
     }
   },
   created(){
@@ -28,6 +29,9 @@ createApp({
         // handle success
         
         this.client = response.data
+        this.client.accounts.forEach(account => {          
+          account.transactions.forEach(transaction => this.transactions.push(transaction))
+        })
         this.debitCards = this.client.cards.filter(card => card.type == "DEBIT")
         this.creditCards = this.client.cards.filter(card => card.type == "CREDIT")
       })

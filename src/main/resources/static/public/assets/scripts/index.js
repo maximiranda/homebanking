@@ -12,10 +12,11 @@ createApp({
         error: false,
         emailError: false,
         passwordError: false,
-        lowerCaseError: false,
+        upperCaseError: false,
         numberError: false,
         lengthError: false,
         hide: true,
+        validate: false,
 
     }
   },
@@ -59,13 +60,13 @@ createApp({
       }
     },
     validator(){
-      let lowerCaseLetters = /[a-z]/g;
+      let upperCaseLetters = /[A-Z]/g;
       let numbers = /[0-9]/g;
-      if (!this.password.match(lowerCaseLetters)){
-        this.lowerCaseError = true
+      if (!this.password.match(upperCaseLetters)){
+        this.upperCaseError = true
       }
       else{
-        this.lowerCaseError = false
+        this.upperCaseError = false
       }
       if (!this.password.match(numbers)){
         this.numberError = true
@@ -82,7 +83,13 @@ createApp({
 
       return !(this.lowerCaseError || this.numberError || this.lengthError)
     },
+    isValidate(){
+      if (this.validate){
+        this.passwordValidator()
+      }
+    },
     passwordValidator(){
+      this.validate = true
       if (this.password == this.passwordConfirm){
         this.passwordError = false
       }else {

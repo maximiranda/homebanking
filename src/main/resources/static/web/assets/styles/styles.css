@@ -3,6 +3,12 @@
     border-radius: .5rem;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .btn-notifications {
     position: fixed;
     top: 0;
@@ -25,6 +31,9 @@ nav {
 }
 .active {
     color: #4367E5 !important;
+}
+.fs-10 {
+    font-size: 4rem !important;
 }
 .notifactions-container {
     background-color: #bcc9f8 !important;
@@ -333,8 +342,20 @@ nav {
     top: 80vh;
 }
 
-/* ---END CARD--- */
+.amount {
+    color: transparent;
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    user-select: none;
+}
 
+/* ---END CARD--- */
+.customBadge {
+    top: 2% !important;
+    right: -10%;
+}
 
 @media (min-width:992px){
     header {
@@ -369,7 +390,7 @@ nav {
     }
     
     .nav-header {
-        height: 20vh;
+        min-height: 20vh;
     }
     .nav-header i {
         font-size: 4rem;
@@ -402,7 +423,7 @@ nav {
         width: 47% !important;
     }
     .link-sidebar {
-        height: 75vh;
+        min-height: 70vh;
     }
     .link-sidebar a:hover {
         background-color: #ececec;

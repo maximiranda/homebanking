@@ -39,20 +39,6 @@ public class ClientController {
     public ClientDTO getClient(@PathVariable long id){
         return clientRepository.findById(id).map(ClientDTO::new).orElse(null);
     }
-/*    @PostMapping("/clients")
-    Client newClient(@RequestBody Client newClient) {
-        String formatString = String.format("%%0%dd", 7);
-        Account account = new Account();
-        accountRepository.save(account);
-        String number = String.format(formatString, account.getId());
-        account.setNumber("VIN" + number);
-        account.setBalance(0.0);
-        account.setCreationDate(LocalDateTime.now());
-        account.setOwner(newClient);
-        Client client = clientRepository.save(newClient);
-        accountRepository.save(account);
-        return  client;
-    }*/
     @PatchMapping("/clients/{id}")
     Client updateClient(@RequestBody Client upClient){
         return clientRepository.save(upClient);

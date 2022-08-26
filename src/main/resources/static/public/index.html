@@ -20,7 +20,7 @@
                 <img class="d-lg-none" src="./assets/img/gif-index.gif" style="width: 100%;" alt="">
             </section>
             <section class="d-flex principal-container flex-wrap flex-column flex-lg-row justify-content-lg-center">
-                <div class="d-flex p-4 pb-0 flex-wrap color-lg-dark align-content-lg-center">
+                <div class="d-flex p-4 pb-0 flex-wrap color-lg-dark align-content-lg-center ">
                     <p class="text-login d-none d-lg-block">Bienvenido a tu banco de confianza. Donde tus ahorros están seguros.</p>
                     <p>¡Crea una cuenta gratis!</p>
                 </div>
@@ -59,14 +59,14 @@
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Contraseña: </label>
-                                <input type="password" v-model="password" @focusout="validator" required class="form-control" :class="{'is-invalid text-danger' :lowerCaseError, 'is-invalid text-danger' : numberError, 'is-invalid text-danger': lengthError}" name="password" id="password">
-                                <p v-if="lowerCaseError" class="text-danger fw-light mb-0">La contraseña debe contener al menos una letra minuscula</p>
+                                <input type="password" v-model="password" @focusout="validator" required class="form-control" :class="{'is-invalid text-danger' :upperCaseError, 'is-invalid text-danger' : numberError, 'is-invalid text-danger': lengthError}" name="password" id="password">
+                                <p v-if="upperCaseError" class="text-danger fw-light mb-0">La contraseña debe contener al menos una letra Mayuscula</p>
                                 <p v-if="numberError" class="text-danger fw-light mb-0">La contraseña debe contener al menos un número</p>
                                 <p v-if="lengthError" class="text-danger fw-light mb-0">La contraseñadebe conterner al menos 8 caracteres</p>
                             </div>
                             <div class="mb-3">
                                 <label for="re-password" class="form-label">Confirmar Contraseña: </label>
-                                <input type="password" v-model="passwordConfirm" @focusout="passwordValidator" :class="{'is-invalid text-danger' : passwordError }" required class="form-control" name="re-password" id="re-password">
+                                <input type="password" v-model="passwordConfirm" @focusout="passwordValidator" @keyup="isValidate" :class="{'is-invalid text-danger' : passwordError }" required class="form-control" name="re-password" id="re-password">
                                 <span v-if="passwordError" class="text-danger fw-light">Las contraseñas no coinciden</span>
                             </div>
                             <div class="modal-footer">
@@ -81,7 +81,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-verde text-white">
-                            <h4 class="modal-title" id="modalLabel">Iniciar Sessión</h4>
+                            <h4 class="modal-title" id="modalLabel">Iniciar Sesión</h4>
                             <button type="button"  class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <!-- LOGIN FORM -->
@@ -92,7 +92,7 @@
                             </div>
                             <div class="mb-3 position-relative">
                                 <label for="passwordLog" class="form-label">Contraseña: </label>
-                                <input :type="hide? 'password' : 'text'" v-model="password" class="form-control" :class="{'is-invalid text-danger': error}" id="passwordLog">
+                                <input required :type="hide? 'password' : 'text'" v-model="password" class="form-control" :class="{'is-invalid text-danger': error}" id="passwordLog">
                                 <span v-if="hide" class="form-eye">
                                     <i class="bi bi-eye" @click="showPass"></i>                
                                 </span>
@@ -102,7 +102,8 @@
                                 <div class="text-danger" v-if="error">El email o la contraseña no son validos</div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary bg-azul">Iniciar Sesión</button>
+                                <button type="submit" class="btn btn-primary bg-azul">Iniciar 
+                                    sesión</button>
                             </div>
                         </form>
                         <!-- END LOGIN FORM -->

@@ -12,12 +12,14 @@ public class TransactionDTO {
     private TransactionType type;
     private LocalDateTime date;
 
+    private long accountId;
     public TransactionDTO(Transaction transaction) {
         this.id = transaction.getId();
         this.amount = transaction.getAmount();
         this.type = transaction.getType();
         this.date = transaction.getDate();
         this.description = transaction.getDescription();
+        this.accountId = transaction.getAccount().getId();
     }
 
     public long getId() {
@@ -38,5 +40,9 @@ public class TransactionDTO {
 
     public String getDescription() {
         return description;
+    }
+
+    public long getAccountId() {
+        return accountId;
     }
 }

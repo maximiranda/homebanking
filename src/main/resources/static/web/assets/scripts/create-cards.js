@@ -9,8 +9,8 @@ createApp({
         creditCards: [],
         debitCards: [],
         hide: true,
-        cardColor: "Silver",
-        cardType: "Debit"
+        cardColor: "",
+        cardType: ""
     }
   },
   created(){

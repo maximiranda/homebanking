@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,26 +29,24 @@
             <header>
                 <nav class="navbar fixed-bottom d-lg-flex flex-lg-column justify-content-lg-start pt-lg-0">
                     <div class="btn-notifications">
-                        <div class="btn-group dropstart d-lg-flex align-items-lg-center w-100 gap-3" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="btn-group dropstart d-lg-flex align-items-lg-center w-100 gap-3 position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div V-if="transactions.length != 0" class="position-absolute customBadge badge bg-danger text-white rounded-pill">
+                                {{transactions.length}}
+                            </div>
                             <i class="bi bi-bell fs-2 text-black"></i>
                             <ul class="dropdown-menu dropdown-menu-notify px-2">
-                                <li class="justify-content-between w-100 my-3 border-pill p-1 notifactions-container d-flex notifactions">
+                                <li v-for="transaction in transactions" class="justify-content-between w-100 my-3 border-pill p-1 notifactions-container d-flex notifactions position-relative">
                                     <div class="ms-1">
-                                        <p class="mb-0">Transferencia a VIN0002</p>
-                                        <span class="m-0">22/07/22</span>
+                                        <p class="mb-0">{{transaction.description}}</p>
+                                        <span class="m-0">{{formatDate(transaction.date)}}</span>
                                     </div>
                                     <div class="me-2">
-                                        <p class="">$ 1,000.00</p>
+                                        <p class="">{{moneyFormat.format(transaction.amount)}}</p>
                                     </div>
-                                </li>
-                                <li class="justify-content-between w-100 my-3 border-pill notifactions-container d-flex notifactions">
-                                    <div class="ms-1">
-                                        <p class="mb-0">Prestamo rechazado</p>
-                                        <span class="m-0">20/07/22</span>
-                                    </div>
-                                    <div class="me-2">
-                                        <p class=""></p>
-                                    </div>
+                                
+                                    <a :href="'./account.html?id=' + transaction.accountId">
+                                        <span class="link" ></span>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -72,9 +70,9 @@
                         </div>
                     </div>
                     <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
-                        <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100 ">
+                        <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100">
                             <a class="d-lg-flex align-items-lg-center active gap-3 border-pill" href="#"><i class="bi bi-house-door fs-2"></i><span class="d-none d-lg-inline">Home</span></a>
-                            <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="./transfers.html"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
                             <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="./cards.html"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                         <div v-if="accountsLength < 3" class="w-100 d-none d-lg-flex justify-content-center align-items-center">
@@ -113,7 +111,7 @@
                 <div class="w-100 d-flex justify-content-between flex-wrap gap-2 gap-lg-0">
                     <div class="w-100 d-flex justify-content-center align-items-center flex-wrap principal-container">
                         <transition appear name="bounce">
-                            <div class="balance-container animate__backInLeft">
+                            <div class="balance-container">
                                 <div class="d-flex align-items-center justify-content-center pt-1 balance-header position-relative">
                                         <span class="text-white"  >Saldo Disponible</span>
                                         <i class="bi bi-eye-fill text-white ms-3" role="button" id="eye" @click="hideBalance($event)"></i>

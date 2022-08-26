@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuentas</title>
+    <title>Crear Tarjeta</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -55,7 +55,8 @@
                         </div>
                     </div>
                     <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
-                        <h1 class="text-center mt-2 d-lg-block d-none"><span class="color-verde">Max</span><span class="">bank</span></h1>
+                        <h1 class="text-center mt-2 d-lg-block d-none"> <a class="w-auto" href="./accounts.html" ><span class="color-verde h1">Max</span><span class="h1 text-white">bank</span></a></h1>
+                        
                         <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
                             <div class="dropdown">
 
@@ -75,24 +76,46 @@
                     </div>
                     <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
                         <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100 ">
-                            <a class="d-lg-flex align-items-lg-center active gap-3 border-pill" href="#"><i class="bi bi-house-door fs-2"></i><span class="d-none d-lg-inline">Home</span></a>
-                            <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="#"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
+                            <a class="d-lg-flex align-items-lg-center  gap-3 border-pill" href="./accounts.html"><i class="bi bi-house-door fs-2 text-black"></i><span class="d-none d-lg-inline">Home</span></a>
+                            <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="./transfers.html"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
                             <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="./cards.html"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                     </div>
                 </nav>
             </header>
-            <main class="d-flex flex-column flex-lg-row align-items-center justify-content-lg-evenly mt-lg-2 gap-2">
-                <div class="sticky-top d-lg-none bg-white mb-2 shadow w-100">
-                    <h1 class="text-center mt-2"><a href="./accounts.html" class="color-verde  text-decoration-none">Max</a><span class="color-azul">bank</span></h1>
+            <main class="d-flex flex-column flex-lg-wrap flex-lg-row align-items-center align-items-lg-start justify-content-lg-evenly mt-lg-2 gap-2">
+                <div class="sticky-top bg-white mb-2 shadow d-lg-none w-100">
+                    <h1 class="text-center d-lg-none mt-2"><a class="text-decoration-none w-auto" href="./accounts.html"><span class="color-verde">Max</span><span class="color-azul">bank</span></a></h1>
                     <div class="w-100 d-flex justify-content-center d-lg-none my-3">
+                        <div class="d-lg-none d-flex align-items-center justify-content-between profile">
+                            <div class="d-flex align-items-center justify-content-start ">
+                                <div class="dropdown">
+                                <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i v-else class="bi bi-person-circle fs-1" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                        <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>
+                                        <li><button class="dropdown-item" @click="logout" type="button"><i class="bi bi-power text-danger"></i> Salir</button></li>
+                                      </ul>
+                                </div>
+                                <div class="greeting ms-1">
+                                    <p class="m-0">¡Hola</p>
+                                    <p class="m-0">{{client.firstName}} {{client.lastName}}!</p>
+                                </div>
+                            </div>
+                            <div class="bg-azul p-2 rounded-pill">
+                                <a class="text-white text-decoration-none" href="./cards.html">Mis tarjetas</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <h2 class="w-75 text-center mt-4 bg-azul text-white border-pill p-2">Elige tu tarjeta</h2>
+
                 <div class="create-cards d-flex justify-content-center text-white border-pill">
                     <form @submit.prevent="createCard">
                         <div class="mb-2">
                             <label for="card-type">Tipo de tarjeta:</label>
                             <select v-model="cardType" name="" class="form-select" id="card-type">
+                                <option value="">Seleccione un tipo</option>
                                 <option value="DEBIT">Debito</option>
                                 <option value="CREDIT" >Credito</option>
                             </select>
@@ -100,13 +123,14 @@
                         <div class="mb-2">
                             <label for="card-color">Color de la tarjeta:</label>
                             <select v-model="cardColor" name="" class="form-select" id="card-color">
+                                <option value="">Seleccione un color</option>
                                 <option value="SILVER">Silver</option>
                                 <option value="GOLD">Gold</option>
                                 <option value="TITANIUM">Titanium</option>
                             </select>
                         </div>
                         <div>
-                            <input type="submit" class="btn btn-light" value="Create">
+                            <input type="submit" class="btn btn-light" value="Solicitar">
                         </div>
                     </form>
                 </div>

@@ -31,11 +31,16 @@ public class CardController {
         Client client = clientRepository.findByEmail(authentication.getName());
         if (client != null){
             List<Card> cards =  client.getCards().stream().filter(card -> card.getType() == cardType).collect(Collectors.toList());
+            boolean exist = cards.stream().anyMatch(c -> c.getColor() == cardColor);
             if (cards.size() < 3){
-                String number = (getRandomNumber(1000, 9999)) + " " + (getRandomNumber(1000, 9999)) + " " + (getRandomNumber(1000, 9999)) + " " + (getRandomNumber(1000, 9999));
-                int cvv = getRandomNumber(100, 999);
-                cardRepository.save(new Card(number, cardType, cardColor, cvv, LocalDateTime.now(), LocalDateTime.now().plusYears(5), client));
-                return new ResponseEntity<>("Card created",HttpStatus.CREATED);
+                if (!exist){
+                    String number = (getRandomNumber(1000, 9999)) + " " + (getRandomNumber(1000, 9999)) + " " + (getRandomNumber(1000, 9999)) + " " + (getRandomNumber(1000, 9999));
+                    int cvv = getRandomNumber(100, 999);
+                    cardRepository.save(new Card(number, cardType, cardColor, cvv, LocalDateTime.now(), LocalDateTime.now().plusYears(5), client));
+                    return new ResponseEntity<>("Card created",HttpStatus.CREATED);
+                } else {
+                    return new ResponseEntity<>("Only one card per color", HttpStatus.FORBIDDEN);
+                }
             } else {
                 return new ResponseEntity<>("Maximum number of cards of that type",HttpStatus.FORBIDDEN);
             }
