@@ -32,9 +32,17 @@ header {
 .form-eye {
     position: absolute;
     top: 55%;
-    right: 5%;
+    right: 7%;
 }
-
+.features {
+    width: 80% !important;
+}
+.play-img {
+    width: 150px;
+}
+.app-img {
+    width: 132px;
+}
 
 @media (min-width:992px){
     h1 {
@@ -78,5 +86,11 @@ header {
     }
     .btn-outline-primary:active {
         background-color: #05C261 !important;
+    }
+    .features {
+        width: 85% !important;
+    }
+    .features>div {
+        width: 33% !important;
     }
 }

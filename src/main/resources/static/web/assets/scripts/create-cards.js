@@ -10,7 +10,8 @@ createApp({
         debitCards: [],
         hide: true,
         cardColor: "",
-        cardType: ""
+        cardType: "",
+        transactions: [],
     }
   },
   created(){
@@ -32,6 +33,9 @@ createApp({
         this.client = response.data
         this.debitCards = this.client.cards.filter(card => card.type == "DEBIT")
         this.creditCards = this.client.cards.filter(card => card.type == "CREDIT")
+        this.client.accounts.forEach(account => {          
+          account.transactions.forEach(transaction => this.transactions.push(transaction))
+        })
       })
       .catch(function (error) {
         console.log(error);

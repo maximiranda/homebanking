@@ -43,10 +43,13 @@
                                     <div class="me-2">
                                         <p class="">{{moneyFormat.format(transaction.amount)}}</p>
                                     </div>
-                                
                                     <a :href="'./account.html?id=' + transaction.accountId">
                                         <span class="link" ></span>
                                     </a>
+                                </li>
+                                <li v-if="transactions.length == 0" class="d-flex justify-content-center align-items-center flex-wrap">
+                                    <h5 class="text-center w-100">No tienes nuevas notifiaciones</h5>
+                                    <i class="bi bi-check-circle-fill fs-1 color-verde"></i>
                                 </li>
                             </ul>
                         </div>
@@ -76,9 +79,9 @@
                             <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="./cards.html"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                         <div v-if="accountsLength < 3" class="w-100 d-none d-lg-flex justify-content-center align-items-center">
-                            <div role="button" @click="addAccount"  class="bg-verde btn btn-success ps-3 pe-3  rounded-pill">
+                            <btn role="button" data-bs-toggle="modal" data-bs-target="#addAccountModal" class="bg-verde btn btn-success ps-3 pe-3  rounded-pill">
                                 <p class=" text-center add-account m-0 text-white">Añadir Cuenta</p>
-                            </div>
+                            </btn>
                         </div>
                     </div>
                 </nav>
@@ -144,6 +147,36 @@
                                 </div>
                             </div>
                         </transition>                           
+                        <!-- MODAL -->
+                        <div class="modal" id="addAccountModal" :class="{'d-none': error}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-verde">
+                                        <h5 class="modal-title text-white">Seleccione el tipo de cuenta</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body d-flex justify-content-evenly">
+                                        <div class="form-check d-inline-block">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                              Caja de ahorros
+                                            </label>
+                                          </div>
+                                          <div class="form-check d-inline-block">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                              Cuenta corriente
+                                            </label>
+                                          </div>                                        
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="button" @click="addAccount" class="btn btn-primary bg-verde">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="d-none transactions mt-3 d-lg-flex flex-column justify-content-between align-items-center">
                             <div v-for="transaction in transactions" class="justify-content-between w-100 my-2 d-flex">
                                 <div>

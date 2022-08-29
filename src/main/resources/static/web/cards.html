@@ -43,6 +43,13 @@
                                     <div class="me-2">
                                         <p class="">{{moneyFormat.format(transaction.amount)}}</p>
                                     </div>
+                                    <a :href="'./account.html?id=' + transaction.accountId">
+                                        <span class="link" ></span>
+                                    </a>
+                                </li>
+                                <li v-if="transactions.length == 0" class="d-flex justify-content-center align-items-center flex-wrap">
+                                    <h5 class="text-center w-100">No tienes nuevas notifiaciones</h5>
+                                    <i class="bi bi-check-circle-fill fs-1 color-verde"></i>
                                 </li>
                             </ul>
                         </div>

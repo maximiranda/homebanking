@@ -40,9 +40,9 @@ public class HomebankingApplication {
 			Transaction transaction6 = new Transaction(TransactionType.DEBIT, 500.0, "Compra", LocalDateTime.now(), account2);
 
 
-			Loan loanH = new Loan("Hipotecario", 500000.0, List.of(12, 24, 36,48, 60));
-			Loan loanP = new Loan("Personal", 500000.0, List.of(6, 12, 24));
-			Loan loanA = new Loan("Automotriz", 500000.0, List.of(6, 12, 24, 36));
+				Loan loanH = new Loan("Hipotecario", 500000.0, List.of(12, 24, 36,48, 60));
+				Loan loanP = new Loan("Personal", 500000.0, List.of(6, 12, 24));
+				Loan loanA = new Loan("Automotriz", 500000.0, List.of(6, 12, 24, 36));
 
 			ClientLoan loan1 = new ClientLoan(400000.0, 60, client1, loanH);
 			ClientLoan loan2 = new ClientLoan(50000.0, 12, client1, loanP);
