@@ -200,9 +200,23 @@
 
                                                 <div class="modal-footer">
                                                     <button type="button" @click="clearDestination" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="button" @click="makeTransfer" class="btn btn-primary bg-verde">Confirmar</button>
+                                                    <button type="button" @click="makeTransfer" class="btn btn-verde">Confirmar</button>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal" :class="succes? 'd-block': 'd-none'" id="succesModal" data-bs-backdrop="static" >
+                                        <div class="modal-dialog modal-dialog-centered">
+                                          <div class="modal-content">
+                                            <div class="modal-body bg-verde d-flex justify-content-center flex-wrap rounded">
+                                                <div class="w-100 text-center"><i class="bi bi-check-circle text-white"></i></div>
+                                                <div class="fs-1 py-2 text-center text-white">
+                                                    <span class="">
+                                                        Transferencia Exitosa
+                                                    </span>
+                                                </div>
+                                            </div>
+                                          </div>
                                         </div>
                                     </div>
                                 </form>

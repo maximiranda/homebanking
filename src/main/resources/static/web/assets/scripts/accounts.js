@@ -13,6 +13,7 @@ createApp({
         totalLoan: 0,
         email: "",
         accountsLength : 0,
+        succes: false
     }
   },
   created(){
@@ -75,7 +76,9 @@ createApp({
         axios.post('/api/clients/current/accounts')
         .then(response => {
           console.log(response)
-          window.location.reload()
+          this.succes = true
+          setTimeout(()=> window.location.reload(), 2000)
+          
         })
         .catch(error => console.log(error))
     },

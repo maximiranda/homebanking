@@ -79,7 +79,6 @@ createApp({
     copy(text){
       this.copyNumber = true
       navigator.clipboard.writeText(text)
-      .then(() => alert("copy text" + text))
     },
     test(text){
       navigator.clipboard.writeText(text)

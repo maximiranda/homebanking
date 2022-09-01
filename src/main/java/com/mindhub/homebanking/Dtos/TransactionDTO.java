@@ -11,7 +11,6 @@ public class TransactionDTO {
     private  String description;
     private TransactionType type;
     private LocalDateTime date;
-
     private long accountId;
     public TransactionDTO(Transaction transaction) {
         this.id = transaction.getId();

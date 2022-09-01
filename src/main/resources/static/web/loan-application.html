@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestamos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/styles/styles.css">
+
+</head>
+<body>
+    <div class="d-lg-flex empty" id="app">
+        <template v-if="isLoaded == false">
+            <main class="min-vh-100 min-vw-100 m-0 bg-azul load d-flex justify-content-center align-items-center">
+                <div class="fixed-top mt-4 text-center">
+                    <span class="h1 text-white"><span class="color-verde">Max</span>bank</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <h2 class="text-white">Cargando</h2>
+                    <img src="./assets/img/Pulse-1s-200px.svg" alt="">
+                </div>
+            </main>
+        </template>
+        <template v-else>
+            <header>
+                <header>
+                    <nav class=".navbar-nav .navbar-nav-scroll navbar fixed-bottom d-lg-flex flex-lg-column justify-content-lg-start pt-lg-0">
+                        <div class="btn-notifications">
+                            <div class="btn-group dropstart d-lg-flex align-items-lg-center w-100 gap-3 position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div V-if="transactions.length != 0" class="position-absolute customBadge badge bg-danger text-white rounded-pill">
+                                    {{transactions.length}}
+                                </div>
+                                <i class="bi bi-bell fs-2 text-black"></i>
+                                <ul class="dropdown-menu dropdown-menu-notify px-2">
+                                    <li v-for="transaction in transactions" class="justify-content-between w-100 my-3 border-pill p-1 notifactions-container d-flex notifactions position-relative">
+                                        <div class="ms-1">
+                                            <p class="mb-0">{{transaction.description}}</p>
+                                            <span class="m-0">{{formatDate(transaction.date)}}</span>
+                                        </div>
+                                        <div class="me-2">
+                                            <p class="">{{moneyFormat.format(transaction.amount)}}</p>
+                                        </div>
+                                        <a :href="'./account.html?id=' + transaction.accountId">
+                                            <span class="link"></span>
+                                        </a>
+                                    </li>
+                                    <li v-if="transactions.length == 0" class="d-flex justify-content-center align-items-center flex-wrap">
+                                        <h5 class="text-center w-100">No tienes nuevas notifiaciones</h5>
+                                        <i class="bi bi-check-circle-fill fs-1 color-verde"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
+                            <h1 class="text-center mt-2 d-lg-block d-none"> <a class="w-auto" href="./accounts.html" ><span class="color-verde h1">Max</span><span class="h1 text-white">bank</span></a></h1>
+                            <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
+                                <div class="dropdown">
+    
+                                    <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i v-else class="bi bi-person-circle" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                        <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>
+                                        <li><button class="dropdown-item" @click="logout" type="button"><i class="bi bi-power text-danger"></i> Salir</button></li>
+                                    </ul>
+                                </div>
+                                <div class="greeting-name ms-1">
+                                    <p class="m-0 greeting">Buenas Tardes</p>
+                                    <p class="m-0 name">{{client.firstName}} {{client.lastName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
+                            <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100">
+                                <a class="d-lg-flex align-items-lg-center gap-3" href="./accounts.html"><i class="bi bi-house-door fs-2 text-black"></i><span class="d-none d-lg-inline">Home</span></a>
+                                <a class="d-lg-flex align-items-lg-center gap-3 active" href="./transfers.html"><i class="bi bi-arrow-left-right fs-2"></i><span class="d-none d-lg-inline">Transferencias</span></a>
+                                <a class="d-lg-flex align-items-lg-center gap-3" href="./cards.html"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+            </header>
+            <main class="d-flex flex-column mt-lg-2">
+                <div class="sticky-top bg-white mb-2 shadow">
+                    <h1 class="text-center d-lg-none mt-2"><a class="text-decoration-none w-auto" href="./accounts.html"><span class="color-verde">Max</span><span class="color-azul">bank</span></a></h1>
+                    <div class="w-100 d-flex justify-content-center d-lg-none my-3">
+                        <div class="d-lg-none d-flex align-items-center justify-content-between profile">
+                            <div class="d-flex align-items-center justify-content-start ">
+                                <div class="dropdown">
+                                <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i v-else class="bi bi-person-circle fs-1" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                        <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>
+                                        <li><button class="dropdown-item" @click="logout" type="button"><i class="bi bi-power text-danger"></i> Salir</button></li>
+                                      </ul>
+                                </div>
+                                <div class="greeting ms-1">
+                                    <p class="m-0">¡Hola</p>
+                                    <p class="m-0">{{client.firstName}} {{client.lastName}}!</p>
+                                </div>
+                            </div>
+                            <div class="bg-azul p-2 rounded-pill">
+                                <a class="text-white text-decoration-none" href="./cards.html">Mis tarjetas</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100 d-flex justify-content-center flex-wrap gap-2 gap-lg-0">
+                    <div class="pricing">
+                        <div class="container-1 w-100">
+                          <div class="pricing__title">Prestamos</div>
+                          <div class="w-100 d-flex flex-lg-row flex-column gap-4 justify-content-center">
+                            <div class="pricing__card pricing-card" v-for="loan in loans">
+                              <div class="pricing-card__top">
+                                <div class="pricing-card__title">{{loan.name}}</div>
+                                <div class="pricing-card__price">{{percentFormat.format(loan.interest)}}<span>/mensual</span></div>
+                              </div>
+                              <div class="pricing-card__body">
+                                <div class="pricing-card__pluses">
+                                  <div class="pricing-card__plus">
+                                    <div class="pricing-card__plus-icon"><i class="material-icons">Cuotas</i></div>
+                                    <div class="pricing-card__plus-text">{{loan.payments.toString()}}</div>
+                                  </div>
+                                  <div class="pricing-card__plus">
+                                    <div class="pricing-card__plus-icon"><i class="material-icons">Monto máximo</i></div>
+                                    <div class="pricing-card__plus-text">{{moneyFormat.format(loan.maxAmount)}}</div>
+                                  </div>
+                                </div>
+                                <div @click="selectType(loan); updateChart()" class="pricing-card__button"><a href="#request">Seleccionar</a></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div id="request" class="mt-1 w-100 d-flex flex-lg-row flex-column align-items-center align-items-lg-start container">
+                        <div class="balance-container w-50 request-loan bg-light mb-3">
+                            <div class="d-flex align-items-center justify-content-center pt-1 balance-header">
+                                <span class="text-white">Solicita tu prestamo</span>
+                            </div>
+                            <div class="d-flex flex-column balance-body">
+                                <form @submit.prevent="requestLoan" class="w-100 p-2" id="transferForm">
+                                    <h5 class="text-center mt-3">{{type}}</h5>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="number">Cuotas</label>
+                                        <select required v-model="payment" class="form-select" name="" id="number">
+                                            <option value="">Seleccione</option>
+                                            <option v-for="payment1 in payments" :value="payment1">{{payment1}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="account-number">Numero de cuenta</label>
+                                        <select required v-model="destinationAccount" class="form-select" name="" id="account-number">
+                                            <option v-for="account in accounts" :value="account.number">{{account.number}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label class="" for="">Monto</label>
+                                        <input @keyup="updateChart()" required v-model="amount" class="amount position-absolute ms-4 fs-2 w-50" min="10" oninput="this.value = Math.abs(this.value)" v-model="amount" type="number" name=""  id="">
+                                        <span class="fs-2 ms-3">{{moneyFormat.format(amount)}}</span>
+                                    </div>
+                                    <div class="w-100 d-flex justify-content-end">
+                                        <input :disabled="amount == 0 || interest == 0 || payment == 0 || destinationAccount == ''" class="btn btn-verde"  type="button" data-bs-toggle="modal" data-bs-target="#loanModal" value="Solicitar">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div :class="amount != 0 && payment != 0? 'd-lg-block': 'd-lg-none'" class="canvas justify-content-between d-none">
+                            <canvas id="myChart"></canvas>
+                            <span v-show="amount != 0 && payment != 0" class="amountSpan text-center"> {{moneyFormat.format(amount*(1+interest)/payment)}} <p>/mensual</p></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- -----MODALs------ -->
+                    <!-- LOAN MODAL -->
+                <div :class="{'d-none': succes || error}" class="modal fade" id="loanModal" data-bs-backdrop="static" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header bg-verde">
+                          <h5 class="modal-title text-white">Solicitud</h5>
+                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Total a acreditar: {{moneyFormat.format(amount)}}</p>
+                          <p>Cuanta a acreditar: {{destinationAccount}}</p>
+                          <p>Tasa interes: {{percentFormat.format(interest)}}<sub>mensual</sub></p>
+                          <p>Cantidad de cuotas: {{payment}}</p>
+                          <p>Monto de cuota: {{moneyFormat.format(amount*(1+interest)/ payment)}}</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                          <button type="submit" form="transferForm" class="btn btn-verde">Confirmar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ERROR MODAL -->
+                  <div class="modal" :class="error? 'd-block': 'd-none'" data-bs-backdrop="static" >
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                          <h5 class="modal-title text-white text-center w-100 fs-10"><i class="bi bi-x-circle"></i></h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="py-2 alert text-center alert-danger">
+                                <span class="">
+                                    {{error}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                          <button type="button" class="btn btn-danger" @click="closeModal">Intentar nuevamente</button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <!-- SUCCES MODAL -->
+                <div class="modal" :class="succes? 'd-block': 'd-none'" id="succesModal" data-bs-backdrop="static" >
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-body bg-verde d-flex justify-content-center flex-wrap rounded">
+                            <div class="w-100 text-center"><i class="bi bi-check-circle text-white"></i></div>
+                            <div class="fs-1 py-2 text-center text-white">
+                                <span class="">
+                                    El prestamo ha sido aprobado
+                                </span>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </main>
+        </template>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://unpkg.com/accounting-js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script  src="./assets/scripts/loan-aplication.js"></script>
+</body>
+</html>

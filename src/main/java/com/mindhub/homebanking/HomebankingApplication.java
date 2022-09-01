@@ -26,7 +26,7 @@ public class HomebankingApplication {
 		return (args) -> {
 
 
-			Client client1 = new Client("Melba", "Morel", "melbamorel@gmail.com", passwordEncoder.encode("melba"));
+			Client client1 = new Client("Melba", "Morel", "melbamorel@gmail.com", passwordEncoder.encode("melba"), "./assets/img/melba.jpg");
 			Client client2 = new Client("Maxi", "Miranda", "maximiranda@gmail.com", passwordEncoder.encode("maxi"),"./assets/img/avatar-img.jpeg");
 			Client admin = new Client("admin", "admin", "admin@gmail.com", passwordEncoder.encode("admin"));
 			Account account1 = new Account("VIN-00000001", LocalDateTime.now(), 5000.0, client1);
@@ -40,9 +40,9 @@ public class HomebankingApplication {
 			Transaction transaction6 = new Transaction(TransactionType.DEBIT, 500.0, "Compra", LocalDateTime.now(), account2);
 
 
-				Loan loanH = new Loan("Hipotecario", 500000.0, List.of(12, 24, 36,48, 60));
-				Loan loanP = new Loan("Personal", 500000.0, List.of(6, 12, 24));
-				Loan loanA = new Loan("Automotriz", 500000.0, List.of(6, 12, 24, 36));
+				Loan loanH = new Loan("Hipotecario", 500000.0, List.of(12, 24, 36,48, 60), 0.20);
+				Loan loanP = new Loan("Personal", 100000.0, List.of(6, 12, 24), .15);
+				Loan loanA = new Loan("Automotriz", 300000.0, List.of(6, 12, 24, 36), .17);
 
 			ClientLoan loan1 = new ClientLoan(400000.0, 60, client1, loanH);
 			ClientLoan loan2 = new ClientLoan(50000.0, 12, client1, loanP);

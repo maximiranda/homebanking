@@ -79,9 +79,9 @@
                             <a class="d-lg-flex align-items-lg-center gap-3 border-pill" href="./cards.html"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                         </div>
                         <div v-if="accountsLength < 3" class="w-100 d-none d-lg-flex justify-content-center align-items-center">
-                            <btn role="button" data-bs-toggle="modal" data-bs-target="#addAccountModal" class="bg-verde btn btn-success ps-3 pe-3  rounded-pill">
+                            <div role="button" data-bs-toggle="modal" data-bs-target="#addAccountModal" class="bg-verde btn btn-success ps-3 pe-3  rounded-pill">
                                 <p class=" text-center add-account m-0 text-white">Añadir Cuenta</p>
-                            </btn>
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -119,7 +119,7 @@
                                         <span class="text-white"  >Saldo Disponible</span>
                                         <i class="bi bi-eye-fill text-white ms-3" role="button" id="eye" @click="hideBalance($event)"></i>
                                         <i class="bi bi-eye-slash-fill text-white ms-3 d-none" id="slash-eye" role="button" @click="hideBalance($event)"></i>
-                                        <i v-if="accountsLength < 3" @click="addAccount" role="button" class="d-lg-none ms-5 bi bi-plus-circle text-white position-absolute top-1 end-0 pe-3"></i>
+                                        <i v-if="accountsLength < 3" data-bs-toggle="modal" data-bs-target="#addAccountModal" role="button" class="d-lg-none ms-5 bi bi-plus-circle text-white position-absolute top-1 end-0 pe-3"></i>
                                 </div>
                                 <div class="d-flex flex-column balance-body">
                                     <div class="d-flex justify-content-between align-items-center total-balance">
@@ -130,10 +130,12 @@
                                         <h5 class="text-white"><span class="number">{{moneyFormat.format(totalBalance)}}</span></h5>
                                     </div>
                                     <hr class="text-white mt-0">
-                                    <div v-for="account in accounts" class="mi-tooltip text-white d-flex position-relative justify-content-between align-items-center account-balance grow">
+                                    <div v-for="account in accounts" class="mi-tooltip text-white d-flex justify-content-between align-items-center account-balance grow position-relative">
                                         <div class="position-relative">
                                             <p class="m-0 text-center fw-bold">Cuenta N°</p>
                                             <p class="text-center">{{account.number}}</p>
+                                            <i class="bi bi-chevron-right text-white position-absolute"></i>
+
                                             <span class="tooltiptext d-none d-lg-block">Ver transacciones</span>
                                         </div>
                                         <a :href="'./account.html?id=' + account.id">
@@ -141,6 +143,7 @@
                                         </a>
                                         <h6><span class="number">{{moneyFormat.format(account.balance)}}</span></h6>
                                     </div>
+
                                 </div>
                                 <div class="balance-footer d-none d-lg-block">
                                     <p class="text-center m-0 text-white">Ultimos Movimientos</p>
@@ -172,7 +175,7 @@
 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="button" @click="addAccount" class="btn btn-primary bg-verde">Confirmar</button>
+                                        <button type="button" @click="addAccount" class="btn btn-verde">Confirmar</button>
                                     </div>
                                 </div>
                             </div>
@@ -209,11 +212,18 @@
                                 <p class="text-center m-0 text-white">Ultimos Movimientos</p>
                             </div>
                         </div>
-                        <div v-if="loans.length" class="transactions mt-3 d-lg-flex flex-column justify-content-between align-items-center">
+                        <div>
+                            <div v-show="loans.length == 0 " role="button" class="btn btn-verde mt-3 position-relative">
+                                Solicitar Prestamo
+                                <a href="./loan-application.html">
+                                    <span class="link"></span>
+                                </a>
+                            </div>
+                        </div>
+                        <div v-if="loans.length" class="transactions mt-3 d-flex flex-column justify-content-between align-items-center">
                             <div v-if="loans.length" class="justify-content-between w-100 my-2 d-flex loans-container">
                                 <div>
                                     <p class="mb-0 fw-bold">Tipo</p>
-                                    <!-- <span class="m-0">{{formatDate(transaction.date)}}</span> -->
                                 </div>
                                 <div>
                                     <p class="fw-bold">Cuotas</p>
@@ -227,10 +237,18 @@
                                     <p class="mb-0 ps-2">{{loan.name}}</p>
                                 </div>
                                 <div>
-                                    <p class="mb-0 ps-2">{{loan.payments}}</p>
+                                    <p class="mb-0 ps-2">{{loan.payments}} - {{moneyFormat.format(loan.amount / loan.payments)}}</p>
                                 </div>
                                 <div>
                                     <p class="mb-0 ps-2 number">{{moneyFormat.format(loan.amount)}}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div v-show="loans.length < 3" role="button" class="btn btn-verde mt-3 position-relative">
+                                    Solicitar Prestamo
+                                    <a href="./loan-application.html">
+                                        <span class="link"></span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -244,6 +262,21 @@
                                     <p :class="(transaction.type == 'CREDIT' ? 'color-verde' : 'text-danger') + ' number'">{{transaction.type == 'CREDIT' ? "" : "-"}}{{moneyFormat.format(transaction.amount)}}</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                                <!-- SUCCES MODAL -->
+                <div class="modal" :class="succes? 'd-block': 'd-none'" id="succesModal" data-bs-backdrop="static" >
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                        <div class="modal-body bg-verde d-flex justify-content-center flex-wrap rounded">
+                            <div class="w-100 text-center"><i class="bi bi-check-circle text-white"></i></div>
+                            <div class="fs-1 py-2 text-center text-white">
+                                <span class="">
+                                    Cuenta añadida con exito
+                                </span>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>

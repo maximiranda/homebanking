@@ -21,6 +21,7 @@ createApp({
         errorBoolean: false,
         transfers: [],
         modal1: false,
+        succes: false,
     }
   },
   created(){
@@ -60,7 +61,9 @@ createApp({
       axios.post("/api/transactions", "amount="+ this.amount + "&description=" + this.description + "&sourceNumber=" + this.sourceAccount + "&destinationNumber=" + "VIN-"+this.destinationAccount,{headers:{'content-type':'application/x-www-form-urlencoded'}})
       .then(response => {
         console.log(response)
-        window.location.href= "/web/accounts.html"
+        this.succes = true
+        setTimeout(()=> window.location.href="/web/accounts.html", 1500)
+
       })
       .catch(error => {
         let message = error.response.data
