@@ -53,12 +53,11 @@
                     <tbody>
                         <template v-for="client in clients">
                             <tr class="">
-                                <td class=""><a :href="'/web/accounts.html?id=' + client.id">{{client.firstName}}</a></td>
+                                <td class="">{{client.firstName}}</td>
                                 <td>{{client.lastName}}</td>
                                 <td>{{client.email}}</td>
                                 <td class="d-flex justify-content-evenly">
                                     <i @click="activateForm(client)" class="bi bi-pencil-fill me-2"></i>
-                                    <i @click="deleteClient(client)" class="bi bi-x-lg"></i>
                                 </td>
                             </tr>
                             <tr class="d-none w-100" :id="'form' + client.id">
@@ -78,10 +77,6 @@
                         </template>
                 </tbody>
                 </table>
-            </div>
-            <div class="w-100">
-                <h3 class="m-3">REST Response</h3>
-                <pre class="w-100">{{clients}}</pre>
             </div>
         </div>
     </main>

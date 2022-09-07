@@ -2,8 +2,8 @@ package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.Dtos.LoanApplicationDTO;
 import com.mindhub.homebanking.Dtos.LoanDTO;
+import com.mindhub.homebanking.Services.*;
 import com.mindhub.homebanking.models.*;
-import com.mindhub.homebanking.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,19 +23,19 @@ import java.util.stream.Collectors;
 public class LoanController {
 
     @Autowired
-    LoanRepository loanRepository;
+    LoanService loanService;
     @Autowired
-    AccountRepository accountRepository;
+    AccountService accountService;
     @Autowired
-    ClientRepository clientRepository;
+    ClientService clientService;
     @Autowired
-    ClientLoanRepository clientLoanRepository;
+    ClientLoanService clientLoanService;
     @Autowired
-    TransactionRepository transactionRepository;
+    TransactionService transactionService;
 
     @RequestMapping("/loans")
     public List<LoanDTO> getLoans(){
-        return loanRepository.findAll().stream().map(LoanDTO::new).collect(Collectors.toList());
+        return loanService.getLoans().stream().map(LoanDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
@@ -45,38 +45,38 @@ public class LoanController {
             return new ResponseEntity<>("Missing Data", HttpStatus.FORBIDDEN);
         }
         else {
-            Loan loan = loanRepository.findById(loanApplication.getId()).orElse(null);
+            Loan loan = loanService.getLoanById(loanApplication.getId());
             if (loan != null){
                 if (loanApplication.getAmount() <= loan.getMaxAmount()){
                     if (loan.getPayments().contains(loanApplication.getPayments())){
-                        Account destinationAccount = accountRepository.findByNumber(loanApplication.getDestinationNumberAccount());
+                        Account destinationAccount = accountService.getAccountByNumber(loanApplication.getDestinationNumberAccount());
                         if (destinationAccount != null){
-                            Client client = clientRepository.findByEmail(authentication.getName());
+                            Client client = clientService.getClientByEmail(authentication.getName());
                             if (client.getAccounts().contains(destinationAccount)){
                                 List<Long> clientLoansIds = client.getClientLoans().stream().map(clientLoan -> clientLoan.getLoan().getId()).collect(Collectors.toList());
                                 if (!clientLoansIds.contains(loanApplication.getId())){
-                                    transactionRepository.save(new Transaction(TransactionType.CREDIT, loanApplication.getAmount(),  " Prestamo " + loan.getName() + " aprobado", LocalDateTime.now(), destinationAccount));
+                                    transactionService.saveTransaction(new Transaction(TransactionType.CREDIT, loanApplication.getAmount(),  " Prestamo " + loan.getName() + " aprobado", LocalDateTime.now(), destinationAccount));
                                     ClientLoan clientLoan = new ClientLoan(loanApplication.getAmount()*(1 + loan.getInterest()), loanApplication.getPayments(), client, loan);
-                                    clientLoanRepository.save(clientLoan);
+                                    clientLoanService.saveClientLoan(clientLoan);
                                     destinationAccount.setBalance(destinationAccount.getBalance() + loanApplication.getAmount());
                                     return new ResponseEntity<>("Approved loan", HttpStatus.CREATED);
                                 } else {
-                                    return new ResponseEntity<>("You cannot apply for a loan of the same type", HttpStatus.FORBIDDEN);
+                                    return new ResponseEntity<>("Ya tienes un prestamo de este tipo", HttpStatus.FORBIDDEN);
                                 }
 
                             } else {
-                                return new ResponseEntity<>("The account does not belong to the client",HttpStatus.FORBIDDEN);
+                                return new ResponseEntity<>("La cuenta no te pertenece",HttpStatus.FORBIDDEN);
                             }
                         } else {
-                            return new ResponseEntity<>("Destination account does not exist", HttpStatus.FORBIDDEN);
+                            return new ResponseEntity<>("La cuenta de destino no existe", HttpStatus.FORBIDDEN);
                         }
                     }
                     else {
-                        return new ResponseEntity<>("Wrong Payment", HttpStatus.FORBIDDEN);
+                        return new ResponseEntity<>("Cantidad de cuotas no disponible", HttpStatus.FORBIDDEN);
                     }
                 }
                 else {
-                    return new ResponseEntity<>("Excess amount", HttpStatus.FORBIDDEN);
+                    return new ResponseEntity<>("Monto excedido", HttpStatus.FORBIDDEN);
                 }
             } else {
                 return new ResponseEntity<>("Missing Data", HttpStatus.FORBIDDEN);

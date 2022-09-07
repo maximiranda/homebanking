@@ -1,13 +1,12 @@
 package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.Dtos.CardPaymentDTO;
 import com.mindhub.homebanking.Dtos.TransactionDTO;
-import com.mindhub.homebanking.models.Account;
-import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.models.Transaction;
-import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.Services.AccountService;
+import com.mindhub.homebanking.Services.CardService;
+import com.mindhub.homebanking.Services.ClientService;
+import com.mindhub.homebanking.Services.TransactionService;
+import com.mindhub.homebanking.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,19 +24,38 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class TransactionController {
     @Autowired
-    AccountRepository accountRepository;
+    AccountService accountService;
     @Autowired
-    ClientRepository clientRepository;
+    ClientService clientService;
     @Autowired
-    TransactionRepository transactionRepository;
+    TransactionService transactionService;
 
-    @RequestMapping("/transactions")
+    @Autowired
+    CardService cardService;
+
+    @GetMapping("/transactions")
     public List<TransactionDTO> getTransactions(){
-        return transactionRepository.findAll().stream().map(TransactionDTO::new).collect(Collectors.toList());
+        return transactionService.getTransactions().stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
-    @RequestMapping("/transactions/{id}")
+    @GetMapping("/transactions/{id}")
     public TransactionDTO getTransaction(@PathVariable long id){
-        return transactionRepository.findById(id).map(TransactionDTO::new).orElse(null);
+        return new TransactionDTO(transactionService.getTransactionById(id));
+    }
+    @GetMapping("/transactions/current")
+    public List<TransactionDTO> getTransactionsCurrent(Authentication authentication, @RequestParam String accountNumber,@RequestParam(required = false) String start, @RequestParam(required = false) String end){
+        Client client = clientService.getClientByEmail(authentication.getName());
+        Account account = accountService.getAccountByNumber(accountNumber);
+        if (client.getAccounts().contains(account)){
+            if (start != null && end != null){
+                LocalDateTime startDate = LocalDateTime.parse(start);
+                LocalDateTime endDate = LocalDateTime.parse(end);
+                return  transactionService.getTransactionsByAccountAndDate(account, startDate, endDate).stream().map(TransactionDTO::new).collect(Collectors.toList());
+            } else {
+                return transactionService.getTransactionsByAccount(account).stream().map(TransactionDTO::new).collect(Collectors.toList());
+            }
+        } else {
+            return null;
+        }
     }
 
     @Transactional
@@ -45,12 +65,12 @@ public class TransactionController {
             return new ResponseEntity<>("Missing Data", HttpStatus.FORBIDDEN);
         } else {
             if (!sourceNumber.equals(destinationNumber)){
-                Account sourceAccount = accountRepository.findByNumber(sourceNumber);
+                Account sourceAccount = accountService.getAccountByNumber(sourceNumber);
                 if (sourceAccount != null){
-                    Client client = clientRepository.findByEmail(authentication.getName());
+                    Client client = clientService.getClientByEmail(authentication.getName());
                     if (client != null){
                         if (client.getAccounts().contains(sourceAccount)){
-                            Account destinationAccount = accountRepository.findByNumber(destinationNumber);
+                            Account destinationAccount = accountService.getAccountByNumber(destinationNumber);
                             if (destinationAccount != null){
                                 String destinationClient = destinationAccount.getOwner().getFirstName() + " " + destinationAccount.getOwner().getLastName();
                                 String sourceClient = client.getFirstName() + " " + client.getLastName();
@@ -58,8 +78,8 @@ public class TransactionController {
                                     if (amount >= 10){
                                         Transaction transaction1 = new Transaction(TransactionType.DEBIT, amount, "Transferencia a " + destinationClient + " - " + description, LocalDateTime.now(), sourceAccount);
                                         Transaction transaction2 = new Transaction(TransactionType.CREDIT, amount, "Transferencia de " + sourceClient + " - " + description, LocalDateTime.now(), destinationAccount);
-                                        transactionRepository.save(transaction1);
-                                        transactionRepository.save(transaction2);
+                                        transactionService.saveTransaction(transaction1);
+                                        transactionService.saveTransaction(transaction2);
                                         sourceAccount.setBalance(sourceAccount.getBalance() - amount);
                                         destinationAccount.setBalance(destinationAccount.getBalance() + amount);
                                         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -88,14 +108,40 @@ public class TransactionController {
         }
     }
 
-    @RequestMapping("/transactions/destination/{number}")
+    @GetMapping("/transactions/destination/{number}")
     public Client getDestinationName(@PathVariable String number){
-        Client client = clientRepository.findByAccountsNumber(number);
+        Client client = clientService.getClientByAccountNumber(number);
         if (client != null){
-
             return new Client(client.getLastName(), client.getFirstName());
         } else {
             return new Client();
+        }
+    }
+    @Transactional
+    @PostMapping("/pays")
+    public ResponseEntity<Object> makePay(@RequestBody CardPaymentDTO cardPaymentDTO){
+        Card card = cardService.getCardByNumber(cardPaymentDTO.getCardNumber());
+        if (card != null){
+            if (card.getCardHolder().equals(cardPaymentDTO.getCardHolder()) && card.getCvv() == cardPaymentDTO.getCardCvv() && card.getThruDate().getMonth() == cardPaymentDTO.getCardExp().getMonth() && card.getThruDate().getYear() == cardPaymentDTO.getCardExp().getYear()){
+                if (card.getThruDate().isAfter(LocalDate.now())){
+                    Client client = card.getClient();
+                    Account account = client.getAccounts().stream().findFirst().get();
+                    if (account.getBalance() >= cardPaymentDTO.getAmount()){
+                        Transaction transaction = new Transaction(TransactionType.DEBIT, cardPaymentDTO.getAmount(), "Pago con tarjeta terminada en "+ card.getNumber().substring(14, 19) + " - " + cardPaymentDTO.getDescription(), LocalDateTime.now(), account);
+                        transactionService.saveTransaction(transaction);
+                        account.setBalance(account.getBalance() - cardPaymentDTO.getAmount());
+                        return new ResponseEntity<>("Success", HttpStatus.ACCEPTED);
+                    } else {
+                        return new ResponseEntity<>("Monto unsificiente",HttpStatus.FORBIDDEN);
+                    }
+                } else {
+                    return new ResponseEntity<>("Tarjeta vencida",HttpStatus.FORBIDDEN);
+                }
+            }else {
+                return new ResponseEntity<>("Datos erroneos",HttpStatus.FORBIDDEN);
+            }
+        }else {
+            return new ResponseEntity<>("Missing data",HttpStatus.FORBIDDEN);
         }
     }
 }

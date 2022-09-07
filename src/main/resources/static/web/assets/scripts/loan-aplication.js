@@ -129,7 +129,7 @@ mounted(){
       })
       .catch(error => {
         console.log(error.response.data)
-        this.error = "Algo salió mal"
+        this.error = error.response.data
         
       })
     },

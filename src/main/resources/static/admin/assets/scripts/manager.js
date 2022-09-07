@@ -57,11 +57,6 @@ createApp({
               console.log(error);
           });
     },
-    deleteClient(client){
-      event.target.parentNode.parentNode.remove()
-      axios.delete("/api/clients/" + client.id)
-      window.location.reload()
-    },
     activateForm(client){
       let tr = document.getElementById("form" + client.id)
       tr.classList.toggle("d-none")

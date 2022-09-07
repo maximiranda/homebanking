@@ -59,9 +59,8 @@
                         <h1 class="text-center mt-2 d-lg-block d-none"> <a class="w-auto" href="./accounts.html" ><span class="color-verde h1">Max</span><span class="h1 text-white">bank</span></a></h1>
                         
                         <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
-                            <div class="dropdown">
-
-                                <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="dropdown dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" >
                                 <i v-else class="bi bi-person-circle" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                 <ul class="dropdown-menu">
                                     <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>

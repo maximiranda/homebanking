@@ -1,10 +1,11 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.Dtos.AccountDTO;
+import com.mindhub.homebanking.Services.AccountService;
+import com.mindhub.homebanking.Services.ClientService;
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.AccountType;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,27 +23,27 @@ import static com.mindhub.homebanking.utils.Utils.getRandomNumber;
 public class AccountController {
 
     @Autowired
-    ClientRepository clientRepository;
+    ClientService clientService;
     @Autowired
-    AccountRepository accountRepository;
+    AccountService accountService;
 
-    @RequestMapping("/accounts")
+    @GetMapping("/accounts")
     public List<AccountDTO> getAccounts(){
-        return accountRepository.findAll().stream().map(AccountDTO::new).collect(Collectors.toList());
+        return accountService.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
     }
-    @RequestMapping("/accounts/{id}")
+    @GetMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable long id){
-        return accountRepository.findById(id).map(AccountDTO::new).orElse(null);
+        return new AccountDTO(accountService.getAccountById(id));
     }
     @PostMapping("/clients/current/accounts")
-    public ResponseEntity<Object> createAccount(Authentication authentication){
+    public ResponseEntity<Object> createAccount(Authentication authentication, @RequestParam AccountType accountType){
 
         int random = getRandomNumber(0, 99999999);
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getClientByEmail(authentication.getName());
         if (client != null){
             if (client.getAccounts().toArray().length < 3){
-                Account account = new Account("VIN-" + random, LocalDateTime.now(), 0.0, client);
-                accountRepository.save(account);
+                Account account = new Account("VIN-" + random, LocalDateTime.now(), 0.0, accountType, client);
+                accountService.saveAccount(account);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else  {
                 return new ResponseEntity<>("Max Accounts",HttpStatus.FORBIDDEN);

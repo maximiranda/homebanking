@@ -1,10 +1,11 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.Dtos.ClientDTO;
+import com.mindhub.homebanking.Services.AccountService;
+import com.mindhub.homebanking.Services.ClientService;
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.AccountType;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,38 +26,23 @@ public class ClientController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    ClientRepository clientRepository;
+    ClientService clientService;
     @Autowired
-    AccountRepository accountRepository;
+    AccountService accountService;
 
     @Autowired
     TransactionRepository transactionRepository;
-    @RequestMapping("/clients")
+    @GetMapping("/clients")
     public List<ClientDTO> getClients(){
-        return clientRepository.findAll().stream().map(ClientDTO::new).collect(Collectors.toList());
+        return clientService.getClients().stream().map(ClientDTO::new).collect(Collectors.toList());
     }
-    @RequestMapping("/clients/{id}")
+    @GetMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable long id){
-        return clientRepository.findById(id).map(ClientDTO::new).orElse(null);
+        return new ClientDTO(clientService.getClientById(id));
     }
     @PatchMapping("/clients/{id}")
-    Client updateClient(@RequestBody Client upClient){
-        return clientRepository.save(upClient);
-    }
-
-    @DeleteMapping("/clients/{id}")
-    public void deleteClient(@PathVariable long id){
-        Client client = clientRepository.findById(id).orElse(null);
-        Stack<Long> transactionsIds = new Stack<>();
-        Set<Account> accounts = client.getAccounts();
-        accounts.forEach(account -> {
-            account.getTransactions().forEach(transaction -> {
-                transactionsIds.push(transaction.getId());
-            });
-        });
-        transactionRepository.deleteAllById(transactionsIds);
-        accountRepository.deleteAllById(accounts.stream().map(Account::getId).collect(Collectors.toList()));
-        clientRepository.delete(client);
+     public void updateClient(@RequestBody Client upClient){
+        clientService.saveClient(upClient);
     }
     @PostMapping("/clients")
     public ResponseEntity<Object> register(
@@ -72,20 +58,20 @@ public class ClientController {
 
         }
 
-        if (clientRepository.findByEmail(email) !=  null) {
+        if (clientService.getClientByEmail(email) !=  null) {
 
             return new ResponseEntity<>("Email already in use", HttpStatus.FORBIDDEN);
 
         }
         int random = getRandomNumber(0, 99999999);
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
-        clientRepository.save(client);
-        accountRepository.save(new Account("VIN-" + random, LocalDateTime.now(), 0.0, client));
+        clientService.saveClient(client);
+        accountService.saveAccount(new Account("VIN-" + random, LocalDateTime.now(), 0.0, AccountType.SAVINGS, client));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @RequestMapping("/clients/current")
+    @GetMapping("/clients/current")
     public ClientDTO get(Authentication authentication){
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getClientByEmail(authentication.getName());
         return new ClientDTO(client);
     }
 }

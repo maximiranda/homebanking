@@ -13,7 +13,8 @@ createApp({
         totalLoan: 0,
         email: "",
         accountsLength : 0,
-        succes: false
+        succes: false,
+        accountType:"",
     }
   },
   created(){
@@ -73,7 +74,7 @@ createApp({
       })
     },
     addAccount(){
-        axios.post('/api/clients/current/accounts')
+        axios.post('/api/clients/current/accounts', "accountType=" + this.accountType, {headers:{'content-type':'application/x-www-form-urlencoded'}} )
         .then(response => {
           console.log(response)
           this.succes = true

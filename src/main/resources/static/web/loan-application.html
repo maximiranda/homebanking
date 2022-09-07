@@ -56,15 +56,15 @@
                         <div class="nav-header text-white container-fluid d-none d-lg-flex bg-azul w-100">
                             <h1 class="text-center mt-2 d-lg-block d-none"> <a class="w-auto" href="./accounts.html" ><span class="color-verde h1">Max</span><span class="h1 text-white">bank</span></a></h1>
                             <div class="d-flex ms-2 align-items-center justify-content-start profile w-100 gap-3">
-                                <div class="dropdown">
-    
-                                    <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="dropdown dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img v-if="client.profileImg != null" :src="client.profileImg" class="img-avatar" >
                                     <i v-else class="bi bi-person-circle" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <ul class="dropdown-menu">
                                         <li><button class="dropdown-item" type="button"><i class="bi bi-gear-fill"></i> Configuracion</button></li>
                                         <li><button class="dropdown-item" @click="logout" type="button"><i class="bi bi-power text-danger"></i> Salir</button></li>
-                                    </ul>
+                                      </ul>
                                 </div>
+                                
                                 <div class="greeting-name ms-1">
                                     <p class="m-0 greeting">Buenas Tardes</p>
                                     <p class="m-0 name">{{client.firstName}} {{client.lastName}}</p>
@@ -74,7 +74,7 @@
                         <div class="link-sidebar d-lg-flex flex-lg-column justify-content-lg-between w-100">
                             <div class="container-fluid d-flex flex-lg-column justify-content-evenly w-100">
                                 <a class="d-lg-flex align-items-lg-center gap-3" href="./accounts.html"><i class="bi bi-house-door fs-2 text-black"></i><span class="d-none d-lg-inline">Home</span></a>
-                                <a class="d-lg-flex align-items-lg-center gap-3 active" href="./transfers.html"><i class="bi bi-arrow-left-right fs-2"></i><span class="d-none d-lg-inline">Transferencias</span></a>
+                                <a class="d-lg-flex align-items-lg-center gap-3" href="./transfers.html"><i class="bi bi-arrow-left-right fs-2 text-black"></i><span class="d-none d-lg-inline">Transferencias</span></a>
                                 <a class="d-lg-flex align-items-lg-center gap-3" href="./cards.html"><i class="bi bi-credit-card-2-back-fill fs-2 text-black"></i><span class="d-none d-lg-inline">Tarjetas</span></a>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                 <span class="text-white">Solicita tu prestamo</span>
                             </div>
                             <div class="d-flex flex-column balance-body">
-                                <form @submit.prevent="requestLoan" class="w-100 p-2" id="transferForm">
+                                <form class="w-100 p-2" id="transferForm">
                                     <h5 class="text-center mt-3">{{type}}</h5>
                                     <div class="mb-3">
                                         <label class="form-label" for="number">Cuotas</label>
@@ -156,8 +156,9 @@
                                     </div>
                                     <div class="mb-3 position-relative">
                                         <label class="" for="">Monto</label>
-                                        <input @keyup="updateChart()" required v-model="amount" class="amount position-absolute ms-4 fs-2 w-50" min="10" oninput="this.value = Math.abs(this.value)" v-model="amount" type="number" name=""  id="">
+                                        <input @keyup="updateChart()" required v-model="amount" :max="maxAmount" class="amount position-absolute ms-4 fs-2 w-50" min="10" oninput="this.value = Math.abs(this.value)" v-model="amount" type="number" name=""  id="">
                                         <span class="fs-2 ms-3">{{moneyFormat.format(amount)}}</span>
+                                        <p class="maxAmount">Máximo: {{moneyFormat.format(maxAmount)}}</p>
                                     </div>
                                     <div class="w-100 d-flex justify-content-end">
                                         <input :disabled="amount == 0 || interest == 0 || payment == 0 || destinationAccount == ''" class="btn btn-verde"  type="button" data-bs-toggle="modal" data-bs-target="#loanModal" value="Solicitar">
@@ -167,7 +168,9 @@
                         </div>
                         <div :class="amount != 0 && payment != 0? 'd-lg-block': 'd-lg-none'" class="canvas justify-content-between d-none">
                             <canvas id="myChart"></canvas>
-                            <span v-show="amount != 0 && payment != 0" class="amountSpan text-center"> {{moneyFormat.format(amount*(1+interest)/payment)}} <p>/mensual</p></span>
+                            <div class="text-center amountSpan d-flex justify-content-center align-items-center">
+                                <span v-show="amount != 0 && payment != 0" class=""> {{moneyFormat.format(amount*(1+interest)/payment)}} <p>/mensual</p></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,7 +192,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                          <button type="submit" form="transferForm" class="btn btn-verde">Confirmar</button>
+                          <button type="submit" form="" @click="requestLoan" class="btn btn-verde">Confirmar</button>
                         </div>
                       </div>
                     </div>

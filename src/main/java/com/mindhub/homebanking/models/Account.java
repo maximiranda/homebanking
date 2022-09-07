@@ -17,17 +17,19 @@ public class Account {
     private String number;
     private LocalDateTime creationDate;
     private Double balance;
+    private AccountType accountType;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="owner_id")
     private Client owner;
     @OneToMany(mappedBy="account", fetch=FetchType.EAGER)
     private Set<Transaction> transactions = new HashSet<>();
     public Account(){}
-    public Account(String number, LocalDateTime creationDate, Double balance, Client client){
+    public Account(String number, LocalDateTime creationDate, Double balance,AccountType accountType, Client client){
         this.number = number;
         this.creationDate = creationDate;
         this.balance = balance;
         this.owner = client;
+        this.accountType = accountType;
     }
     public long getId() {
         return id;
@@ -51,6 +53,14 @@ public class Account {
 
     public Double getBalance() {
         return balance;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     public void setBalance(Double balance) {

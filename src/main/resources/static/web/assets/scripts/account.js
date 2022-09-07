@@ -1,4 +1,6 @@
 const {createApp} = Vue
+const { jsPDF } = window.jspdf
+var doc = new jsPDF()
 
 createApp({
   data(){
@@ -11,6 +13,9 @@ createApp({
         totalLoan: 0,
         copyNumber: false,
         loans: [],
+        accountNumber: "",
+        startDate: null,
+        endDate: null,
     }
   },
   created(){
@@ -32,8 +37,17 @@ createApp({
         // handle success
         this.client = response.data
         this.account = this.client.accounts.find(account => account.id == id)
+        this.accountNumber = this.account.number
         this.transactions = this.account.transactions
         this.transactions
+        .sort((a, b) => {
+          if (a.id < b.id){
+            return 1;
+          };
+          if (a.id > b.id){
+            return -1;
+          };
+        })
         this.loans = this.client.loans
         .sort((a, b) => {
           if (a.id < b.id){
@@ -74,7 +88,7 @@ createApp({
       return transactionDateFormatted
     },
     logout(){
-      axios.post('/api/logout').then(response => window.location.href="/public/index.html")
+      axios.post('/api/logout').then(() => window.location.href="/public/index.html")
     },
     copy(text){
       this.copyNumber = true
@@ -83,10 +97,40 @@ createApp({
     test(text){
       navigator.clipboard.writeText(text)
       .then(() => {
-
-        alert(" hola " + text)
       })
       .catch(error => alert(error))
-    }
+    },
+    downloadMoves(){
+      axios.get("/api/transactions/current",{ 
+        params: {
+            accountNumber: this.accountNumber,
+            start: this.startDate,
+            end: this.endDate
+
+      }})
+      .then(response => {
+        window.html2canvas = html2canvas
+        let title = document.createElement("h1")
+        title.innerHTML = "Maxbank"
+        title.classList.add("d-none")
+        this.transactions = response.data
+        let html = document.querySelector("#app")
+        html.appendChild(title)
+        var doc = new jsPDF("p", "pt", "a4")
+        doc.fromHTML(html)
+        doc.save()
+        // let margin = 10
+        // let scale = (doc.internal.pageSize.width - margin * 2)/ document.body.scrollWidth
+        // doc.html(html, {
+        //   callback: doc => {
+        //     doc.save()
+        //   }})
+        //   doc.output("dataurlnewwindow",{filename:'hola.pdf'})
+
+        // doc.save("hola.pdf")
+      })
+      .catch(error => console.log(error))
+
+    },
   }
 }).mount("#app")

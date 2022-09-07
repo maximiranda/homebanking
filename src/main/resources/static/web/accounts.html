@@ -43,9 +43,6 @@
                                     <div class="me-2">
                                         <p class="">{{moneyFormat.format(transaction.amount)}}</p>
                                     </div>
-                                    <a :href="'./account.html?id=' + transaction.accountId">
-                                        <span class="link" ></span>
-                                    </a>
                                 </li>
                                 <li v-if="transactions.length == 0" class="d-flex justify-content-center align-items-center flex-wrap">
                                     <h5 class="text-center w-100">No tienes nuevas notifiaciones</h5>
@@ -151,7 +148,7 @@
                             </div>
                         </transition>                           
                         <!-- MODAL -->
-                        <div class="modal" id="addAccountModal" :class="{'d-none': error}">
+                        <div class="modal" id="addAccountModal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header bg-verde">
@@ -160,13 +157,13 @@
                                     </div>
                                     <div class="modal-body d-flex justify-content-evenly">
                                         <div class="form-check d-inline-block">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                            <input value="SAVINGS" v-model="accountType" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                               Caja de ahorros
                                             </label>
                                           </div>
                                           <div class="form-check d-inline-block">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                            <input value="CHECKING" v-model="accountType"  class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
                                             <label class="form-check-label" for="flexRadioDefault2">
                                               Cuenta corriente
                                             </label>
