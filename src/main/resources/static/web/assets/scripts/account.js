@@ -100,37 +100,25 @@ createApp({
       })
       .catch(error => alert(error))
     },
-    downloadMoves(){
-      axios.get("/api/transactions/current",{ 
-        params: {
-            accountNumber: this.accountNumber,
-            start: this.startDate,
-            end: this.endDate
+    // downloadMoves(){
+    //   axios.get("/api/transactions/current",{ 
+    //     params: {
+    //         accountNumber: this.accountNumber,
+    //         start: this.startDate,
+    //         end: this.endDate
 
-      }})
-      .then(response => {
-        window.html2canvas = html2canvas
-        let title = document.createElement("h1")
-        title.innerHTML = "Maxbank"
-        title.classList.add("d-none")
-        this.transactions = response.data
-        let html = document.querySelector("#app")
-        html.appendChild(title)
-        var doc = new jsPDF("p", "pt", "a4")
-        doc.fromHTML(html)
-        doc.save()
-        // let margin = 10
-        // let scale = (doc.internal.pageSize.width - margin * 2)/ document.body.scrollWidth
-        // doc.html(html, {
-        //   callback: doc => {
-        //     doc.save()
-        //   }})
-        //   doc.output("dataurlnewwindow",{filename:'hola.pdf'})
+    //   }})
+    //   .then(response => {
+    //     let url = window.URL.createObjectURL(new Blob([response.data]))
+    //     let link = document.createElement("a")
+    //     link.href = url;
+    //     link.download("pepito.pdf")
+    //     // link.setAttribute("download", "maxbank.pdf")
+    //     // document.body.appendChild(link)
+    //     link.click()
+    //   })
+    //   .catch(error => console.log(error))
 
-        // doc.save("hola.pdf")
-      })
-      .catch(error => console.log(error))
-
-    },
+    // },
   }
 }).mount("#app")
