@@ -33,7 +33,7 @@ createApp({
       axios.get('/api/clients/current')
       .then(response => {
         // handle success
-        
+        console.log(response)
         this.client = response.data
         this.accounts = this.client.accounts
         this.loans = this.client.loans

@@ -175,11 +175,14 @@
                         </tbody>
                     </table>
                     <div class="w-75">
-                        <button class="btn btn-verde align-self-start justify-self-start" data-bs-toggle="modal" data-bs-target="#filterModal">Descargar</button>
+                        <button class="btn btn-verde align-self-start justify-self-start" data-bs-toggle="modal" data-bs-target="#filterModal">Descargar resumen</button>
+                        <button class="btn btn-danger align-self-start justify-self-start ms-3" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar cuenta</button>
+
                     </div>
                 </div>
 
                     <!-- MODALS -->
+                    <!-- Filter Modal -->
                     <div class="modal" id="filterModal">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -197,7 +200,26 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-verde"><a target="_blank" href="/api/transactions/download">Descargar</a></button>
+                                    <button class="btn btn-verde"><a target="_blank" :href="'/api/transactions/current?accountNumber=' + account.number + '&start=' + startDate + '&end=' + endDate">Descargar</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Delete Modal -->
+                    <div class="modal" id="deleteModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-warning">
+                                    <h5 class="modal-title text-white text-center w-100 fs-10"><i class="bi bi-exclamation-triangle"></i></h5>
+                                  </div>
+                                <div class="my-2 alert text-center alert-warning">
+                                    <div>
+                                        <p>Esta seguro que desea eliminar la cuenta?</p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button @click="disableAccount" class="btn btn-danger">Confirmar</button>
                                 </div>
                             </div>
                         </div>

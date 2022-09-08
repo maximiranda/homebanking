@@ -1,6 +1,4 @@
 const {createApp} = Vue
-const { jsPDF } = window.jspdf
-var doc = new jsPDF()
 
 createApp({
   data(){
@@ -14,8 +12,9 @@ createApp({
         copyNumber: false,
         loans: [],
         accountNumber: "",
-        startDate: null,
-        endDate: null,
+        startDate: "",
+        endDate: "",
+        succes: null,
     }
   },
   created(){
@@ -93,6 +92,13 @@ createApp({
     copy(text){
       this.copyNumber = true
       navigator.clipboard.writeText(text)
+    },
+    disableAccount(){
+      axios.patch("/api/accounts/delete", "accountNumber=" + this.accountNumber,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+      .then(response=>{
+          this.succes = "Cuenta eliminada con exito"
+          setTimeout(()=> window.location.href="/web/accounts.html",2000)
+      }).catch(error => console.log(error))
     },
     test(text){
       navigator.clipboard.writeText(text)

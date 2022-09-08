@@ -7,12 +7,12 @@ import com.mindhub.homebanking.Services.CardService;
 import com.mindhub.homebanking.Services.ClientService;
 import com.mindhub.homebanking.Services.TransactionService;
 import com.mindhub.homebanking.models.*;
-import com.mindhub.homebanking.utils.PdfGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import static com.mindhub.homebanking.utils.PdfGenerator.getPdf;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -42,39 +42,26 @@ public class TransactionController {
     public TransactionDTO getTransaction(@PathVariable long id){
         return new TransactionDTO(transactionService.getTransactionById(id));
     }
-    @GetMapping("/transactions/download")
-    public void  getPdf(HttpServletResponse response){
-        response.setContentType("application/pdf");
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=pepito.pdf";
-        response.setHeader(headerKey, headerValue);
-        PdfGenerator generator = new PdfGenerator();
-        generator.getPdf(response);
-    }
     @GetMapping("/transactions/current")
-    public ResponseEntity<?> getTransactionsCurrent(HttpServletResponse response, Authentication authentication, @RequestParam String accountNumber, @RequestParam(required = false) String start, @RequestParam(required = false) String end){
+    public ResponseEntity<Object> getTransactionsCurrent(HttpServletResponse response, Authentication authentication, @RequestParam String accountNumber, @RequestParam(required = false) String start, @RequestParam(required = false) String end){
         Client client = clientService.getClientByEmail(authentication.getName());
         Account account = accountService.getAccountByNumber(accountNumber);
+        List<Transaction> transactions;
         if (client.getAccounts().contains(account)){
-            if (start != null && end != null){
+            response.setContentType("application/pdf");
+            String headerKey = "Content-Disposition";
+            String headerValue = "inline; filename=maxbank.pdf";
+            response.setHeader(headerKey, headerValue);
+            if (!(start.isEmpty() || end.isEmpty())){
                 LocalDateTime startDate = LocalDateTime.parse(start);
                 LocalDateTime endDate = LocalDateTime.parse(end);
-                response.setContentType("application/pdf");
-                String headerKey = "Content-Disposition";
-                String headerValue = "attachment; filename=maxbank.pdf";
-                response.setHeader(headerKey, headerValue);
-                PdfGenerator generator = new PdfGenerator();
-                generator.getPdf(response);
-                return  new ResponseEntity<>("", HttpStatus.ACCEPTED);
+                transactions = transactionService.getTransactionsByAccountAndDate(account,startDate,endDate);
+
             } else {
-                response.setContentType("application/pdf");
-                String headerKey = "Content-Disposition";
-                String headerValue = "attachment; filename=maxbank.pdf";
-                response.setHeader(headerKey, headerValue);
-                PdfGenerator generator = new PdfGenerator();
-                generator.getPdf(response);
-                return new ResponseEntity<>("", HttpStatus.ACCEPTED);
+                transactions = transactionService.getTransactionsByAccount(account);
             }
+            getPdf(response, transactions);
+            return  new ResponseEntity<>("", HttpStatus.ACCEPTED);
         } else {
             return null;
         }

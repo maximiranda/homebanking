@@ -21,10 +21,12 @@ public class Card {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     private Client client;
+    private boolean isActive;
 
     public Card() {}
 
     public Card(String number, CardType type, CardColor color, Integer cvv, LocalDate fromDate, LocalDate thruDate, Client client) {
+        this.isActive = true;
         this.cardHolder = client.getFirstName() + " " + client.getLastName();
         this.number = number;
         this.type = type;
@@ -101,5 +103,13 @@ public class Card {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

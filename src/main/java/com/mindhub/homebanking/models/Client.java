@@ -22,6 +22,12 @@ public class Client {
     private String lastName, firstName, email, password, profileImg;
     public Client(){}
 
+    public Client(String lastName, String firstName, String email) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+    }
+
     public  Client(String firstName, String lastName, String email, String password){
         this.firstName = firstName;
         this.lastName = lastName;

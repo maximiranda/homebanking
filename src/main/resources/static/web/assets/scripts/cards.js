@@ -10,6 +10,7 @@ createApp({
         debitCards: [],
         hide: true,
         transactions: [],
+        cardNumber : "",
     }
   },
   created(){
@@ -76,6 +77,16 @@ createApp({
       cards.forEach(card => {
         card.classList.toggle("rotate-card")
       })
+    },
+    setCardNumber(cardNumber){
+      this.cardNumber = cardNumber
+    },
+    disableCard(){
+      axios.patch("/api/cards/delete", "cardNumber=" + this.cardNumber,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+      .then(response=>{
+          this.succes = "Tarjeta eliminada con exito"
+          setTimeout(()=> window.location.href="/web/accounts.html",2000)
+      }).catch(error => console.log(error))
     },
     logout(){
       axios.post('/api/logout').then(response => window.location.href="/public/index.html")

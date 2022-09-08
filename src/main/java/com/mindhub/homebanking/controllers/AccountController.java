@@ -41,7 +41,7 @@ public class AccountController {
         int random = getRandomNumber(0, 99999999);
         Client client = clientService.getClientByEmail(authentication.getName());
         if (client != null){
-            if (client.getAccounts().toArray().length < 3){
+            if (client.getAccounts().stream().filter(Account::getIsActive).toArray().length < 3){
                 Account account = new Account("VIN-" + random, LocalDateTime.now(), 0.0, accountType, client);
                 accountService.saveAccount(account);
                 return new ResponseEntity<>(HttpStatus.CREATED);
@@ -51,5 +51,22 @@ public class AccountController {
         } else {
             return new ResponseEntity<>( "Missing Data",HttpStatus.FORBIDDEN);
         }
+    }
+    @PatchMapping("/accounts/delete")
+    public ResponseEntity<Object> disableAccount(Authentication authentication,@RequestParam String accountNumber){
+        Client client = clientService.getClientByEmail(authentication.getName());
+        Account account = accountService.getAccountByNumber(accountNumber);
+        if (client == null){
+            return new ResponseEntity<>("1", HttpStatus.FORBIDDEN);
+        }
+        if (account == null){
+            return new ResponseEntity<>("2", HttpStatus.FORBIDDEN);
+        }
+        if (account.getBalance() != 0 ){
+            return new ResponseEntity<>("3", HttpStatus.FORBIDDEN);
+        }
+        account.setIsActive(false);
+        accountService.saveAccount(account);
+        return new ResponseEntity<>("", HttpStatus.ACCEPTED);
     }
 }

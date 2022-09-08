@@ -14,6 +14,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
+    private boolean isActive;
     private String number;
     private LocalDateTime creationDate;
     private Double balance;
@@ -25,6 +26,7 @@ public class Account {
     private Set<Transaction> transactions = new HashSet<>();
     public Account(){}
     public Account(String number, LocalDateTime creationDate, Double balance,AccountType accountType, Client client){
+        this.isActive = true;
         this.number = number;
         this.creationDate = creationDate;
         this.balance = balance;
@@ -81,5 +83,13 @@ public class Account {
     public void addTransaction(Transaction transaction){
         transaction.setAccount(this);
         transactions.add(transaction);
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean active) {
+        isActive = active;
     }
 }

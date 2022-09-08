@@ -40,7 +40,6 @@ public class HomebankingApplication {
 			Transaction transaction5 = new Transaction(TransactionType.DEBIT, 20.0, "Compra", LocalDateTime.now(), account3);
 			Transaction transaction6 = new Transaction(TransactionType.DEBIT, 500.0, "Compra", LocalDateTime.now(), account2);
 
-
 			Loan loanH = new Loan("Hipotecario", 500000.0, List.of(12, 24, 36,48, 60), 0.20);
 			Loan loanP = new Loan("Personal", 100000.0, List.of(6, 12, 24), .15);
 			Loan loanA = new Loan("Automotriz", 300000.0, List.of(6, 12, 24, 36), .17);

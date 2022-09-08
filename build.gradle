@@ -16,9 +16,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
-	
-	/*runtimeOnly 'com.h2database:h2'*/
+	/*implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'*/
 	implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.3'
 	implementation 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

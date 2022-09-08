@@ -3,10 +3,7 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.Dtos.CardDTO;
 import com.mindhub.homebanking.Services.CardService;
 import com.mindhub.homebanking.Services.ClientService;
-import com.mindhub.homebanking.models.Card;
-import com.mindhub.homebanking.models.CardColor;
-import com.mindhub.homebanking.models.CardType;
-import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +37,7 @@ public class CardController {
     public ResponseEntity<Object> addCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor, Authentication authentication){
         Client client = clientService.getClientByEmail(authentication.getName());
         if (client != null){
-            List<Card> cards =  client.getCards().stream().filter(card -> card.getType() == cardType).collect(Collectors.toList());
+            List<Card> cards =  client.getCards().stream().filter(Card::getIsActive).filter(card -> card.getType() == cardType).collect(Collectors.toList());
             boolean exist = cards.stream().anyMatch(c -> c.getColor() == cardColor);
             if (cards.size() < 3){
                 if (!exist){
@@ -58,5 +55,20 @@ public class CardController {
         } else {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
+    }
+    @PatchMapping("/cards/delete")
+    public ResponseEntity<Object> disableAccount(Authentication authentication,@RequestParam String cardNumber){
+        Client client = clientService.getClientByEmail(authentication.getName());
+        Card card = cardService.getCardByNumber(cardNumber);
+        if (client == null){
+            return new ResponseEntity<>("1", HttpStatus.FORBIDDEN);
+        }
+
+        if (card == null){
+            return new ResponseEntity<>("2", HttpStatus.FORBIDDEN);
+        }
+        card.setActive(false);
+        cardService.saveCard(card);
+        return new ResponseEntity<>("", HttpStatus.ACCEPTED);
     }
 }
