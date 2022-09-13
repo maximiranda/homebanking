@@ -21,7 +21,7 @@ createApp({
         errorBoolean: false,
         transfers: [],
         modal1: false,
-        succes: false,
+        success: false,
     }
   },
   created(){
@@ -58,10 +58,10 @@ createApp({
       this.error = false
     },
     makeTransfer(){
-      axios.post("/api/transactions", "amount="+ this.amount + "&description=" + this.description + "&sourceNumber=" + this.sourceAccount + "&destinationNumber=" + "VIN-"+this.destinationAccount,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+      axios.post("/api/transactions", "amount="+ this.amount + "&description=" + this.description + "&sourceNumber=" + this.sourceAccount.number + "&destinationNumber=" + "VIN-"+this.destinationAccount,{headers:{'content-type':'application/x-www-form-urlencoded'}})
       .then(response => {
         console.log(response)
-        this.succes = true
+        this.success = true
         setTimeout(()=> window.location.href="/web/accounts.html", 1500)
 
       })

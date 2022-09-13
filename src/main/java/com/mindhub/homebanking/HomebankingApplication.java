@@ -37,8 +37,10 @@ public class HomebankingApplication {
 			Transaction transaction2 = new Transaction(TransactionType.DEBIT, 2000.0, "Compra", LocalDateTime.now().minusDays(4), account1);
 			Transaction transaction3 = new Transaction(TransactionType.CREDIT, 15000.0, "Venta", LocalDateTime.now().plusDays(2), account2);
 			Transaction transaction4 = new Transaction(TransactionType.DEBIT, 200.0, "Compra", LocalDateTime.now(), account2);
-			Transaction transaction5 = new Transaction(TransactionType.DEBIT, 20.0, "Compra", LocalDateTime.now(), account3);
-			Transaction transaction6 = new Transaction(TransactionType.DEBIT, 500.0, "Compra", LocalDateTime.now(), account2);
+            Transaction transaction6 = new Transaction(TransactionType.DEBIT, 500.0, "Compra", LocalDateTime.now(), account2);
+            Transaction transaction5 = new Transaction(TransactionType.DEBIT, 20.0, "Compra", LocalDateTime.now(), account3);
+            Transaction transaction7 = new Transaction(TransactionType.DEBIT, 20.0, "Compra", LocalDateTime.now().minusDays(7), account3);
+            Transaction transaction8 = new Transaction(TransactionType.DEBIT, 20.0, "Compra", LocalDateTime.now().plusDays(7), account3);
 
 			Loan loanH = new Loan("Hipotecario", 500000.0, List.of(12, 24, 36,48, 60), 0.20);
 			Loan loanP = new Loan("Personal", 100000.0, List.of(6, 12, 24), .15);
@@ -54,7 +56,7 @@ public class HomebankingApplication {
 			Card card3 = new Card("3333 6666 8833 1224", CardType.CREDIT, CardColor.SILVER, 456, LocalDate.now(), LocalDate.now().plusYears(5), client2);
 			Card card4 = new Card("3333 6666 8888 1222", CardType.CREDIT, CardColor.SILVER, 456, LocalDate.now(), LocalDate.now().plusYears(5), client1);
 
-/*			clientRepository.save(client1);
+		/*	clientRepository.save(client1);
 			clientRepository.save(client2);
 			clientRepository.save(admin);
 			accountRepository.save(account1);
@@ -76,7 +78,10 @@ public class HomebankingApplication {
 			cardRepository.save(card1);
 			cardRepository.save(card2);
 			cardRepository.save(card3);
-			cardRepository.save(card4);*/
-		};
+			cardRepository.save(card4);
+            transactionRepository.save(transaction7);
+            transactionRepository.save(transaction8);
+        */
+        };
 	}
 }

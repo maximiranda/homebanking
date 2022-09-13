@@ -210,7 +210,7 @@
                     </div>
                 </div>
                 <!-- MODALS -->
-                <div class="modal" id="deleteCard">
+                <div class="modal" :class="{'d-none': success}" id="deleteCard">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header bg-warning">
@@ -224,6 +224,20 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 <button @click="disableCard" class="btn btn-danger">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal" :class="success? 'd-block': 'd-none'" id="successModal" data-bs-backdrop="static" >
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body bg-verde d-flex justify-content-center flex-wrap rounded">
+                                <div class="w-100 text-center"><i class=" fs-10 bi bi-check-circle text-white"></i></div>
+                                <div class="fs-1 py-2 text-center text-white">
+                                        <span class="">
+                                            {{success}}
+                                        </span>
+                                </div>
                             </div>
                         </div>
                     </div>

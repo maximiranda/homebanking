@@ -12,6 +12,7 @@ createApp({
         cardColor: "",
         cardType: "",
         transactions: [],
+        success: false,
     }
   },
   created(){
@@ -48,7 +49,8 @@ createApp({
       console.log(this.cardColor,this.cardType)
       axios.post("/api/clients/current/cards", "cardType=" + this.cardType + "&cardColor=" + this.cardColor, {headers:{'content-type':'application/x-www-form-urlencoded'}})
       .then(response => {
-        window.location.href="/web/cards.html"
+      this.success = "Tarjeta creada con exito"
+      setTimeout(()=>window.location.href="/web/cards.html", 2000)
       })
       .catch(error => console.log(error))
     },

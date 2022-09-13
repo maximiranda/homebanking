@@ -13,7 +13,7 @@ createApp({
         totalLoan: 0,
         email: "",
         accountsLength : 0,
-        succes: false,
+        success: false,
         accountType:"",
     }
   },
@@ -77,7 +77,7 @@ createApp({
         axios.post('/api/clients/current/accounts', "accountType=" + this.accountType, {headers:{'content-type':'application/x-www-form-urlencoded'}} )
         .then(response => {
           console.log(response)
-          this.succes = true
+          this.success = true
           setTimeout(()=> window.location.reload(), 2000)
           
         })

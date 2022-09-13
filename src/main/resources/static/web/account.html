@@ -199,8 +199,11 @@
                                         <input class="form-control" v-model="endDate" type="date" name="" id="endDate">
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-verde"><a target="_blank" :href="'/api/transactions/current?accountNumber=' + account.number + '&start=' + startDate + '&end=' + endDate">Descargar</a></button>
+                                <div v-if="starDate != '' && endDate != ''" class="modal-footer">
+                                    <a target="_blank" class="btn btn-verde" :href="'/api/transactions/current?accountNumber=' + account.number + '&start=' + startDate+ 'T00:00:00' + '&end=' + endDate + 'T23:59:59'">Descargar</a>
+                                </div>
+                                <div v-else class="modal-footer">
+                                    <a target="_blank" class="btn btn-verde" :href="'/api/transactions/current?accountNumber=' + account.number + '&start=' + startDate + '&end=' + endDate">Descargar</a>
                                 </div>
                             </div>
                         </div>
@@ -224,6 +227,49 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Success Modal -->
+                <div class="modal" :class="success? 'd-block': 'd-none'" id="successModal" data-bs-backdrop="static" >
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body bg-verde d-flex justify-content-center flex-wrap rounded">
+                                <div class="w-100 text-center"><i class="fs-10 bi bi-check-circle text-white"></i></div>
+                                <div class="fs-1 py-2 text-center text-white">
+                                <span class="">
+                                    {{success}}
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="modal" :class="{'d-none': success}" id="addAccountModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-verde">
+                                <h5 class="modal-title text-white">Seleccione el tipo de cuenta</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body d-flex justify-content-evenly">
+                                <div class="form-check d-inline-block">
+                                    <input value="SAVINGS" v-model="accountType" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Caja de ahorros
+                                    </label>
+                                </div>
+                                <div class="form-check d-inline-block">
+                                    <input value="CHECKING" v-model="accountType"  class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Cuenta corriente
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" @click="addAccount" class="btn btn-verde">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </template>
     </div>
