@@ -200,7 +200,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-verde"><a target="_blank" :href="'/api/transactions/current?accountNumber=' + account.number + '&start=' + startDate + '&end=' + endDate">Descargar</a></button>
+                                    <button class="btn btn-verde"><a target="_blank" :href="'/api/transactions/download?accountNumber=' + account.number + '&start=' + startDate+'T00:00:00' + '&end=' + endDate+'T23:59:59'">Descargar</a></button>
                                 </div>
                             </div>
                         </div>
