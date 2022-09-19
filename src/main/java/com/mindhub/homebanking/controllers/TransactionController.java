@@ -60,7 +60,7 @@ public class TransactionController {
             } else {
                 transactions = transactionService.getTransactionsByAccount(account);
             }
-            getPdf(response, transactions);
+            getPdf(response, transactions, account);
             return  new ResponseEntity<>("", HttpStatus.ACCEPTED);
         } else {
             return null;

@@ -147,7 +147,7 @@
                             </div>
                         </transition>                           
                         <!-- MODAL -->
-                        <div class="modal" id="addAccountModal">
+                        <div class="modal" :class="{'d-none': success}" id="addAccountModal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header bg-verde">
@@ -262,11 +262,11 @@
                     </div>
                 </div>
                                 <!-- SUCCES MODAL -->
-                <div class="modal" :class="succes? 'd-block': 'd-none'" id="succesModal" data-bs-backdrop="static" >
+                <div class="modal" :class="success? 'd-block': 'd-none'" id="successModal" data-bs-backdrop="static" >
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                         <div class="modal-body bg-verde d-flex justify-content-center flex-wrap rounded">
-                            <div class="w-100 text-center"><i class="bi bi-check-circle text-white"></i></div>
+                            <div class="w-100 text-center"><i class="fs-10 bi bi-check-circle text-white"></i></div>
                             <div class="fs-1 py-2 text-center text-white">
                                 <span class="">
                                     Cuenta añadida con exito

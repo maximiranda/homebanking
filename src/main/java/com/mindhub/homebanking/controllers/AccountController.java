@@ -38,7 +38,7 @@ public class AccountController {
     @PostMapping("/clients/current/accounts")
     public ResponseEntity<Object> createAccount(Authentication authentication, @RequestParam AccountType accountType){
 
-        int random = getRandomNumber(0, 99999999);
+        int random = getRandomNumber(11111111, 99999999);
         Client client = clientService.getClientByEmail(authentication.getName());
         if (client != null){
             if (client.getAccounts().stream().filter(Account::getIsActive).toArray().length < 3){

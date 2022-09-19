@@ -164,6 +164,21 @@
                       </div>
                     </div>
                 </div>
+                <!-- SUCCES MODAL -->
+                <div class="modal" :class="success? 'd-block': 'd-none'" id="successModal" data-bs-backdrop="static" >
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body bg-verde d-flex justify-content-center flex-wrap rounded">
+                                <div class="w-100 text-center"><i class="fs-10 bi bi-check-circle text-white"></i></div>
+                                <div class="fs-1 py-2 text-center text-white">
+                                <span class="">
+                                    {{success}}
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </template>
     </div>

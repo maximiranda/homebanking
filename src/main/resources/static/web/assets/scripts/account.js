@@ -14,7 +14,7 @@ createApp({
         accountNumber: "",
         startDate: "",
         endDate: "",
-        succes: null,
+        success: false,
     }
   },
   created(){
@@ -96,7 +96,7 @@ createApp({
     disableAccount(){
       axios.patch("/api/accounts/delete", "accountNumber=" + this.accountNumber,{headers:{'content-type':'application/x-www-form-urlencoded'}})
       .then(response=>{
-          this.succes = "Cuenta eliminada con exito"
+          this.success = "Cuenta eliminada con exito"
           setTimeout(()=> window.location.href="/web/accounts.html",2000)
       }).catch(error => console.log(error))
     },
