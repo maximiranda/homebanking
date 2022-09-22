@@ -342,6 +342,15 @@ nav {
     width: 14%;
     height: 65%;
 }
+.bg-gold{
+    background: linear-gradient(107deg,gold 15%, rgb(255, 243, 177) 50%,gold 81%);
+}
+.bg-titanium{
+    background: linear-gradient(107deg,black 15%, rgb(41, 41, 41) 50%,black 81%);
+}
+.bg-silver{
+    background: linear-gradient(107deg,rgb(167, 167, 167) 15%, silver 50%,rgb(107, 107, 107) 81%);
+}
 
 .card__part{
     box-shadow: 1px 1px #aaa3a3;
@@ -352,8 +361,7 @@ nav {
     display: inline-block;
     width: 320px;
     height: 190px;
-    background: linear-gradient(107deg, rgba(19,64,228,1) 15%, rgba(83,116,237,1) 50%, rgba(19,64,228,1) 81%);
-    /* background: linear-gradient(#1340e4,#1c47e2,#244fe9,#2b52e2); */
+    /* background: linear-gradient(107deg, rgba(19,64,228,1) 15%, rgba(83,116,237,1) 50%, rgba(19,64,228,1) 81%); */
     
     border-radius: 8px;
     
