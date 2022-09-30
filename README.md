@@ -24,6 +24,11 @@ Maxbank is an online banking application where we can carry out daily operations
 
 ![Screenshot from 2022-09-30 15-04-31](https://user-images.githubusercontent.com/56207851/193331069-309c08cf-2ea4-4164-a665-5bfc75a8275b.png)
 
+
+## Authors
+
+- [@maximiranda](https://www.github.com/maximiranda)
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
