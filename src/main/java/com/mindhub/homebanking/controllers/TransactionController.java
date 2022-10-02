@@ -126,7 +126,7 @@ public class TransactionController {
             return new Client();
         }
     }
-    @CrossOrigin(origins = "http://localhost:8080")
+    @CrossOrigin(origins = "https://balcamsgym.herokuapp.com/")
     @Transactional
     @PostMapping("/pays")
     public ResponseEntity<Object> makePay(@RequestBody CardPaymentDTO cardPaymentDTO){
