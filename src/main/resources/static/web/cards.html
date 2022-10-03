@@ -112,9 +112,9 @@
                                 <p v-if="hide" class="card__info">***</p>
                               </div>
                             </div>
-                            <div class="card__back card__part">
+                            <div :class="'bg-'+card.color.toLowerCase()+' card__back card__part'">
                               <div class="card__black-line"></div>
-                              <div class="card__back-content">
+                              <div :class="' card__back-content'">
                                 <div class="card__secret">
                                   <p v-if="!hide" class="card__secret--last">{{card.cvv}}</p>
                                   <p v-if="hide" class="card__secret--last">***</p>
@@ -166,14 +166,14 @@
                                 <p v-if="hide" class="card__info">***</p>
                               </div>
                             </div>
-                            <div class="card__back card__part">
+                            <div :class="'bg-'+card.color.toLowerCase()+' card__back card__part'">
                               <div class="card__black-line"></div>
-                              <div class="card__back-content">
+                              <div :class="' card__back-content'">
                                 <div class="card__secret">
-                                    <p v-if="!hide" class="card__secret--last">{{card.cvv}}</p>
-                                    <p v-if="hide" class="card__secret--last">***</p>
+                                  <p v-if="!hide" class="card__secret--last">{{card.cvv}}</p>
+                                  <p v-if="hide" class="card__secret--last">***</p>
                                 </div>
-                                <div class="hide-eye-card">
+                                <div class="d-none d-lg-block hide-eye-card">
                                     <i v-if="hide" class="bi bi-eye-fill text-white" @click="hideInfo" id="cardEye"></i>
                                     <i v-if="!hide" class="bi bi-eye-slash text-white" @click="hideInfo" id="cardEye"></i>
                                 </div>
@@ -181,7 +181,7 @@
                                     <i @click="setCardNumber(card.number)" data-bs-toggle="modal" data-bs-target="#deleteCard" class="bi bi-x-lg text-white"></i>
                                 </div>
                                 <div class="card__back-square card__square" >
-                                    <p class="text-white fw-bold m-0"><span class="color-verde">Max</span>bank</p>
+                                    <p class="text-white fw-b old m-0"><span class="color-verde">Max</span>bank</p>
                                 </div>
                                     <img class="card__back-logo card__logo" src="./assets/img/visa.png">
                                     <span class="card-back-type fw-bold text-white">{{capitalize(card.type)}}</span>
