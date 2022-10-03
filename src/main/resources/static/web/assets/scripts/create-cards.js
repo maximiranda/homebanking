@@ -9,7 +9,7 @@ createApp({
         creditCards: [],
         debitCards: [],
         hide: true,
-        cardColor: "",
+        cardColor: "TITANIUM",
         cardType: "",
         transactions: [],
         success: false,
