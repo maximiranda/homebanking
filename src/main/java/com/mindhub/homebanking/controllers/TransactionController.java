@@ -46,19 +46,16 @@ public class TransactionController {
     public ResponseEntity<Object> getTransactionsCurrent(HttpServletResponse response, Authentication authentication, @RequestParam String accountNumber, @RequestParam(required = false) String start, @RequestParam(required = false) String end){
         Client client = clientService.getClientByEmail(authentication.getName());
         Account account = accountService.getAccountByNumber(accountNumber);
-        List<Transaction> transactions;
         if (client.getAccounts().contains(account)){
+            List<Transaction> transactions = transactionService.getTransactionsByAccount(account);
             response.setContentType("application/pdf");
             String headerKey = "Content-Disposition";
             String headerValue = "inline; filename=maxbank.pdf";
             response.setHeader(headerKey, headerValue);
-            if (!(start.equals("T00:00:00") || end.equals("T23:59:59"))){
-                LocalDateTime startDate = LocalDateTime.parse(start);
-                LocalDateTime endDate = LocalDateTime.parse(end);
-                transactions = transactionService.getTransactionsByAccountAndDate(account,startDate,endDate);
-
-            } else {
-                transactions = transactionService.getTransactionsByAccount(account);
+            if (start != null && end != null){
+                    LocalDateTime startDate = LocalDateTime.parse(start);
+                    LocalDateTime endDate = LocalDateTime.parse(end);
+                    transactions = transactionService.getTransactionsByAccountAndDate(account,startDate,endDate);
             }
             getPdf(response, transactions, account);
             return  new ResponseEntity<>("", HttpStatus.ACCEPTED);

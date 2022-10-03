@@ -200,11 +200,12 @@
                                     </div>
                                 </div>
 
-                                <div v-if="starDate != '' && endDate != ''" class="modal-footer">
+                                <div v-if="startDate != '' && endDate != ''" class="modal-footer">
                                     <a target="_blank" class="btn btn-verde" :href="'/api/transactions/download?accountNumber=' + account.number + '&start=' + startDate+ 'T00:00:00' + '&end=' + endDate + 'T23:59:59'">Descargar</a>
                                 </div>
                                 <div v-else class="modal-footer">
-                                    <a target="_blank" class="btn btn-verde" :href="'/api/transactions/download?accountNumber=' + account.number + '&start=' + startDate + '&end=' + endDate">Descargar</a>
+
+                                    <a target="_blank" class="btn btn-verde" :href="'/api/transactions/download?accountNumber=' + account.number">Descargar</a>
                                 </div>
                             </div>
                         </div>
