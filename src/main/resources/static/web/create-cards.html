@@ -135,7 +135,7 @@
                     </form>
                 </div>
                 <div class="card animate__backInLeft">
-                    <div class="card__front card__part">
+                    <div :class="'bg-'+cardColor.toLowerCase()+ ' card__front card__part'">
                         <p class="text-white fw-bold"><span class="color-verde">Max</span>bank</p>
                         <img class="card__front-logo card__logo" src="./assets/img/visa.png">
                         <span :class="'color-'+ cardColor.toLowerCase()" class="card-front-color fw-bold">{{capitalize(cardColor)}}</span>
@@ -150,7 +150,7 @@
                         <p class="card__info">12/27</p>
                       </div>
                     </div>
-                    <div class="card__back card__part">
+                    <div :class="'bg-'+cardColor.toLowerCase()+' card__back card__part'">
                       <div class="card__black-line"></div>
                       <div class="card__back-content">
                         <div class="card__secret">

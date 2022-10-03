@@ -343,13 +343,13 @@ nav {
     height: 65%;
 }
 .bg-gold{
-    background: linear-gradient(107deg,gold 15%, rgb(255, 243, 177) 50%,gold 81%);
+    background: linear-gradient(107deg,gold 15%, rgb(255, 243, 177) 50%,gold 81%) !important;
 }
 .bg-titanium{
-    background: linear-gradient(107deg,black 15%, rgb(41, 41, 41) 50%,black 81%);
+    background: linear-gradient(107deg,black 15%, rgb(41, 41, 41) 50%,black 81%) !important;
 }
 .bg-silver{
-    background: linear-gradient(107deg,rgb(167, 167, 167) 15%, silver 50%,rgb(107, 107, 107) 81%);
+    background: linear-gradient(107deg,rgb(167, 167, 167) 15%, silver 50%,rgb(107, 107, 107) 81%) !important;
 }
 
 .card__part{
