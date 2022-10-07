@@ -47,7 +47,7 @@ createApp({
     },
     createCard(){
       console.log(this.cardColor,this.cardType)
-      axios.post("/api/clients/current/cards", "cardType=" + this.cardType + "&cardColor=" + this.cardColor, {headers:{'content-type':'application/x-www-form-urlencoded'}})
+      axios.post("/api/clients/current/cards", "cardType=" + this.cardType + "&cardColor=" + this.cardColor, {headers:{'Content-Type':'application/x-www-form-urlencoded'}})
       .then(response => {
       this.success = "Tarjeta creada con exito"
       setTimeout(()=>window.location.href="/web/cards.html", 2000)

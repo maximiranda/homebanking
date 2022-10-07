@@ -94,7 +94,7 @@ createApp({
       navigator.clipboard.writeText(text)
     },
     disableAccount(){
-      axios.patch("/api/accounts/delete", "accountNumber=" + this.accountNumber,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+      axios.patch("/api/accounts/delete", "accountNumber=" + this.accountNumber,{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
       .then(response=>{
           this.success = "Cuenta eliminada con exito"
           setTimeout(()=> window.location.href="/web/accounts.html",2000)

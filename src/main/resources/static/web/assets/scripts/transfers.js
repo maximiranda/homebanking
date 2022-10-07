@@ -58,7 +58,7 @@ createApp({
       this.error = false
     },
     makeTransfer(){
-      axios.post("/api/transactions", "amount="+ this.amount + "&description=" + this.description + "&sourceNumber=" + this.sourceAccount.number + "&destinationNumber=" + "VIN-"+this.destinationAccount,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+      axios.post("/api/transactions", "amount="+ this.amount + "&description=" + this.description + "&sourceNumber=" + this.sourceAccount.number + "&destinationNumber=" + "VIN-"+this.destinationAccount,{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
       .then(response => {
         console.log(response)
         this.success = true

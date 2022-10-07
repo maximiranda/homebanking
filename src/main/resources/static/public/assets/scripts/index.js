@@ -32,7 +32,7 @@ createApp({
   methods: {
     login(){
 
-        axios.post('/api/login',"email=" +this.email + "&password=" + this.password,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+        axios.post('/api/login',"email=" + this.email + "&password=" + this.password,{headers : {'Content-Type':'application/x-www-form-urlencoded'}})
         .then(response => {
             if (this.email == "admin@gmail.com"){
               window.location.href = "/admin/manager.html"
@@ -41,14 +41,14 @@ createApp({
             }
         })
         .catch(error => {
-          console.log(error.message)
+          console.log(error)
           this.error = true
         })
     },
     register(){
       if (this.passwordValidator() && this.validator())
       {
-        axios.post('/api/clients',"firstName=" + this.capitalize(this.firstName) + "&lastName=" + this.capitalize(this.lastName) + "&email=" + this.email + "&password=" + this.password,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+        axios.post('/api/clients',"firstName=" + this.capitalize(this.firstName) + "&lastName=" + this.capitalize(this.lastName) + "&email=" + this.email + "&password=" + this.password,{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
         .then(response => {
           this.login()
         })

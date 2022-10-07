@@ -74,7 +74,7 @@ createApp({
       })
     },
     addAccount(){
-        axios.post('/api/clients/current/accounts', "accountType=" + this.accountType, {headers:{'content-type':'application/x-www-form-urlencoded'}} )
+        axios.post('/api/clients/current/accounts', "accountType=" + this.accountType, {headers:{'Content-Type':'application/x-www-form-urlencoded'}} )
         .then(response => {
           console.log(response)
           this.success = true

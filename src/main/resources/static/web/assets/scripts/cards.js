@@ -83,7 +83,7 @@ createApp({
       this.cardNumber = cardNumber
     },
     disableCard(){
-      axios.patch("/api/cards/delete", "cardNumber=" + this.cardNumber,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+      axios.patch("/api/cards/delete", "cardNumber=" + this.cardNumber,{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
       .then(response=>{
           this.success = "Tarjeta eliminada con exito"
           setTimeout(()=> window.location.href="/web/accounts.html",2000)
